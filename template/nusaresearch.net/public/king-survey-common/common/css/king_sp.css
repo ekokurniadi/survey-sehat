@@ -1,0 +1,312 @@
+@charset "utf-8";
+/* CSS Document */
+
+#king_survey {
+	min-width: 100%;	
+	font-size: 12px;
+	line-height: 18px;
+}
+
+#rank {
+	padding: 4%;
+}
+#rank .h3_title {
+	text-align: center; 	
+}
+#rank #txt_findUser {
+	text-align: right;
+	position: static;
+	margin: 20px 0 0;	
+}
+#rank #txt_findUser input {
+	background-size: 16px;
+	background-position: 10px center;
+	padding: 8px 10px 8px 30px;
+	width: 40%;
+	font-size: 12px;
+}
+#rank table {
+	margin: 5px auto;	
+}
+#rank table td {
+	padding: 10px 5px 7px;	
+}
+
+#king_survey .content_inner {
+	width: 100%;	
+}
+img {
+	width: 100%;	
+}
+#king_banner {
+	margin: 0;
+	line-height: 0;	
+}
+#king_contents {
+	padding: 4% 3%;
+	background: #efefef;	
+}
+#king_info01 {
+	margin: 5% 0;	
+}
+#king_info01 .king_bg01 {
+	height: auto;	
+	border-bottom: none;
+}
+#king_survey .txt_time {
+    font-size: 16px;
+    line-height: 32px;
+	padding-right: 0;
+	text-align: center;
+	float: none; 
+}
+#king_info01 .btn_join {
+	text-align: center; 
+	bottom: 5px;
+}
+#king_survey .btn_join a {
+    width: auto;
+	margin: auto;
+    padding: 6px 10% 3px;
+}
+#king_survey .btn_result{
+	bottom: 40%;
+	text-align: center;
+}
+#king_survey .btn_join {
+ text-align: center; 
+ bottom: 40%;
+}
+#king_survey .btn_result a {
+	width: auto;
+	display: inline-block;
+	margin: auto;
+	padding: 0 10%;
+	line-height: 27px;	
+	border-bottom: none;
+}
+.king_sbox01 {
+	border-top: none;
+	padding: 3% 4%;	
+}
+#king_survey .king_sbox01 .txtL {
+	font-size: 15px;
+	line-height: 20px;
+	float: none;
+	width: 100%;	
+}
+.king_sbox01 ul {
+	float: none;
+	margin: 3% 0;	
+}
+.king_sbox01 ul li {
+	width: 49.5%;	
+}
+#king_survey .list_detail > li {
+	float: none;
+	width: 100%;
+	margin: 0 0 6%;	
+}
+#king_survey .list_detail > li:nth-child(3n) {
+	margin-bottom: 6%;	
+}
+#king_survey .list_info li span {
+    font-size: 20px;
+    margin: 2px 0 0;
+}
+
+/**/
+#king_survey .h3_title {
+    font-size: 16px;
+    line-height: 18px;
+}
+#king_survey #king_info02 .txtL {
+	font-size: 14px;
+	line-height: 20px;
+	margin: 2% 4%;	
+}
+
+#king_info02 {
+	padding: 0;	
+	margin-bottom: 6%;
+}
+#king_info02 #box_policy .icon_01 {
+	top: 12px;
+	left: 12px;
+	width: 10%;
+	padding: 0 30px 30px 0;	
+}
+#king_info02 #box_policy .icon_02 {
+	bottom: 12px;
+	right: 12px;
+	width: 10%;
+	padding: 30px 0 0 30px;	
+}
+#king_info02 .boxL {
+	width: auto !important;
+	height: auto !important;
+	float: none;
+	margin-bottom: 4%;	
+	padding: 4% !important;
+}
+#king_survey #king_info02 .txt_time {
+	font-size: 16px;	
+}
+#king_info02 #box_info_coin {
+	margin:0 auto 5%;
+	width: 80%;
+	padding: 5px 15px;		
+}
+#king_info02 #box_info_coin li img {
+	width: 25%;
+}
+#king_info02 #box_info_coin li img.img_gcoin {
+	width: 45%;
+}
+#king_info02 #box_policy > div {
+	background: none;
+	padding: 4%;	
+}
+#king_info02 #box_policy ul {
+	line-height: 20px;	
+}
+#king_info02 #box_policy li span img {
+	width: 7%;	
+}
+#king_info02 #box_policy li .bg_03 span img {
+	width: 22%;	
+}
+
+/***/
+.king_bg02 {
+	padding: 3% 0 6%;
+	margin-bottom: 4%;
+}
+#king_info03 .box_quest {
+	line-height: 20px;
+	padding: 3%;
+	text-align: left;		
+}
+#king_survey .list_question {
+	padding: 0 2%;	
+}
+#king_survey .list_question li {
+	width: 48%;
+	margin: 0 4% 5% 0;	
+	padding-bottom: 3%;  
+}
+#king_survey .list_question li:nth-child(even) {
+	margin: 0 0 5%;	
+}
+#king_survey .box_coin {
+	padding: 4% 0;	
+}
+#king_survey .box_coin li {
+    font-size: 20px;
+    line-height: 20px;
+	padding: 2%;
+}
+.txt_checkPlace label{
+	padding-left:0	
+}
+#king_survey .txt_place {
+	font-size: 11px;
+	margin: 0px 0 0 18px;
+	vertical-align: top;	
+	line-height: 16px;
+ 	text-transform: capitalize; 
+}
+.txt_checkPlace {
+	margin-top: 10px;
+	display: block; 	
+}
+.txt_checkPlace label:before {
+	width: 10px;
+    height: 10px;	
+}
+.txt_checkPlace label:after {
+	width: 12px;
+    height: 12px;	
+}
+/**/
+#king_survey .list_alph {
+	margin-bottom: 4%;	
+}
+#king_survey .list_alph li {
+	margin-bottom: 10px;	
+}
+#king_survey .list_alph li a {
+	width: 25px;
+	line-height: 25px;
+}
+#king_survey .txt_answer {
+	font-size: 15px;
+	margin: 4% 0 6%;	
+}
+/**/
+#king_info04 .king_bg02 {
+	width: auto;
+	height: auto;
+	background: url(../../img/kingSurvey/sp_bg01.gif) no-repeat top center;
+	background-size: cover;
+	padding: 6% 3%;
+	margin-bottom: 2%;	
+}
+#king_info04 .king_img_bg {
+	display: none;	
+}
+#king_info04 .title_01 {
+    position: static;
+}
+#king_info04 .box_coin {
+    position: static;
+	padding: 0 0 4%;
+}
+#king_info04 .box_coin li {
+	font-size: 36px;
+	line-height: 36px;
+	padding: 0;	
+}
+#king_survey .box_coin li.img_coin {
+	width: 10%;	
+	margin: 0;
+}
+#king_survey #king_info04 .box_coin li.img_coin {
+	width: 25%;	
+	margin: 0;
+}
+#king_info04 .king_box_txt01 {
+	position: static;
+}
+#king_info04 .king_box_txt01 img {
+	display: none;
+}
+#king_info04 .king_box_txt01 span {
+    position: static;
+	width: auto;
+	padding: 0 6% 6%;
+	line-height: 20px;
+}
+#king_info04 .img_doll {
+	display: block;
+	width: 50%;
+	margin: 0 auto;	
+}
+#king_info04 .king_box_txt02 {
+    position: static;
+    border: none;
+    background: none;
+    line-height: 16px;
+    padding: 15px 10px;
+    width: auto;
+}
+
+@media screen and (orientation:landscape) {
+#king_info02 #box_policy li span img {
+	width: 4%;	
+}
+}
+
+#link_bxh {
+ margin: 0 auto 10px; 
+}

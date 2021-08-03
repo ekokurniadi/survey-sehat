@@ -1,0 +1,5 @@
+@charset "UTF-8";
+
+@import url(king_pc.css);
+@import url(king_sp.css) screen and (min-width: 320px) and (max-width: 750px);
+

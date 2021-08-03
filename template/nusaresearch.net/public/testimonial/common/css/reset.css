@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+/* Reset CSS */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
+}
+
+img { border: 0; }
+
+form {
+  margin: 0;
+  padding: 0;
+}
+
+ul, li, ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+dl, dt, dd {
+  margin: 0;
+  padding: 0;
+}
+
+li img, dt img, dd img { vertical-align: top; }
+a { outline: none; }
+:focus { -moz-outline-style: none; }
