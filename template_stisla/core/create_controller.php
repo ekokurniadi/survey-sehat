@@ -23,9 +23,9 @@ $string .="\n\n    public function index()
         \$data = array(
             '" . $c_url . "_data' => \$$c_url
         );
-        \$this->load->view('header');
+        \$this->load->view('panel/header');
         \$this->load->view('$v_list', \$data);
-        \$this->load->view('footer');
+        \$this->load->view('panel/footer');
     }";
 
 $string .="\n\n    public function fetch_data(){
@@ -107,9 +107,9 @@ foreach ($all as $row) {
     $string .= "\n\t\t'" . $row['column_name'] . "' => \$row->" . $row['column_name'] . ",";
 }
 $string .= "\n\t    );
-            \$this->load->view('header');
+            \$this->load->view('panel/header');
             \$this->load->view('$v_read', \$data);
-            \$this->load->view('footer');
+            \$this->load->view('panel/footer');
         } else {
             \$this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('$c_url'));
@@ -126,9 +126,9 @@ foreach ($all as $row) {
 }
 $string .= "\n\t);
 
-        \$this->load->view('header');
+        \$this->load->view('panel/header');
         \$this->load->view('$v_form', \$data);
-        \$this->load->view('footer');
+        \$this->load->view('panel/footer');
     }
     
     public function create_action() 
@@ -162,9 +162,9 @@ foreach ($all as $row) {
     $string .= "\n\t\t'" . $row['column_name'] . "' => set_value('" . $row['column_name'] . "', \$row->". $row['column_name']."),";
 }
 $string .= "\n\t    );
-            \$this->load->view('header');
+            \$this->load->view('panel/header');
             \$this->load->view('$v_form', \$data);
-            \$this->load->view('footer');
+            \$this->load->view('panel/footer');
         } else {
             \$this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('$c_url'));
