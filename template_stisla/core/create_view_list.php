@@ -5,8 +5,8 @@ $string="
   <div class=\"section-header\">
     <h1> ".ucfirst(str_replace('_',' ',$table_name))." </h1>
     <div class=\"section-header-breadcrumb\">
-      // <div class=\"breadcrumb-item active\"><a href=\"<?php echo base_url(); ?>dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></div>
-      // <div class=\"breadcrumb-item\"><a href=\"#\">".ucfirst(str_replace('_',' ',$table_name))." </a></div>
+      <div class=\"breadcrumb-item active\"><a href=\"<?php echo base_url(); ?>dashboard\"><i class=\"fa fa-dashboard\"></i> Home</a></div>
+      <div class=\"breadcrumb-item\"><a href=\"#\">".ucfirst(str_replace('_',' ',$table_name))." </a></div>
     </div>
   </div>
 

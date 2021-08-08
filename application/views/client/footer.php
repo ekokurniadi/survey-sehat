@@ -28,12 +28,12 @@
     });
 </script>
 </div><!-- / id content -->
-<div id="footer" role="footer">
+<div id="footer" role="footer" style="background-color: #182260;">
     <div id="pagetop-btn" role="pagetop-btn"><a href="#wrapper"><img src="<?php echo base_url() ?>image/default/images/common/pagetop_btn.png" alt="" class="transparent" height="50" width="50" /></a></div>
     <div class="footer__inner">
         <div class="f-block__coloumn clearfix">
             <div class="f__col01 heightLine-col">
-                <p class="f_title"><span>Nusaresearch.net</span></p>
+                <p class="f_title" ><span style="color:#FFFFFF">Nusaresearch.net</span></p>
                 <ul class="f-navi">
                     <li><a href="index.html">Halaman Muka</a></li>
                     <li><a href="news/index/company-info.html">Perkenalan</a></li>
@@ -46,7 +46,7 @@
                 </ul>
             </div>
             <div class="f__col02 heightLine-col">
-                <p class="f_title"><span>Tentang kami</span></p>
+                <p class="f_title"><span style="color:#FFFFFF">Tentang kami</span></p>
                 <p>Macromill South East Asia merupakan perusahaan Jepang yang menjadi pelopor riset online di Indonesia.</p>
                 <ul class="f-contact">
                     <li><img src="<?php echo base_url() ?>image/default/images/common/icon_01.gif" alt="Address Nusaresearch" height="17" width="16" /><span>Panin Tower Senayan City 15th Floor (Unit 1027)<br>
@@ -57,7 +57,7 @@
                 </ul>
             </div>
             <div class="f__col03 heightLine-col">
-                <p class="f_title"><span>Ikuti kami di Facebook</span></p>
+                <p class="f_title"><span style="color:#FFFFFF">Ikuti kami di Facebook</span></p>
                 <div class="f-box__facebook">
                     <iframe src="http://www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fnusaresearch.net&amp;width=280&amp;height=266&amp;show_faces=true&amp;colorscheme=light&amp;stream=false&amp;border_color&amp;header=true" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:280px; height:266px;background: #FFFFFF;" allowTransparency="true"></iframe>
                 </div>

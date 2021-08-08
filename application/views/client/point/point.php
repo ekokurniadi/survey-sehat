@@ -203,50 +203,45 @@
         }
     </style>
     <div class="m_b20">
-        <h2 class="h2-title"><img src="../../../application/templates/default/default/images/bonus/icon_01.gif" width="37" height="30" alt="" />PENUKARAN POIN</h2>
+        <h2 class="h2-title"><img src="<?php echo base_url()?>assetsPublic/application/templates/default/default/images/bonus/icon_01.gif" width="37" height="30" alt="" />PENUKARAN POIN</h2>
         <div class="box-content">
             <div class="change-point__block clearfix">
                 <div class="change-point__left clearfix">
                     <div class="heightLine-point01">
                         <p class="point__left-title">
-                            <img src="../../../application/templates/default/default/images/bonus/img_01.gif" width="56" height="56" alt="" />
+                            <img src="<?php echo base_url()?>assetsPublic/application/templates/default/default/images/bonus/img_01.gif" width="56" height="56" alt="" />
                             <span>DAFTAR UNTUK PENUKARAN POIN</span>
                         </p>
                         <p class="point__left-txt">
-                            Penukaran Poin dibuka setiap hari <br />
-                            <strong><span class="orange-txt">Senin - Minggu</span></strong>
+                            <?=$penukaran->daftar_untuk_penukaran_point?>
                         </p>
                     </div>
                     <div class="heightLine-point01">
                         <p class="point__left-title">
-                            <img src="../../../application/templates/default/default/images/bonus/img_02.gif" width="56" height="56" alt="" />
+                            <img src="<?php echo base_url()?>assetsPublic/application/templates/default/default/images/bonus/img_02.gif" width="56" height="56" alt="" />
                             <span>KONFIRMASI PENUKARAN</span>
                         </p>
                         <p class="point__left-txt">
-                            Konfirmasi Penukaran poin akan dikirim setiap hari <strong><span class="orange-txt">Senin</span></strong> melalui email, kepada member yang melakukan penukaran poin 1 minggu sebelumnya.
+                        <?=$penukaran->konfirmasi_penukaran?>
                         </p>
                     </div>
                     <div class="heightLine-point01">
                         <p class="point__left-title">
-                            <img src="../../../application/templates/default/default/images/bonus/img_03.gif" width="56" height="56" alt="" />
+                            <img src="<?php echo base_url()?>assetsPublic/application/templates/default/default/images/bonus/img_03.gif" width="56" height="56" alt="" />
                             <span>BATAS AKHIR KONFIRMASI</span>
                         </p>
                         <p class="point__left-txt">
-                            Batas akhir konfirmasi akan diberitahukan di dalam email konfirmasi penukaran poin.
-                        </p>
+                           <?=$penukaran->batas_akhir_konfirmasi?>
                         </p>
                     </div>
                 </div>
                 <div class="change-point__right heightLine-point01">
                     <p class="point__right-title">
-                        <img src="../../../application/templates/default/default/images/bonus/img_04.gif" width="56" height="56" alt="" />
-                        <span>PENGIRIMAN<br />500 points = Rp 25.000</span>
+                        <img src="<?php echo base_url()?>assetsPublic/application/templates/default/default/images/bonus/img_04.gif" width="56" height="56" alt="" />
+                        <span>PENGIRIMAN</span>
                     </p>
                     <p class="point__right-txt">
-                        Pengiriman hadiah dikirimkan setiap hari <strong><span class="orange-txt">Rabu</span></strong> tiap minggunya (jika bertepatan hari libur, maka dikirimkan dihari berikutnya).
-                        <br>
-                        <br>
-                        <strong><span class="orange-txt">**Hanya member yang melakukan konfirmasi email yang akan kami kirimkan hadiahnya</span></strong>
+                     <?=$penukaran->pengiriman?>
                     </p>
                 </div>
             </div>
@@ -257,13 +252,13 @@
                         <p class="point__left-title_small"><span>Tukar poin dengan hadiah yang diinginkan, pastikan sesuai dengan poin yang dimiliki.</span></p>
                     </div>
                     <div style="width: 60px;margin-top: 30px;">
-                        <img src="../../../application/templates/default/afterlogin/images/bonus/arrow_icon.gif" />
+                        <img src="<?php echo base_url()?>assetsPublic/application/templates/default/afterlogin/images/bonus/arrow_icon.gif" />
                     </div>
                     <div>
                         <p class="point__left-title_small"><span>Tunggu email konfirmasi penukaran poin dari admin</span></p>
                     </div>
                     <div style="width: 60px;margin-top: 30px;">
-                        <img src="../../../application/templates/default/afterlogin/images/bonus/arrow_icon.gif" />
+                        <img src="<?php echo base_url()?>assetsPublic/application/templates/default/afterlogin/images/bonus/arrow_icon.gif" />
                     </div>
                     <div style="min-width: 300px;">
                         <p class="point__left-title_small"><span>Hadiah akan dikirim setiap hari Rabu tiap minggunya (peraturan ini bisa berubah sewaktu-waktu)</span></p>
@@ -273,19 +268,16 @@
             <div class="ponit-box__notice">
                 <strong><span class="orange-txt">PERSYARATAN PENUKARAN POIN:</span></strong>
                 <ul class="point__notice-list">
-                    <li>Bagi member yang telat/ tidak membalas email konfirmasi, maka poin yang telah ditukarkan akan kami kembalikan H+1 setelah jadwal pengiriman hadiah (jika bertepatan dengan hari libur, maka akan dikembalikan dihari berikutnya lagi).</li>
-                    <li>Untuk penukaran poin dengan <strong><span class="orange-txt">Pulsa</span></strong>, kami hanya akan mengirimkan ke nomor yang Anda daftarkan setelah konfirmasi.</li>
-                    <li>Untuk penukaran poin dengan <strong><span class="orange-txt">Paypal</span></strong> dan <strong><span class="orange-txt">Paypal</span></strong>Deposit Mobile Pulsa</span></strong>, member diwajibkan untuk memiliki akun Paypal (https://www.paypal.com/id/home) dan Mobile Pulsa (https://mobilepulsa.com/). Nusaresearch tidak menerima member yang menggunakan akun Paypal, dan Mobile Pulsa yang sama dengan member lain. Nusaresearch tidak bertanggung jawab, jika ada masalah atau sengketa yang terkait dengan penerimaan uang.</li>
-                    <li>Untuk penukaran poin dengan <strong><span class="orange-txt">Gopay Customer</span></strong>, silahkan masukkan nama dan nomor telepon yang terdaftar di Gojek saat melakukan penukaran poin.</li>
-                    <li>Untuk penukaran poin dengan <strong><span class="orange-txt">Line Sticker</span></strong>, mohon untuk memilih sticker melalui link berikut ini https://store.line.me/. Dan pastikan nominal yang Anda tukarkan sesuai dengan harga sticker yang Anda inginkan.</li>
-                    <li>Untuk penukaran poin di <strong><span class="orange-txt">Reward Center</span></strong>, poin yang sudah di transfer ke Reward Center tidak dapat dikembalikan ke akun Nusaresearch Anda.</li>
+                    <?php foreach($syarat as $rows){?>
+                    <li><?=$rows->keterangan?></li>
+                    <?php }?>
                 </ul>
             </div>
         </div>
     </div>
 
     <div>
-        <h2 class="h2-title"><img src="../../../application/templates/default/default/images/bonus/icon_03.gif" width="37" height="30" alt="" />POIN DAN HADIAH <span class="orange-txt">(1 POIN = RP 50)</span></h2>
+        <h2 class="h2-title"><img src="<?php echo base_url()?>assetsPublic/application/templates/default/default/images/bonus/icon_03.gif" width="37" height="30" alt="" />POIN DAN HADIAH <span class="orange-txt">(1 POIN = RP 50)</span></h2>
         <div class="box-content">
             <table class="bonus-table ">
                 <tr>
@@ -293,47 +285,13 @@
                     <th class="size02">PROSES - LANGKAH</th>
                     <th class="size03">POIN DAN HADIAH</th>
                 </tr>
-                <tr>
-                    <td><strong>Pendaftaran Anggota</strong></td>
-                    <td>1. Mendaftar sebagai anggota<br>
-                        2. Memeriksa keakuratan informasi dari anggota <br>
-                        3. Keabsahan informasi akan menambah poin</td>
-                    <td>Melengkapi informasi dasar akan menerima <strong>10 poin</strong><br>Melengkapi informasi detail akan menerima <strong>30 poin</strong></td>
-                </tr>
-                <tr>
-                    <td><strong>Perkenalan Teman</strong></td>
-                    <td>1. Memperkenalkan Nusaresearch kepada teman Anda melalui 2 cara: melalui email atau salin <span class="orange-txt">
-                            <a href="../../index/login-popup/redirect/_public_recommend_recommend.html" class="popup-show"><strong>link</strong></a>
-                        </span> referensi Anda dan kirimkan ke teman Anda <br>
-                        2. Memeriksa dan mengkonfirmasikan langkah di Nusaresearch kepada anggota baru <br>
-                        3. Informasi yang terdaftar benar maka akan menambah poin Anda</td>
-                    <td>Teman Anda menyelesaikan informasi dasar, maka Anda akan menerima <strong>10 poin</strong><br>
-                        Teman Anda memiliki poin lebih dari 100 , maka Anda akan menerima <strong>50 poin</strong></td>
-                </tr>
-                <tr>
-                    <td><strong>Survei Publik</strong><br />(Jumlah pertanyaan:1-20)</td>
-                    <td>Setiap orang dapat melakukan survei ini, akan terlihat di halaman pribadi Anda, kemudian log in dan klik <span class="orange-txt"><strong>&#147;register&#148;</strong></span> untuk memulai survei</td>
-                    <td><strong>1-20 poin</strong> (satu poin untuk satu pertanyaan)</td>
-                </tr>
-                <tr>
-                    <td><strong>Survei Keanggotaan</strong><br />(Jumlah pertanyaan:5)</td>
-                    <td>Survei akan secara otomatis dibuka setiap minggunya. Bagi member yang menyelesaikan kesemua Survei Anggota ini, status Anda akan menjadi "Anggota Aktif" di bulan tersebut dan akan menerima hadiah diskon 10% untuk penukaran poin.</td>
-                    <td><strong>5 poin</strong> (satu poin untuk satu pertanyaan)</td>
-                </tr>
-                <tr>
-                    <td><strong>Survei Pribadi</strong><br />(Jumlah pertanyaan: 30 - 40)</td>
-                    <td>Hanya berlaku untuk anggota yang menerima email undangan dari Nusareseach dan mengklik link tersebut untuk memulai survei</td>
-                    <td><strong>20-40 poin</strong> tergantung pada ide yang dibuat</td>
-                </tr>
-                <tr>
-                    <td><strong>Survei Tertutup</strong> (Jumlah pertanyaan: 20 - 40)</td>
-                    <td>Hanya berlaku untuk anggota yang menerima email undangan dari Nusareseach dan mengklik link tersebut untuk memulai survei</td>
-                    <td><strong>100-500 poin</strong> (tergantung pada waktu ketika melakukan survei)</td>
-                </tr>
-                <tr>
-                    <td><strong>Survei Cepat</strong></td>
-                    <td colspan="2">Klik <a target="_blank" href="new-rule-quick-survey.html"><strong>disini</strong></a> untuk lebih detil</td>
-                </tr>
+                <?php foreach($pdh as $rows){?>
+                    <tr>
+                        <td><?=$rows->detail?></td>
+                        <td><?=$rows->langkah?></td>
+                        <td><?=$rows->poin_dan_hadiah?></td>
+                    </tr>
+                <?php } ?>
             </table>
         </div>
     </div>

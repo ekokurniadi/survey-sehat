@@ -7,7 +7,7 @@
                 <li class="">
                     <a href="register/acceptrule.html">
                         <span class="survey-box__item">
-                            <span class="survey__sub-title"><img src="<?php echo base_url()?>image/default/images/home/icon_01.gif" alt="" height="23" width="18" /><?=$rows->label?></span>
+                            <span class="survey__sub-title"><?=$rows->label?></span>
                             <span class="survey-box__txt"><?=$rows->keterangan?></span>
                         </span>
                         <span class="survey-box__show"><span class="survey-show__txt"><?=$rows->label?></span></span>

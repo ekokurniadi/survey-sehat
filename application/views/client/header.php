@@ -6,17 +6,6 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
 <head profile="https://www.w3.org/2005/10/profile">
-    <!-- <meta name="google-site-verification" content="uS6EOB_Qu52oKPzzKm6KNIFtNZ50MjTnUZ2ML7ys1jM" />
-    <meta name="msvalidate.01" content="B1EA3C9443BF63F8E9808AA6A9AE7160" />
-    <link rel="dns-prefetch" href="https://img.nusaresearch.net/" />
-    <link rel="dns-prefetch" href="https://www.facebook.com/" />
-    <link rel="dns-prefetch" href="http://static.ak.facebook.com/" />
-    <link rel="dns-prefetch" href="https://fbstatic-a.akamaihd.net/" />
-    <link rel="dns-prefetch" href="http://connect.facebook.net/" />
-    <link rel="dns-prefetch" href="https://ssl.google-analytics.com/" />
-    <link rel="dns-prefetch" href="https://www.google-analytics.com/" />
-    <link rel="author" href="https://plus.google.com/105351522949696124467/" />
-    <link rel="publisher" href="https://plus.google.com/105351522949696124467/" /> -->
     <link rel="apple-touch-icon" sizes="57x57" href="<?php echo base_url() ?>assetsPublic/apple-touch-icon-57x57e5ed.png?v=699WgXW3jQ">
     <link rel="apple-touch-icon" sizes="60x60" href="<?php echo base_url() ?>assetsPublic/apple-touch-icon-60x60e5ed.png?v=699WgXW3jQ">
     <link rel="apple-touch-icon" sizes="72x72" href="<?php echo base_url() ?>assetsPublic/apple-touch-icon-72x72e5ed.png?v=699WgXW3jQ">
@@ -31,17 +20,6 @@
     <link rel="icon" type="image/png" href="<?php echo base_url() ?>assetsPublic/favicon-96x96e5ed.png?v=699WgXW3jQ" sizes="96x96">
     <link rel="icon" type="image/png" href="<?php echo base_url() ?>assetsPublic/android-chrome-192x192e5ed.png?v=699WgXW3jQ" sizes="192x192">
     <link rel="icon" type="image/png" href="<?php echo base_url() ?>assetsPublic/favicon-16x16e5ed.png?v=699WgXW3jQ" sizes="16x16">
-    <link rel="mask-icon" href="https://nusaresearch.net/safari-pinned-tab.svg?v=699WgXW3jQ" color="#de5200">
-    <meta name="apple-mobile-web-app-title" content="Nusaresearch">
-    <meta name="application-name" content="Nusaresearch">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-TileImage" content="<?php echo base_url() ?>assetsPublic/favicon-16x16e5ed.png?v=699WgXW3jQ" sizes="16x16">
-    <link rel="mask-icon" href="https://nusaresearch.net/safari-pinned-tab.svg?/mstile-144x144e5ed.png?v=699WgXW3jQ">
-    <meta name="theme-color" content="#de5200">
-    <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="828518449912-a0btbp26nghprgcbsq0r4qc54oabor6o.apps.googleusercontent.com">
-    <meta name="apple-itunes-app" content="app-id=738208474" />
-    <link rel="manifest" href="https://nusaresearch.net/manifest.json">
     <script type="text/javascript" src="<?php echo base_url() ?>assetsPublic/application/templates/mobile/default/common/js/detect_android.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="robots" content="noodp, index, follow, all" />
@@ -54,7 +32,7 @@
     <meta name="rating" content="All" />
     <meta name="keywords" content="Hasilkan uang online, penelitian pasar, komunitas penelitian online, kerja online, bisnis internet, online bisnis, cari uang lewat internet, cara dapat uang, survei online  dibayar, tukar poin, bonus hadiah." />
     <meta name="description" content="Ikuti survei online dan kumpulkan poinnya. Dapatkan pulsa, paypal dan shopping voucher setiap bulan!" />
-    <title>Nusaresearch - Penelitian Pasar Online di Indonesia</title>
+    <title>Survey Sehat - Online di Indonesia</title>
     <?php echo isset($_SESSION['id']) ? '<link rel="stylesheet" href="<?= base_url() ?>assetsPublic/after-login.css" type="text/css">' : ""; ?>
     <!-- <link rel="stylesheet" href="<?= base_url() ?>assetsPublic/after-login.css" type="text/css"> -->
     <link rel="stylesheet" href="<?= base_url() ?>assetsPublic/styles.css" type="text/css">
@@ -230,7 +208,7 @@
                 </div> -->
                 <div class="header-right">
                     <div class="h-login clearfix">
-                        <p class="h-login__button"><a href="index/register-popup.html" class="h-register__link popup-show-register">Daftar</a></p>
+                        <p class="h-login__button"><a href="<?php echo base_url('publics/register')?>" class="h-register__link popup-show-register">Daftar</a></p>
                         <p class="h-login__button"><a href="index/login-popup-new.html" class="h-login__link popup-show-register">Login</a></p>
                     </div>
                 </div>
@@ -268,3 +246,4 @@
             </div><!-- / id g-navi -->
         </div><!-- / id header -->
         <div id="content" role="content">
+           

@@ -71,7 +71,16 @@
   </script>
  
  <script>
-        CKEDITOR.replace('keterangan');
+        var editor = new FroalaEditor('#keterangan')
+        var sistem_operasi = new FroalaEditor('#sistem_operasi')
+        var pengenalan_perusahaan = new FroalaEditor('#pengenalan_perusahaan')
+        var isi_visi_perusahaan = new FroalaEditor('#isi_visi_perusahaan')
+        var isi_misi_perusahaan = new FroalaEditor('#isi_misi_perusahaan')
+        var detail = new FroalaEditor('#detail')
+        var langkah = new FroalaEditor('#langkah')
+        var poin_dan_hadiah = new FroalaEditor('#poin_dan_hadiah')
+        var ketentuan = new FroalaEditor('#ketentuan')
+       
        
  </script>
  

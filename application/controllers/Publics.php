@@ -22,15 +22,51 @@
         $this->load->view('client/home/index');
         $this->load->view('client/footer');
     }
+
+    public function register(){
+        $this->load->view('client/register_popup');
+    }
+
+    public function register_action(){
+         $nama = $this->input->post('nama');
+         $email = $this->input->post('email');
+         $no_telp = $this->input->post('no_telp');
+         $password = $this->input->post('password');
+         $level = $this->input->post('level');
+
+         $cek = $this->db->get_where('user',array('email'=>$email));
+         if($cek->num_rows() > 0){
+             $_SESSION['pesan']="Email sudah terdaftar, silahkan login";
+             $_SESSION['tipe']="danger";
+             redirect(site_url('publics/register'));
+         }else{
+            $data=array(
+                "nama"=>$nama,
+                "email"=>$email,
+                "no_telp"=>$no_telp,
+                "password"=>sha1($password),
+                "level"=>$level
+            );
+            $this->db->insert('user',$data);
+            $_SESSION['pesan']="Registrasi berhasil, silahkan login ke akun anda";
+            $_SESSION['tipe']="success";
+            redirect(site_url('publics/register'));
+         }
+        
+    }
     
     public function company_profile(){
+        $data['dataPerusahaan'] = $this->db->get('profil_perusahaan')->row();
         $this->load->view('client/header');
-        $this->load->view('client/perkenalan/company-profile');
+        $this->load->view('client/perkenalan/company-profile',$data);
         $this->load->view('client/footer');
     }
     public function point(){
+        $data['penukaran']= $this->db->get('info_penukaran_point')->row();
+        $data['syarat']= $this->db->query("SELECT * FROM syarat_penukaran_point order by urutan asc")->result();
+        $data['pdh']= $this->db->query("SELECT * FROM point_dan_hadiah")->result();
         $this->load->view('client/header');
-        $this->load->view('client/point/point');
+        $this->load->view('client/point/point',$data);
         $this->load->view('client/footer');
     }
     public function king_of_survey(){
