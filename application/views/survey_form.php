@@ -29,7 +29,6 @@
               <h4>Form Survey </h4>
             </div>
             <form id="form_" method="post" class="form-horizontal" enctype="multipart/form-data">
-
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="varchar">Kode Survey <?php echo form_error('kode_survey') ?></label>
                 <div class="col-sm-12">
@@ -138,6 +137,11 @@
                           <td>Jawaban 4</td>
                           <td>{{dt.jawaban_4}}</td>
                         </tr>
+                        <tr>
+                          <td colspan="2">
+                          <button type="button" @click.prevent="del(index)" class="btn btn-md btn-flat btn-danger"><i class="fa fa-trash"></i></button>
+                          </td>
+                        </tr>
                         
                       </tbody>
                       <tfoot>
@@ -179,7 +183,7 @@
 
               <div class="card-footer text-left">
                 <input type="hidden" name="id" value="<?php echo $id; ?>" />
-                <button type="submit" class="btn btn-primary"><span class="fa fa-edit"></span><?php echo $button ?></button>
+                <button type="button" class="btn btn-primary" id="btnSubmit"><span class="fa fa-edit"></span><?php echo $button ?></button>
                 <a href="<?php echo site_url('survey') ?>" class="btn btn-icon icon-left btn-success">Cancel</a>
 
               </div>
@@ -196,8 +200,6 @@
     data: {
       mode: '<?php echo $mode ?>',
       detailPertanyaan: {
-        kode_survey: '',
-        kode_pertanyaan: '',
         pertanyaan: '',
         jawaban_1:'',
         jawaban_2:'',
@@ -214,7 +216,45 @@
         this.detailTanya.push(this.detailPertanyaan);
         this.clearSoal();
       },
+      del: function(index) {
+        this.detailTanya.splice(index, 1);
+      },
     }
 
   })
+  $('#btnSubmit').click(function(){
+    var values = {
+      soal:form_.detailTanya
+    }
+    var form  = $('#form_').serializeArray();
+    for (field of form) {
+      values[field.name] = field.value;
+    }
+
+    
+    $.ajax({
+      beforeSend: function() {
+        $('#submitBtn').attr('disabled', true);
+        $('#submitBtn').html('<i class="fa fa-spinner fa-spin"></i> Process');
+      },
+      url:'<?=$action?>',
+      type:'POST',
+      data:values,
+      cache:false,
+      dataType:'JSON',
+      success: function(response) {
+        $('#submitBtn').html('<i class="fa fa-save"></i> Save');
+        if (response.status == 'sukses') {
+          window.location = response.link;
+        } else {
+          $('#submitBtn').attr('disabled', false);
+          alert(response.pesan);
+        }
+      },
+      error:function(){
+        alert("Gagal");
+        $('#submitBtn').attr('disabled', false);
+      }
+    });
+  });
 </script>

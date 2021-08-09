@@ -142,3 +142,10 @@ function log_r($string = null, $var_dump = false)
         }
         // exit;
     }
+
+	function enkrip($id=null){
+		return md5($id);
+	}
+	function dekrip($id=null){
+		return md5($id);
+	}

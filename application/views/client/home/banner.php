@@ -2,56 +2,27 @@
     <div class="home-block__left">
         <h2 class="h2-title"><img src="<?php echo base_url() ?>image/default/images/home/icon_05.gif" alt="" height="30" width="37" />DAFTAR SURVEI</h2>
         <div class="home-block__inner">
+            <?php 
+           $id = isset($_SESSION['id']) ? $_SESSION['id'] : 0;
+           foreach($dataSurvey->result() as $rows):?>
             <div class="home-block_item heightLine-block01">
-                <p class="home-block__date ">01-08-2021</p>
+                <p class="home-block__date "><?php echo formatTanggal($rows->periode_awal)?> - <?php echo formatTanggal($rows->periode_akhir)?></p>
                 <div class="clearfix m_b45">
-                    <p class="home-block__txt">Survei Keanggotaan</p>
-                    <p class="home-block__point"><span>5</span>poin</p>
+                    <p class="home-block__txt"><?php echo $rows->judul?></p>
+                    <p class="home-block__point"><span><?php echo $rows->poin?></span>poin</p>
                 </div>
+                <?php
+                $cek  = $this->db->query("SELECT * from survey_member where kode_survey='$rows->id' and id_user ='$id'");?>
+                <?php 
+                if($cek->num_rows() > 0){?>
+
+                <?php }else{?>
                 <ul class="button-list clearfix">
-                    <li><a href="index/login-popup-new.html" class="pink-bg popup-show-register">Daftar</a></li>
+                    <li><a href="<?php echo base_url('publics/survey_register?id='.$rows->id)?>" class="pink-bg popup-show-register">Daftar</a></li>
                 </ul>
+                <?php } ?>
             </div>
-            <div class="home-block_item heightLine-block02">
-                <p class="home-block__date">28-07-2021</p>
-                <div class="clearfix m_b45">
-                    <p class="home-block__txt">Survei Tentang Diri Anda</p>
-                    <p class="home-block__point"><span>5</span>poin</p>
-                </div>
-                <ul class="button-list clearfix">
-                    <li><a href="index/login-popup-new.html" class="orange-bg popup-show-register">Daftar</a></li>
-                </ul>
-            </div>
-            <div class="home-block_item heightLine-block03">
-                <p class="home-block__date">25-07-2021</p>
-                <div class="clearfix m_b45">
-                    <p class="home-block__txt">Survei Keanggotaan</p>
-                    <p class="home-block__point"><span>5</span>poin</p>
-                </div>
-                <ul class="button-list clearfix">
-                    <li><a href="index/login-popup-new.html" class="orange-bg popup-show-register">Daftar</a></li>
-                </ul>
-            </div>
-            <div class="home-block_item heightLine-block04">
-                <p class="home-block__date">21-07-2021</p>
-                <div class="clearfix m_b45">
-                    <p class="home-block__txt">Survei Penggunaan Produk</p>
-                    <p class="home-block__point"><span>44</span>poin</p>
-                </div>
-                <ul class="button-list clearfix">
-                    <li><a href="index/login-popup-new.html" class="orange-bg popup-show-register">Daftar</a></li>
-                </ul>
-            </div>
-            <div class="home-block_item heightLine-block05">
-                <p class="home-block__date">19-07-2021</p>
-                <div class="clearfix m_b45">
-                    <p class="home-block__txt">Survei Keanggotaan</p>
-                    <p class="home-block__point"><span>5</span>poin</p>
-                </div>
-                <ul class="button-list clearfix">
-                    <li><a href="index/login-popup-new.html" class="orange-bg popup-show-register">Daftar</a></li>
-                </ul>
-            </div>
+           <?php endforeach;?>
             <p class="link_more heightLine-block06"><a href="index/index/redirect/_public_index_public-survey.html"><a href="index/login-popup-new/redirect/_public_index_public-survey.html" class="popup-show-register">Lihat Lainnya</a></a></p>
         </div>
     </div>

@@ -14,17 +14,25 @@
         $data['slider'] = $this->Carousel_model->get_all();
         $data['getTotalAnggota']= $this->Carousel_model->total_rows();
         $data['alurPoint']=$this->db->query("SELECT * FROM alur_point order by urutan asc")->result();
-
+      
+        date_default_timezone_set('Asia/Jakarta');
+        $date = date('Y-m-d'); 
+        $data['dataSurvey'] = $this->db->query("SELECT * FROM survey WHERE '$date' BETWEEN periode_awal and periode_akhir limit 5");
         $this->load->view('client/header');
         $this->load->view('client/home/carousel',$data);
         $this->load->view('client/home/kerjakan_survey',$data);
-        $this->load->view('client/home/banner');
+        $this->load->view('client/home/banner',$data);
         $this->load->view('client/home/index');
         $this->load->view('client/footer');
     }
 
     public function register(){
         $this->load->view('client/register_popup');
+    }
+
+    public function survey_register(){
+        $data['id'] =$this->input->get('id');
+        $this->load->view('client/start_survey',$data);
     }
 
     public function register_action(){

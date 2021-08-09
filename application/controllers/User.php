@@ -5,7 +5,7 @@ if (!defined('BASEPATH'))
 
 class User extends MY_Controller {
 
-    protected $access = array('Admin', 'Pimpinan','Finance');
+    // protected $access = array('Admin', 'Pimpinan','Finance');
     
     function __construct()
     {
@@ -21,9 +21,9 @@ class User extends MY_Controller {
         $data = array(
             'user_data' => $user
         );
-        $this->load->view('header');
+        $this->load->view('panel/header');
         $this->load->view('user_list', $data);
-        $this->load->view('footer');
+        $this->load->view('panel/footer');
     }
 
     public function fetch_data(){
@@ -40,10 +40,10 @@ class User extends MY_Controller {
     if (isset($search)) {
       if ($search != '') {
          $searchingColumn = $search;
-            $where .= " AND (reg_name LIKE '%$search%'
-                            OR reg_code LIKE '%$search%'
-                            OR area_name LIKE '%$search%'
-                            OR area_code LIKE '%$search%'
+            $where .= " AND (nama LIKE '%$search%'
+                            OR email LIKE '%$search%'
+                            OR no_telp LIKE '%$search%'
+                            OR kota LIKE '%$search%'
                             )";
           }
       }
@@ -51,7 +51,7 @@ class User extends MY_Controller {
     if (isset($orders)) {
         if ($orders != '') {
           $order = $orders;
-          $order_column = ['reg_name','reg_code','area_code','area_name','ULP','ULP_Kode'];
+          $order_column = ['','nama','area_code','area_name','ULP','ULP_Kode'];
           $order_clm  = $order_column[$order[0]['column']];
           $order_by   = $order[0]['dir'];
           $where .= " ORDER BY $order_clm $order_by ";
@@ -66,6 +66,7 @@ class User extends MY_Controller {
           $where .= ' ' . $LIMIT;
         }
       }
+	  
     $index=1;
     $button="";
     $fetch = $this->db->query("SELECT * from user $where");
@@ -76,12 +77,33 @@ class User extends MY_Controller {
         $button3 = "<a href=".base_url('user/delete/'.$rows->id)." class='btn btn-icon icon-left btn-danger' onclick='javasciprt: return confirm(\"Are You Sure ?\")''><i class='fa fa-trash'></i></a>";
         $sub_array=array();
         $sub_array[]=$index;
-        $sub_array[]=$rows->reg_name;
-        $sub_array[]=$rows->reg_code;
-        $sub_array[]=$rows->area_name;
-        $sub_array[]=$rows->area_code;
-        $sub_array[]=$rows->ULP;
-        $sub_array[]=$rows->ULP_Kode;
+        $sub_array[]="<img src=".base_url().'image'.$rows->foto_profil." class='img-fluid'>";
+        $sub_array[]=$rows->nama;
+		$sub_array[]=$rows->email;
+		$sub_array[]=$rows->password;
+		$sub_array[]=$rows->no_telp;
+		$sub_array[]=$rows->jenis_kelamin;
+		$sub_array[]=$rows->tanggal_lahir;
+		$sub_array[]=$rows->no_ktp;
+		$sub_array[]=$rows->status_pernikahan;
+		$sub_array[]=$rows->pekerjaan;
+		$sub_array[]=$rows->tingkat_pendidikan;
+		$sub_array[]=$rows->bidang_industri_pekerjaan;
+		$sub_array[]=$rows->profesi;
+		$sub_array[]=$rows->provinsi;
+		$sub_array[]=$rows->kota;
+		$sub_array[]=$rows->tipe_tempat_tinggal;
+		$sub_array[]=$rows->kartu_provider;
+		$sub_array[]=$rows->jumlah_anak;
+		$sub_array[]=$rows->jumlah_keluarga;
+		$sub_array[]=$rows->jumlah_pendapatan_perbulan;
+		$sub_array[]=$rows->jumlah_pendapatan_keluarga_perbulan;
+		$sub_array[]=$rows->telepon_rumah;
+		$sub_array[]=$rows->rekening_bank;
+		$sub_array[]=$rows->mobil_yang_dimiliki;
+		$sub_array[]=$rows->motor_yang_dimiliki;
+		$sub_array[]=$rows->hp_yang_dimiliki;
+		$sub_array[]=$rows->level;
         $sub_array[]=$button1." ".$button2." ".$button3;
         $result[]      = $sub_array;
         $index++;
@@ -130,9 +152,9 @@ class User extends MY_Controller {
 		'hp_yang_dimiliki' => $row->hp_yang_dimiliki,
 		'level' => $row->level,
 	    );
-            $this->load->view('header');
+            $this->load->view('panel/header');
             $this->load->view('user_read', $data);
-            $this->load->view('footer');
+            $this->load->view('panel/footer');
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('user'));
@@ -174,9 +196,9 @@ class User extends MY_Controller {
 	    'level' => set_value('level'),
 	);
 
-        $this->load->view('header');
+        $this->load->view('panel/header');
         $this->load->view('user_form', $data);
-        $this->load->view('footer');
+        $this->load->view('panel/footer');
     }
     
     public function create_action() 
@@ -259,9 +281,9 @@ class User extends MY_Controller {
 		'hp_yang_dimiliki' => set_value('hp_yang_dimiliki', $row->hp_yang_dimiliki),
 		'level' => set_value('level', $row->level),
 	    );
-            $this->load->view('header');
+            $this->load->view('panel/header');
             $this->load->view('user_form', $data);
-            $this->load->view('footer');
+            $this->load->view('panel/footer');
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('user'));
