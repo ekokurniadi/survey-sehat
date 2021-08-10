@@ -1,7 +1,0 @@
-# HTTrack Website Copier Cookie File
-# This file format is compatible with Netscape cookies
-nusaresearch.net	TRUE	/	FALSE	1999999999	PHPSESSID	shtihdeh3visshvb7edaqqql74
-.google.com	TRUE	/	FALSE	1999999999	NID	220=ayUxW6qujGibGrgVKABcKkMOja5U7szTvv_di6sd2JFPTzO3-hw4PaxThlsp7vOm2uD5IIxfBuFh7RCeoJHgJh_WYJQyOYXicY0Sn9eQPjA9LW31UXvWeWy1ohtu64ozVP9ysE0rQlpNaZU5VIb-2DVLWI8TBYuxPh-kJAcGpa8
-media.viva.co.id	TRUE	/	FALSE	1999999999	cf_ob_info	522:6784f022ffd255d2:SIN
-media.viva.co.id	TRUE	/	FALSE	1999999999	cf_use_ob	443
-

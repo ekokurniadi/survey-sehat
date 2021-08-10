@@ -29,7 +29,7 @@
     <meta name="keywords" content="Hasilkan uang online, penelitian pasar, komunitas penelitian online, kerja online, bisnis internet, online bisnis, cari uang lewat internet, cara dapat uang, survei online  dibayar, tukar poin, bonus hadiah." />
     <meta name="description" content="Ikuti survei online dan kumpulkan poinnya. Dapatkan pulsa, paypal dan shopping voucher setiap bulan!" />
     <title>Survey Sehat - Online di Indonesia</title>
-    <?php echo isset($_SESSION['id']) ? '<link rel="stylesheet" href="<?= base_url() ?>assetsPublic/after-login.css" type="text/css">' : ""; ?> 
+    <link rel="stylesheet" href="<?= base_url() ?>assetsPublic/after-login.css" type="text/css"> 
     <link rel="stylesheet" href="<?= base_url() ?>assetsPublic/styles.css" type="text/css">
     <link rel="stylesheet" href="<?= base_url() ?>assetsPublic/king/common/css/import6fa9.css" type="text/css">
     <script href="<?= base_url() ?>assetsPublic/king/common/js/common.js" type="text/javascript"></script>
@@ -48,6 +48,7 @@
     <script src="<?= base_url("js/vue/accounting.js") ?>" type="text/javascript"></script>
     <script src="<?= base_url("js/vue/vue-numeric.min.js") ?>" type="text/javascript"></script>
     <script src="<?= base_url("js/lodash.min.js") ?>" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <body>
     <!-- Fb root-->
     <div id="fb-root"></div>
@@ -59,21 +60,26 @@
                     </a>
                     <b>survey</b>sehat
                 </h1>
-                <!-- <div class="header-right">
+                <div class="header-right">
                     <div class="h-login clearfix">
-                       
-                        <p><img src="" alt="aklfa"></p>
-                        <p>Eko Kurniadi</p>
-                        <ul class="box-list clearfix">
-                            <li id="info"><a href="javascript:void(0);"><img src="<?php echo base_url() ?>image/info-out-icon.gif" width="25" height="35" alt="" /></a>
-                                <div class="box-show" style="min-height:200px;">
-                                    <p class="icon"><img src="<?php echo base_url() ?>image/info-out-icon.gif" width="25" height="35" alt="" /></p>
-                                    <p class="title">Pengumuman</p>
-                                    <ul class="info_list">
+                    <ul>
+                        <p><img src="<?php echo base_url()."image/survey-sehat.jpeg"?>" alt="picture" width="80px;" height="80px;"></p>
+                        <p style="color:white;margin-top:10px" ><?php echo $_SESSION['nama']?></p>
+                        </ul>
+                        <ul class="box-list">
+                            <li id="setting"><a href="javascript:void(0);"><i class="fa fa-bell"></i></a>
+                            <div class="box-show" style="min-height:200px;">
+                                <!-- <p class="title">Pengumuman</p> -->
+                                    <ul class="setting_list">
+                                    <li><a href="/public/user/changeinformation">Profil</a>
+                                            <a href="/public/user/setting">Ganti kata sandi</a>
+                                            <a href="/public/user/register-del-acc">Hapus akun</a>
+                                            <span></span>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
-                            <li id="setting"><a href="javascript:void(0);"><img src="/application/templates/default/afterlogin/images/common/setting-out-icon.gif" width="25" height="35" alt="" /></a>
+                            <li id="setting"><a href="javascript:void(0);"><i class="fa fa-list"></i></a>
                                 <div class="box-show">
                                     <p class="icon"><img src="<?php echo base_url() ?>image/info-out-icon.gif" width="6" height="4" alt="" /></p>
                                     <ul class="setting_list">
@@ -91,20 +97,14 @@
                                             <span></span>
                                         </li>
                                         <li><a href="/public/recommend/recommend">Undang Teman</a><span></span></li>
-                                        <li><a href="/public/index/logout" class="red_link">Keluar</a></li>
+                                        <li><a href="<?php echo base_url('auth_client/logout')?>" class="red_link">Keluar</a></li>
                                     </ul>
                                 </div>
                             </li>
                         </ul>
-                    </div>
-                </div> -->
-                <div class="header-right">
-                    <div class="h-login clearfix">
-                        <p class="h-login__button"><a href="<?php echo base_url('publics/register')?>" class="h-register__link popup-show-register">Daftar</a></p>
-                        <p class="h-login__button"><a href="<?php echo base_url('auth_client')?>" class="h-login__link popup-show-register">Login</a></p>
+                       
                     </div>
                 </div>
-
             </div>
 
             <div id="g-navi">
