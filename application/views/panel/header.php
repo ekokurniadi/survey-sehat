@@ -137,7 +137,7 @@
 
         function get_notif() {
           $.ajax({
-            url: "<?php echo site_url('dashboard/getNotif'); ?>",
+            url: "<?php echo site_url('dashboard/getNotification'); ?>",
             cache: false,
             type: "POST",
             dataType: 'JSON',
@@ -165,7 +165,7 @@
           $('.jml_notif').text(response.total_notif);
           var html = '';
           for (rsp of response.data) {
-            html += "<a href='" + rsp[2] + "' class='dropdown-item dropdown-item-unread'><div class='dropdown-item-icon bg-primary text-white'><i class='fas fa-info'></i></div><div class='dropdown-item-desc'>" + rsp[3] + "</div></a>";
+            html += "<a href='" + rsp[3] + "' class='dropdown-item dropdown-item-unread'><div class='dropdown-item-icon bg-primary text-white'><i class='fas fa-info'></i></div><div class='dropdown-item-desc'>" + rsp[4] + "</div></a>";
             // toastr_success(rsp.pesan);        
           }
           // console.log(popup_showed);

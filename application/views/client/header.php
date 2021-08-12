@@ -122,7 +122,7 @@
                                 </li>
                                 <li><a href="news/index/report.html">Laporan Penelitian</a></li>
                                 <li><a href="faq/faq.html">Q/A</a></li>
-                                <li><a href="news/index/contact.html">Hubungi Kami</a></li>
+                                <li><a href="<?= base_url('publics/contact_us') ?>">Hubungi Kami</a></li>
                             </ul>
                         </div>
                         <p id="search-btn"><img src="<?php echo base_url() ?>image/default/images/common/search_icon.png" width="16" height="16" alt="" style="color:white;" /></p>

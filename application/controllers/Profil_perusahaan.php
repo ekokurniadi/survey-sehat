@@ -69,7 +69,7 @@ class Profil_perusahaan extends MY_Controller
         $fetch = $this->db->query("SELECT * from profil_perusahaan $where");
         $fetch2 = $this->db->query("SELECT * from profil_perusahaan ");
         foreach ($fetch->result() as $rows) {
-            $button1 = "<a href=" . base_url('profil_perusahaan/read/' . $rows->id) . " class='btn btn-icon icon-left btn-light'><i class='fa fa-eye'></i></a>";
+            // $button1 = "<a href=" . base_url('profil_perusahaan/read/' . $rows->id) . " class='btn btn-icon icon-left btn-light'><i class='fa fa-eye'></i></a>";
             $button2 = "<a href=" . base_url('profil_perusahaan/update/' . $rows->id) . " class='btn btn-icon icon-left btn-warning'><i class='fa fa-pencil-square-o'></i></a>";
             // $button3 = "<a href=".base_url('profil_perusahaan/delete/'.$rows->id)." class='btn btn-icon icon-left btn-danger' onclick='javasciprt: return confirm("Are You Sure ?")''><i class='fa fa-trash'></i></a>";
             $sub_array = array();
@@ -82,7 +82,7 @@ class Profil_perusahaan extends MY_Controller
             // $sub_array[] = $rows->isi_visi_perusahaan;
             $sub_array[] = $rows->misi_perusahaan;
             // $sub_array[] = $rows->isi_misi_perusahaan;
-            $sub_array[] = $button1 . " " . $button2;
+            $sub_array[] = $button2;
             $result[]      = $sub_array;
             $index++;
         }
@@ -133,6 +133,12 @@ class Profil_perusahaan extends MY_Controller
             'isi_visi_perusahaan' => set_value('isi_visi_perusahaan'),
             'misi_perusahaan' => set_value('misi_perusahaan'),
             'isi_misi_perusahaan' => set_value('isi_misi_perusahaan'),
+            'tentang_perusahaan' => set_value('tentang_perusahaan'),
+            'alamat' => set_value('alamat'),
+            'telp' => set_value('telp'),
+            'whatsapp' => set_value('whatsapp'),
+            'email' => set_value('email'),
+            'facebook' => set_value('facebook'),
         );
 
         $this->load->view('panel/header');
@@ -151,6 +157,12 @@ class Profil_perusahaan extends MY_Controller
             'isi_visi_perusahaan' => $this->input->post('isi_visi_perusahaan', TRUE),
             'misi_perusahaan' => $this->input->post('misi_perusahaan', TRUE),
             'isi_misi_perusahaan' => $this->input->post('isi_misi_perusahaan', TRUE),
+            'tentang_perusahaan' => $this->input->post('tentang_perusahaan', TRUE),
+            'alamat' => $this->input->post('alamat', TRUE),
+            'telp' => $this->input->post('telp', TRUE),
+            'whatsapp' => $this->input->post('whatsapp', TRUE),
+            'email' => $this->input->post('email', TRUE),
+            'facebook' => $this->input->post('facebook', TRUE),
         );
 
 
@@ -176,6 +188,12 @@ class Profil_perusahaan extends MY_Controller
                 'isi_visi_perusahaan' => set_value('isi_visi_perusahaan', $row->isi_visi_perusahaan),
                 'misi_perusahaan' => set_value('misi_perusahaan', $row->misi_perusahaan),
                 'isi_misi_perusahaan' => set_value('isi_misi_perusahaan', $row->isi_misi_perusahaan),
+                'tentang_perusahaan' => set_value('tentang_perusahaan', $row->tentang_perusahaan),
+                'alamat' => set_value('alamat', $row->alamat),
+                'telp' => set_value('telp', $row->telp),
+                'whatsapp' => set_value('whatsapp', $row->whatsapp),
+                'email' => set_value('email', $row->whatsapp),
+                'facebook' => set_value('facebook', $row->whatsapp),
             );
             $this->load->view('panel/header');
             $this->load->view('profil_perusahaan_form', $data);
@@ -194,13 +212,18 @@ class Profil_perusahaan extends MY_Controller
         $data = array(
             'nama_perusahaan' => $this->input->post('nama_perusahaan', TRUE),
             'sistem_operasi' => $this->input->post('sistem_operasi', TRUE),
-
             'gambar_sistem_operasi' => $_FILES['gambar_sistem_operasi']['name'] == "" ? $row->gambar_sistem_operasi : upload_gambar_biasa('gambar_sistem_operasi', 'image/', 'jpeg|png|jpg|gif|svg|SVG', 10000, 'gambar_sistem_operasi'),
             'pengenalan_perusahaan' => $this->input->post('pengenalan_perusahaan', TRUE),
             'visi_perusahaan' => $this->input->post('visi_perusahaan', TRUE),
             'isi_visi_perusahaan' => $this->input->post('isi_visi_perusahaan', TRUE),
             'misi_perusahaan' => $this->input->post('misi_perusahaan', TRUE),
             'isi_misi_perusahaan' => $this->input->post('isi_misi_perusahaan', TRUE),
+            'tentang_perusahaan' => $this->input->post('tentang_perusahaan', TRUE),
+            'alamat' => $this->input->post('alamat', TRUE),
+            'telp' => $this->input->post('telp', TRUE),
+            'whatsapp' => $this->input->post('whatsapp', TRUE),
+            'email' => $this->input->post('email', TRUE),
+            'facebook' => $this->input->post('facebook', TRUE),
         );
 
         $this->Profil_perusahaan_model->update($this->input->post('id', TRUE), $data);
@@ -232,6 +255,12 @@ class Profil_perusahaan extends MY_Controller
         $this->form_validation->set_rules('isi_visi_perusahaan', 'isi visi perusahaan', 'trim|required');
         $this->form_validation->set_rules('misi_perusahaan', 'misi perusahaan', 'trim|required');
         $this->form_validation->set_rules('isi_misi_perusahaan', 'isi misi perusahaan', 'trim|required');
+        $this->form_validation->set_rules('tentang_perusahaan', 'tentang perusahaan', 'trim|required');
+        $this->form_validation->set_rules('alamat', 'alamat perusahaan', 'trim|required');
+        $this->form_validation->set_rules('telp', 'telp perusahaan', 'trim|required');
+        $this->form_validation->set_rules('whatsapp', 'whatsapp perusahaan', 'trim|required');
+        $this->form_validation->set_rules('email', 'email perusahaan', 'trim|required');
+        $this->form_validation->set_rules('facebook', 'facebook perusahaan', 'trim|required');
 
         $this->form_validation->set_rules('id', 'id', 'trim');
         $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');

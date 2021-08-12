@@ -80,6 +80,42 @@
                     <textarea class="form-control" rows="3" name="isi_misi_perusahaan" id="isi_misi_perusahaan" placeholder="Isi Misi Perusahaan"><?php echo $isi_misi_perusahaan; ?></textarea>
                 </div>
               </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="tentang_perusahaan">Tentang Perusahaan <?php echo form_error('tentang_perusahaan') ?></label>
+                <div class="col-sm-12">
+                    <textarea class="form-control" rows="3" name="tentang_perusahaan" id="tentang_perusahaan" placeholder="Tentang Perusahaan"><?php echo $tentang_perusahaan; ?></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="alamat">Alamat Perusahaan <?php echo form_error('alamat') ?></label>
+                <div class="col-sm-12">
+                    <textarea class="form-control" rows="3" name="alamat" id="alamat" placeholder="Alamat Perusahaan"><?php echo $alamat; ?></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="varchar">Telepon <?php echo form_error('telp') ?></label>
+                <div class="col-sm-12">
+                  <input type="text" class="form-control" name="telp" id="telp" placeholder="No Telepon" value="<?php echo $telp; ?>" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="varchar">WhatsApp <?php echo form_error('whatsapp') ?></label>
+                <div class="col-sm-12">
+                  <input type="text" class="form-control" name="whatsapp" id="whatsapp" placeholder="No WhatsApp" value="<?php echo $whatsapp; ?>" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="varchar">Email <?php echo form_error('email') ?></label>
+                <div class="col-sm-12">
+                  <input type="text" class="form-control" name="email" id="email" placeholder="Alamat email" value="<?php echo $email; ?>" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="varchar">Facebook <?php echo form_error('facebook') ?></label>
+                <div class="col-sm-12">
+                  <input type="text" class="form-control" name="facebook" id="facebook" placeholder="Alamat facebook" value="<?php echo $facebook; ?>" />
+                </div>
+              </div>
 	   
      
         <div class="card-footer text-left">

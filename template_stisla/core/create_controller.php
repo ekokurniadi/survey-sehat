@@ -7,7 +7,6 @@ if (!defined('BASEPATH'))
 
 class " . $c . " extends MY_Controller {
 
-    protected \$access = array('Admin', 'Pimpinan','Finance');
     
     function __construct()
     {
@@ -37,23 +36,28 @@ $string .="\n\n    public function fetch_data(){
     \$orders       = isset(\$_POST[\"order\"]) ? \$_POST[\"order\"] : ''; 
     
     \$where =\"WHERE 1=1\";
-    \$searchingColumn;
     \$result=array();
     if (isset(\$search)) {
       if (\$search != '') {
-         \$searchingColumn = \$search;
-            \$where .= \" AND (reg_name LIKE '%\$search%'
-                            OR reg_code LIKE '%\$search%'
-                            OR area_name LIKE '%\$search%'
-                            OR area_code LIKE '%\$search%'
-                            )\";
+            \$where .= \" "; 
+            foreach ($non_pk as $row) {
+                $string .="AND (".$row['column_name']." LIKE '%\$search%'";
+                $string .= "\n\t ";
+            }
+            $string .=')";';
+            $string .= "\n\t
           }
       }
 
     if (isset(\$orders)) {
         if (\$orders != '') {
           \$order = \$orders;
-          \$order_column = ['reg_name','reg_code','area_code','area_name','ULP','ULP_Kode'];
+          \$order_column =";
+          $string.="[";
+          foreach ($non_pk as $row) {
+            $string .="'".$row['column_name']."',";
+        }
+        $string .= "];
           \$order_clm  = \$order_column[\$order[0]['column']];
           \$order_by   = \$order[0]['dir'];
           \$where .= \" ORDER BY \$order_clm \$order_by \";
@@ -75,15 +79,14 @@ $string .="\n\n    public function fetch_data(){
     foreach(\$fetch->result() as \$rows){
         \$button1= \"<a href=\".base_url('$c_url/read/'.\$rows->id).\" class='btn btn-icon icon-left btn-light'><i class='fa fa-eye'></i></a>\";
         \$button2= \"<a href=\".base_url('$c_url/update/'.\$rows->id).\" class='btn btn-icon icon-left btn-warning'><i class='fa fa-pencil-square-o'></i></a>\";
-        \$button3 = \"<a href=\".base_url('$c_url/delete/'.\$rows->id).\" class='btn btn-icon icon-left btn-danger' onclick='javasciprt: return confirm(\"Are You Sure ?\")''><i class='fa fa-trash'></i></a>\";
+        \$button3 = \"<a href=\".base_url('$c_url/delete/'.\$rows->id).\" class='btn btn-icon icon-left btn-danger' onclick='javasciprt: return confirm(\'Are You Sure ?\')''><i class='fa fa-trash'></i></a>\";
         \$sub_array=array();
-        \$sub_array[]=\$index;
-        \$sub_array[]=\$rows->reg_name;
-        \$sub_array[]=\$rows->reg_code;
-        \$sub_array[]=\$rows->area_name;
-        \$sub_array[]=\$rows->area_code;
-        \$sub_array[]=\$rows->ULP;
-        \$sub_array[]=\$rows->ULP_Kode;
+        \$sub_array[]=\$index;";
+        foreach($non_pk as $rows){
+            $string .="\$sub_array[]=\$rows->".$rows['column_name'].";";
+            $string .= "\n\t ";
+        }
+        $string .= "
         \$sub_array[]=\$button1.\" \".\$button2.\" \".\$button3;
         \$result[]      = \$sub_array;
         \$index++;

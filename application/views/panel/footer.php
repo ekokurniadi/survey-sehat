@@ -80,6 +80,8 @@
         var langkah = new FroalaEditor('#langkah')
         var poin_dan_hadiah = new FroalaEditor('#poin_dan_hadiah')
         var ketentuan = new FroalaEditor('#ketentuan')
+        var tentang_perusahaan = new FroalaEditor('#tentang_perusahaan')
+        var alamat = new FroalaEditor('#alamat')
        
        
  </script>

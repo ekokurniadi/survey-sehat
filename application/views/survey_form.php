@@ -138,7 +138,7 @@
                           <td>{{dt.jawaban_4}}</td>
                         </tr>
                         <tr>
-                          <td colspan="2">
+                          <td colspan="2" v-if="mode == 'edit' || mode=='create'">
                           <button type="button" @click.prevent="del(index)" class="btn btn-md btn-flat btn-danger"><i class="fa fa-trash"></i></button>
                           </td>
                         </tr>
@@ -170,7 +170,7 @@
                         <td><input type="text" class="form-control" v-model="detailPertanyaan.jawaban_4"></td>
                       </tr>
                       <tr>
-                        <td colspan="2">
+                        <td colspan="2" v-if="mode == 'edit' || mode=='create'">
                           <button type="button" @click.prevent="addSoal()" class="btn btn-md btn-flat btn-primary"><i class="fa fa-plus"></i> Simpan</button>
                         </td>
                       </tr>
@@ -183,7 +183,7 @@
 
               <div class="card-footer text-left">
                 <input type="hidden" name="id" value="<?php echo $id; ?>" />
-                <button type="button" class="btn btn-primary" id="btnSubmit"><span class="fa fa-edit"></span><?php echo $button ?></button>
+                <button type="button" v-if="mode == 'edit' || mode=='create'" class="btn btn-primary" id="btnSubmit"><span class="fa fa-edit"></span><?php echo $button ?></button>
                 <a href="<?php echo site_url('survey') ?>" class="btn btn-icon icon-left btn-success">Cancel</a>
 
               </div>
@@ -213,6 +213,10 @@
         this.detailPertanyaan={}
       },
       addSoal: function() {
+        if(this.detailPertanyaan.pertanyaan=== '' || this.detailPertanyaan.pertanyaan === undefined){
+          alert('Mohon isi detail pertanyaan dan jawaban terlebih dahulu');
+          return false;
+        }
         this.detailTanya.push(this.detailPertanyaan);
         this.clearSoal();
       },

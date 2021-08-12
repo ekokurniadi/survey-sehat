@@ -19,30 +19,16 @@
         <form class="form-horizontal">
 	   
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="varchar">Id Kuisioner <?php echo form_error('id_kuisioner') ?></label>
+                <label class="col-sm-2 control-label" for="varchar">Kode Kuisioner <?php echo form_error('kode_kuisioner') ?></label>
                 <div class="col-sm-12">
-                  <input type="text" class="form-control" name="id_kuisioner" id="id_kuisioner" placeholder="Id Kuisioner" value="<?php echo $id_kuisioner; ?>" readonly />
+                  <input type="text" class="form-control" name="kode_kuisioner" id="kode_kuisioner" placeholder="Kode Kuisioner" value="<?php echo $kode_kuisioner; ?>" readonly />
                 </div>
               </div>
 	   
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="int">User <?php echo form_error('user') ?></label>
+                <label class="col-sm-2 control-label" for="varchar">Kategori <?php echo form_error('kategori') ?></label>
                 <div class="col-sm-12">
-                  <input type="text" class="form-control" name="user" id="user" placeholder="User" value="<?php echo $user; ?>" readonly />
-                </div>
-              </div>
-	   
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="timestamp">Created At <?php echo form_error('created_at') ?></label>
-                <div class="col-sm-12">
-                  <input type="text" class="form-control" name="created_at" id="created_at" placeholder="Created At" value="<?php echo $created_at; ?>" readonly />
-                </div>
-              </div>
-	   
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="int">Status <?php echo form_error('status') ?></label>
-                <div class="col-sm-12">
-                  <input type="text" class="form-control" name="status" id="status" placeholder="Status" value="<?php echo $status; ?>" readonly />
+                  <input type="text" class="form-control" name="kategori" id="kategori" placeholder="Kategori" value="<?php echo $kategori; ?>" readonly />
                 </div>
               </div>
 	      
@@ -51,6 +37,20 @@
                 <label class="col-sm-2 control-label" for="pertanyaan">Pertanyaan <?php echo form_error('pertanyaan') ?></label>
                 <div class="col-sm-12">
                     <textarea class="form-control" rows="3" name="pertanyaan" id="pertanyaan" placeholder="Pertanyaan"><?php echo $pertanyaan; ?></textarea>
+                </div>
+              </div>
+	   
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="date">Periode Awal <?php echo form_error('periode_awal') ?></label>
+                <div class="col-sm-12">
+                  <input type="text" class="form-control" name="periode_awal" id="periode_awal" placeholder="Periode Awal" value="<?php echo $periode_awal; ?>" readonly />
+                </div>
+              </div>
+	   
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="date">Periode Akhir <?php echo form_error('periode_akhir') ?></label>
+                <div class="col-sm-12">
+                  <input type="text" class="form-control" name="periode_akhir" id="periode_akhir" placeholder="Periode Akhir" value="<?php echo $periode_akhir; ?>" readonly />
                 </div>
               </div>
 	   

@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="https://www.w3.org/1999/xhtml" xmlns:og="https://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml" lang="id" xml:lang="id">
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
 <head profile="https://www.w3.org/2005/10/profile">
     <link rel="apple-touch-icon" sizes="57x57" href="<?php echo base_url() ?>assetsPublic/apple-touch-icon-57x57e5ed.png?v=699WgXW3jQ">
     <link rel="apple-touch-icon" sizes="60x60" href="<?php echo base_url() ?>assetsPublic/apple-touch-icon-60x60e5ed.png?v=699WgXW3jQ">
@@ -29,7 +30,7 @@
     <meta name="keywords" content="Hasilkan uang online, penelitian pasar, komunitas penelitian online, kerja online, bisnis internet, online bisnis, cari uang lewat internet, cara dapat uang, survei online  dibayar, tukar poin, bonus hadiah." />
     <meta name="description" content="Ikuti survei online dan kumpulkan poinnya. Dapatkan pulsa, paypal dan shopping voucher setiap bulan!" />
     <title>Survey Sehat - Online di Indonesia</title>
-    <link rel="stylesheet" href="<?= base_url() ?>assetsPublic/after-login.css" type="text/css"> 
+    <link rel="stylesheet" href="<?= base_url() ?>assetsPublic/after-login.css" type="text/css">
     <link rel="stylesheet" href="<?= base_url() ?>assetsPublic/styles.css" type="text/css">
     <link rel="stylesheet" href="<?= base_url() ?>assetsPublic/king/common/css/import6fa9.css" type="text/css">
     <script href="<?= base_url() ?>assetsPublic/king/common/js/common.js" type="text/javascript"></script>
@@ -49,38 +50,49 @@
     <script src="<?= base_url("js/vue/vue-numeric.min.js") ?>" type="text/javascript"></script>
     <script src="<?= base_url("js/lodash.min.js") ?>" type="text/javascript"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
 <body>
     <!-- Fb root-->
+    <?php if ($_SESSION['id'] == "") {
+        redirect(site_url('publics'));
+    } ?>
     <div id="fb-root"></div>
     <div id="wrapper" role="wrapper">
         <div id="header" role="header" style="background-color: #182260;">
             <div class="header__inner clearfix">
-                <h1 id="logo" role="logo" style="color:white">
-                    <a href="index.html">
+                <h1 id="logo" role="logo" style="color:white;margin-top:25px">
+                    <a href="<?php echo base_url() ?>">
                     </a>
                     <b>survey</b>sehat
                 </h1>
                 <div class="header-right">
+
+                </div>
+
+                <div class="header-right">
                     <div class="h-login clearfix">
-                    <ul>
-                        <p><img src="<?php echo base_url()."image/survey-sehat.jpeg"?>" alt="picture" width="80px;" height="80px;"></p>
-                        <p style="color:white;margin-top:10px" ><?php echo $_SESSION['nama']?></p>
-                        </ul>
                         <ul class="box-list">
+                            <li>
+                                <p style="position: center; bottom:0;right:350px;border-radius:50%;padding:1px;border:1px solid white"><img style="border-radius:50%;background-position:center;background-size:contain" src="<?php echo base_url() . "image/thx.jpg" ?>" alt="picture" width="40px;" height="40px;"></p>
+                                <p style="color:white;margin-top:10px"><?php echo $_SESSION['nama'] ?></p>
+                            </li>
+                            <li style="margin-top: 5px;">
+                                <button style="background-color: green;color:white;padding:3px;font-weight:bold">Penukaran Point</button>
+                                <button type="button" style="background-color: red;color:white;padding:3px;font-weight:bold" id="point">0 point</button>
+                            </li>
                             <li id="setting"><a href="javascript:void(0);"><i class="fa fa-bell"></i></a>
-                            <div class="box-show" style="min-height:200px;">
-                                <!-- <p class="title">Pengumuman</p> -->
-                                    <ul class="setting_list">
-                                    <li><a href="/public/user/changeinformation">Profil</a>
-                                            <a href="/public/user/setting">Ganti kata sandi</a>
-                                            <a href="/public/user/register-del-acc">Hapus akun</a>
-                                            <span></span>
+                                <div class="box-show" style="min-height:200px;background-color:#e9295a" >
+                                    <!-- <p class="title">Pengumuman</p> -->
+                                    <ul class="setting_list" >
+                                        <li id="container-notif-register">
+                                        
                                         </li>
+                                       
                                     </ul>
                                 </div>
                             </li>
                             <li id="setting"><a href="javascript:void(0);"><i class="fa fa-list"></i></a>
-                                <div class="box-show">
+                                <div class="box-show"  style="min-height:200px;background-color:#e9295a">
                                     <p class="icon"><img src="<?php echo base_url() ?>image/info-out-icon.gif" width="6" height="4" alt="" /></p>
                                     <ul class="setting_list">
                                         <li><a href="/public/user/changeinformation">Profil</a>
@@ -97,12 +109,13 @@
                                             <span></span>
                                         </li>
                                         <li><a href="/public/recommend/recommend">Undang Teman</a><span></span></li>
-                                        <li><a href="<?php echo base_url('auth_client/logout')?>" class="red_link">Keluar</a></li>
+                                        <li><a href="<?php echo base_url('auth_client/logout') ?>" class="red_link">Keluar</a></li>
                                     </ul>
                                 </div>
                             </li>
+
                         </ul>
-                       
+
                     </div>
                 </div>
             </div>
@@ -122,7 +135,7 @@
                                 </li>
                                 <li><a href="news/index/report.html">Laporan Penelitian</a></li>
                                 <li><a href="faq/faq.html">Q/A</a></li>
-                                <li><a href="news/index/contact.html">Hubungi Kami</a></li>
+                                <li><a href="<?= base_url('publics/contact_us') ?>">Hubungi Kami</a></li>
                             </ul>
                         </div>
                         <p id="search-btn"><img src="<?php echo base_url() ?>image/default/images/common/search_icon.png" width="16" height="16" alt="" style="color:white;" /></p>
@@ -137,4 +150,53 @@
             </div><!-- / id g-navi -->
         </div><!-- / id header -->
         <div id="content" role="content">
-           
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+            <script>
+                $(document).ready(function() {
+                    get_notif();
+                    getPengumuman();
+                    setTimeout(get_notif, 5000);
+                    setInterval(get_notif, 5000); // The interval set to 20 seconds
+                    setInterval(getPengumuman, 5000); // The interval set to 20 seconds
+
+                })
+
+                function get_notif() {
+                    $.ajax({
+                        url: "<?php echo site_url('publics/getPoint'); ?>",
+                        cache: false,
+                        type: "POST",
+                        dataType: 'JSON',
+                        success: function(response) {
+                            showPoint(response);
+                        },
+                    });
+                }
+
+                function showPoint(response) {
+                    $('#point').text(response.total_notif + " Point");
+                }
+
+                function getPengumuman() {
+                    $.ajax({
+                        url: "<?php echo site_url('dashboard/getNotification'); ?>",
+                        cache: false,
+                        type: "POST",
+                        dataType: 'JSON',
+                        success: function(response) {
+                            showPengumuman(response);
+                        },
+                    });
+                }
+
+                function showPengumuman(response) {
+                    $("#container-notif-register").html('');
+                    var html = '';
+                    for (rsp of response.data) {
+                        html += "<a href='" + rsp[3] + "'><i class='fa fa-info'> Notifikasi</i><div class='dropdown-item-desc'>" + rsp[4] + "</div></a><span></span>";
+                        // toastr_success(rsp.pesan);        
+                    }
+                    // console.log(popup_showed);
+                    $("#container-notif-register").append(html);
+                }
+            </script>

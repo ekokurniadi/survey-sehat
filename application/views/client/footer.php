@@ -28,52 +28,54 @@
     });
 </script>
 </div><!-- / id content -->
+<style>
+     #link_ a:hover{
+        color:red;
+    }
+</style>
+<?php $dataFooter = $this->db->get('profil_perusahaan')->row()?>
 <div id="footer" role="footer" style="background-color: #182260;">
     <div id="pagetop-btn" role="pagetop-btn"><a href="#wrapper"><img src="<?php echo base_url() ?>image/default/images/common/pagetop_btn.png" alt="" class="transparent" height="50" width="50" /></a></div>
     <div class="footer__inner">
         <div class="f-block__coloumn clearfix">
             <div class="f__col01 heightLine-col">
-                <p class="f_title" ><span style="color:#FFFFFF">Nusaresearch.net</span></p>
+                <p class="f_title" ><span style="color:#FFFFFF"><?=$dataFooter->nama_perusahaan?></span></p>
                 <ul class="f-navi">
-                    <li><a href="index.html">Halaman Muka</a></li>
-                    <li><a href="news/index/company-info.html">Perkenalan</a></li>
-                    <li><a href="news/index/bonus.html">Poin dan Hadiah</a></li>
-                    <li><a href="news/index/report.html">Laporan Penelitian</a></li>
-                    <li><a href="faq/faq.html">FAQ</a></li>
-                    <li><a href="news/index/contact.html">Hubungi Kami</a></li>
-                    <li><a target="_blank" href="http://blog.nusaresearch.net/">Blog</a></li>
-                    <li><a href="news/index/secure-policy.html">Kebijakan</a></li>
+                    <li id="link_"><a href="<?php echo base_url()?>">Halaman Muka</a></li>
+                    <li id="link_"><a href="<?php echo base_url('publics/point')?>">Poin dan Hadiah</a></li>
+                    <li id="link_"><a href="<?php echo base_url('publics/laporan_penelitian')?>">Laporan Penelitian</a></li>
+                    <li id="link_"><a href="<?php echo base_url('publics/faq')?>">FAQ</a></li>
+                    <li id="link_"><a href="<?php echo base_url('publics/contact')?>">Hubungi Kami</a></li>
+                    <li id="link_"><a href="<?php echo base_url('publics/kebijakan')?>">Kebijakan</a></li>
                 </ul>
             </div>
             <div class="f__col02 heightLine-col">
                 <p class="f_title"><span style="color:#FFFFFF">Tentang kami</span></p>
-                <p>Macromill South East Asia merupakan perusahaan Jepang yang menjadi pelopor riset online di Indonesia.</p>
+                <p><?=$dataFooter->tentang_perusahaan?></p>
                 <ul class="f-contact">
-                    <li><img src="<?php echo base_url() ?>image/default/images/common/icon_01.gif" alt="Address Nusaresearch" height="17" width="16" /><span>Panin Tower Senayan City 15th Floor (Unit 1027)<br>
-                            JL. Asia Afrika Lot 19 Jakarta 10270</span></li>
-                    <li><img src="<?php echo base_url() ?>image/default/images/common/icon_02.gif" alt="Contact Nusaresearch" height="17" width="16" /><span>(+62)-21-50958311</span></li>
-                    <li><img src="<?php echo base_url() ?>image/afterlogin/images/common/whatsapp-logo.png" alt="WhatApp with Nusaresearch" /><span>(+62)-811-995-9995 (WA only)</span></li>
-                    <li><img src="<?php echo base_url() ?>image/default/images/common/icon_03.gif" alt="Email Nusaresearch" height="17" width="16" /><span><a href="https://nusaresearch.net/cdn-cgi/l/email-protection#e99a9c9999869b9da9879c9a889b8c9a8c889b8a81c7878c9d"><span class="__cf_email__" data-cfemail="deadabaeaeb1acaa9eb0abadbfacbbadbbbfacbdb6f0b0bbaa">[email&#160;protected]</span></a></span></li>
+                    <li><img src="<?php echo base_url() ?>image/default/images/common/icon_01.gif" alt="Address Survey Sehat" height="17" width="16" /><span><?=$dataFooter->alamat?></span></li>
+                    <li><img src="<?php echo base_url() ?>image/default/images/common/icon_02.gif" alt="Contact Survey Sehat" height="17" width="16" /><span><?=$dataFooter->telp?></span></li>
+                    <li><img src="<?php echo base_url() ?>assetsPublic/application/templates/default/afterlogin/images/common/whatsapp-logo.png" alt="WhatApp with Survey Sehat" /><span><?=$dataFooter->whatsapp?> (WA only)</span></li>
+                    <li><img src="<?php echo base_url() ?>image/default/images/common/icon_03.gif" alt="Email Survey Sehat" height="17" width="16" /><span><?=$dataFooter->email?></span></li>
                 </ul>
             </div>
             <div class="f__col03 heightLine-col">
                 <p class="f_title"><span style="color:#FFFFFF">Ikuti kami di Facebook</span></p>
                 <div class="f-box__facebook">
-                    <iframe src="http://www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fnusaresearch.net&amp;width=280&amp;height=266&amp;show_faces=true&amp;colorscheme=light&amp;stream=false&amp;border_color&amp;header=true" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:280px; height:266px;background: #FFFFFF;" allowTransparency="true"></iframe>
+                    <iframe src="http://www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fekoexl&amp;width=280&amp;height=266&amp;show_faces=true&amp;colorscheme=light&amp;stream=false&amp;border_color&amp;header=true" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:280px; height:266px;background: #FFFFFF;" allowTransparency="true"></iframe>
                 </div>
             </div>
         </div>
         <div class="footer-bottom clearfix">
-            <p class="copy-right">Nusaresearch - A part of <a href="https://wsgroup-asia.com/en" title="Macromill South East Asia Coporation">Macromill South East Asia</a> Market Research Company.<br />
-                Copyright &copy; 2021 <a href="https://wsgroup-asia.com/en" title="Macromill South East Asia JSC">Macromill South East Asia JSC</a>. All rights reserved.</p>
-            <p><img src="<?php echo base_url() ?>image/default/images/common/img_01.gif" alt="Chứng nhận thành viên của Green Book Directory" height="62" width="100" /><img src="<?php echo base_url() ?>image/default/images/common/img_02.gif" alt="Chứng nhận thành viên của ESOMAR" height="120" width="120" /></p>
+            <p class="copy-right">
+                Copyright &copy; 2021 <a href="<?php echo base_url()?>" title="Survey Sehat Indonesia"><?=$dataFooter->nama_perusahaan?></a>. All rights reserved.</p>
         </div>
     </div>
 </div><!-- / id footer -->
 </div><!-- / id wrapper -->
 
 
-<form id="socialLogin" name="signin" method="post" action="https://nusaresearch.net/public/index/signin">
+<form id="socialLogin" name="signin" method="post" action="https://Survey Sehat.net/public/index/signin">
     <input type="hidden" name="srcFrom" value="">
     <input type="hidden" name="uid" value="">
     <input type="hidden" name="refUserName" value="">

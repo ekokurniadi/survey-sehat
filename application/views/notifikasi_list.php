@@ -4,8 +4,8 @@
   <div class="section-header">
     <h1> Notifikasi </h1>
     <div class="section-header-breadcrumb">
-      // <div class="breadcrumb-item active"><a href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard"></i> Home</a></div>
-      // <div class="breadcrumb-item"><a href="#">Notifikasi </a></div>
+      <div class="breadcrumb-item active"><a href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard"></i> Home</a></div>
+      <div class="breadcrumb-item"><a href="#">Notifikasi </a></div>
     </div>
   </div>
 
@@ -40,11 +40,9 @@
                       <thead>
                         <tr>
                           <th>No</th>
-		<th>User Id</th>
+		<th>Jenis</th>
+		<th>Dari</th>
 		<th>Pesan</th>
-		<th>Status</th>
-		<th>Created</th>
-		<th>Deleted</th>
 		<th>Action</th>
                         </tr>
                       </thead>

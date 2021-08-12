@@ -455,7 +455,7 @@ div[role="header"] {
 
 .header__inner .box-show .icon {
     position: absolute;
-    top: -4px;
+    top: 0px;
     right: 10px
 }
 
@@ -770,7 +770,7 @@ div[role="footer"] {
 }
 
 .f-navi li a:hover {
-    color: #313131;
+    color: white;
     text-decoration: none
 }
 

@@ -17,9 +17,8 @@ class Publics extends CI_Controller
         $data['getTotalAnggota'] = $this->Carousel_model->total_rows();
         $data['alurPoint'] = $this->db->query("SELECT * FROM alur_point order by urutan asc")->result();
 
-        date_default_timezone_set('Asia/Jakarta');
-        $date = date('Y-m-d');
-        $data['dataSurvey'] = $this->db->query("SELECT * FROM survey WHERE '$date' BETWEEN periode_awal and periode_akhir limit 5");
+
+
         if (isset($_SESSION['id']) == "") {
             $this->load->view('client/header');
             $this->load->view('client/home/carousel', $data);
@@ -28,14 +27,50 @@ class Publics extends CI_Controller
             $this->load->view('client/home/carousel-after-login', $data);
         }
         $this->load->view('client/home/kerjakan_survey', $data);
-        $this->load->view('client/home/banner', $data);
+        $this->load->view('client/home/banner');
         $this->load->view('client/home/index');
         $this->load->view('client/footer');
     }
 
-    public function close_survey(){
-       $id_survey = $_POST['id_survey'];
-       $id_user = $_SESSION['id'];
+
+    public function getPoint()
+    {
+
+        $notifPendaftaranDriver = $this->db->query("SELECT jumlah_poin from user where id='{$_SESSION['id']}' ");
+
+        if ($notifPendaftaranDriver->num_rows() > 0) {
+            echo json_encode(array(
+                "total_notif" => $notifPendaftaranDriver->row()->jumlah_poin,
+              
+            ));
+        } else {
+            echo json_encode(array(
+                "total_notif" => $notifPendaftaranDriver->row()->jumlah_poin,
+               
+            ));
+        }
+    }
+
+    public function close_survey()
+    {
+        $id_survey = $_POST['id_survey'];
+        $id_user = $_SESSION['id'];
+        $cek = $this->db->get_where('survey_member', array('kode_survey' => $id_survey, 'id_user' => $id_user));
+
+        if ($cek->num_rows() > 0) {
+            $this->db->where('kode_survey', $id_survey);
+            $this->db->where('id_user', $id_user);
+            $this->db->update('survey_member', array('status' => 1));
+            echo json_encode(array(
+                "status" => "sukses",
+                "link" => base_url('publics'),
+            ));
+        } else {
+            echo json_encode(array(
+                "status" => "gagal",
+                "pesan" => "Terjadi kesalahan, mohon coba kembali beberapa saat lagi",
+            ));
+        }
     }
 
     public function after_login()
@@ -69,6 +104,17 @@ class Publics extends CI_Controller
             $data['id'] = $this->input->get('id');
             $this->load->view('client/start_survey', $data);
         }
+    }
+
+    public function contact_us(){
+        $data['dataPerusahaan'] = $this->db->get('profil_perusahaan')->row();
+        if (isset($_SESSION['id']) == "") {
+            $this->load->view('client/header');
+        } else {
+            $this->load->view('client/header_after_login');
+        }
+        $this->load->view('client/contact', $data);
+        $this->load->view('client/footer');
     }
 
     public function start_survey()
@@ -110,31 +156,31 @@ class Publics extends CI_Controller
         $this->load->view('client/input_survey', $data);
     }
 
-    public function input_survey_action(){
-        $header =[
-            "id_survey"=>$_POST['id_survey'],
-            "id_soal"=>$_POST['id_soal'],
-            "id_user"=>$_POST['id_user'],
-            "jawaban"=>$_POST['jawaban'],
+    public function input_survey_action()
+    {
+        $header = [
+            "id_survey" => $_POST['id_survey'],
+            "id_soal" => $_POST['id_soal'],
+            "id_user" => $_POST['id_user'],
+            "jawaban" => $_POST['jawaban'],
         ];
-        $cek = $this->db->query("SELECT * FROM survey_jawaban_member where id_survey ='{$_POST['id_survey']}' and id_soal='{$_POST['id_soal']}' and id_user={$_POST['id_user']}");
-        if($cek->num_rows() > 0){
+        $cek = $this->db->query("SELECT * FROM survey_jawaban_member where id_survey ='{$_POST['id_survey']}' and id_soal='{$_POST['id_soal']}' and id_user={$_SESSION['id']}");
+        if ($cek->num_rows() > 0) {
             echo json_encode(
                 array(
-                    "status"=>"Error",
-                    "Pesan"=>"Anda sudah menjawab",
-                    )
+                    "status" => "Error",
+                    "Pesan" => "Anda sudah menjawab",
+                )
             );
-        }else{
-            $this->db->insert('survey_jawaban_member',$header);
+        } else {
+            $this->db->insert('survey_jawaban_member', $header);
             echo json_encode(
                 array(
-                    "status"=>"Success",
-                    "Pesan"=>"Anda sudah menjawab",
-                    )
+                    "status" => "Success",
+                    "Pesan" => "Anda sudah menjawab",
+                )
             );
         }
-       
     }
 
     public function register_action()

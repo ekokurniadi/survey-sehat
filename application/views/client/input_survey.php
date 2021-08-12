@@ -165,9 +165,9 @@ $nomor = $halaman_awal + 1;
                 cache: false,
                 dataType: 'JSON',
                 success: function(response) {
-                    if(response.status == "success"){
+                  
                         window.location = '<?php echo base_url() ?>publics/input_survey?q=<?= $kode_survey ?>&halaman=<?= $next ?>';
-                    }
+                    
                 },
                 error: function() {
                     alert('gagal');

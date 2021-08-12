@@ -201,9 +201,14 @@
               </div>
 	   
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="varchar">Level <?php echo form_error('level') ?></label>
+                <label class="col-sm-2 control-label" for="varchar">Level Pengguna <?php echo form_error('level') ?></label>
                 <div class="col-sm-12">
-                  <input type="text" class="form-control" name="level" id="level" placeholder="Level" value="<?php echo $level; ?>" />
+                 <select name="level" id="level" class="form-control">
+                  <option value="<?= $level?>"><?=$level == "" ? "Choose an option" : $level ?></option>
+                    <?php foreach($levelOptions as $rows):?>
+                      <option value="<?=$rows->level?>"><?=$rows->level?></option>
+                    <?php endforeach;?>
+                 </select>
                 </div>
               </div>
 	   

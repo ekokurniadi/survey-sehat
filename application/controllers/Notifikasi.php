@@ -5,7 +5,6 @@ if (!defined('BASEPATH'))
 
 class Notifikasi extends MY_Controller {
 
-    protected $access = array('Admin', 'Pimpinan','Finance');
     
     function __construct()
     {
@@ -21,9 +20,9 @@ class Notifikasi extends MY_Controller {
         $data = array(
             'notifikasi_data' => $notifikasi
         );
-        $this->load->view('header');
+        $this->load->view('panel/header');
         $this->load->view('notifikasi_list', $data);
-        $this->load->view('footer');
+        $this->load->view('panel/footer');
     }
 
     public function fetch_data(){
@@ -35,23 +34,21 @@ class Notifikasi extends MY_Controller {
     $orders       = isset($_POST["order"]) ? $_POST["order"] : ''; 
     
     $where ="WHERE 1=1";
-    $searchingColumn;
     $result=array();
     if (isset($search)) {
       if ($search != '') {
-         $searchingColumn = $search;
-            $where .= " AND (reg_name LIKE '%$search%'
-                            OR reg_code LIKE '%$search%'
-                            OR area_name LIKE '%$search%'
-                            OR area_code LIKE '%$search%'
-                            )";
+            $where .= " AND (jenis LIKE '%$search%'
+	 AND (dari LIKE '%$search%'
+	 AND (pesan LIKE '%$search%'
+	 )";
+	
           }
       }
 
     if (isset($orders)) {
         if ($orders != '') {
           $order = $orders;
-          $order_column = ['reg_name','reg_code','area_code','area_name','ULP','ULP_Kode'];
+          $order_column =['jenis','dari','pesan',];
           $order_clm  = $order_column[$order[0]['column']];
           $order_by   = $order[0]['dir'];
           $where .= " ORDER BY $order_clm $order_by ";
@@ -73,15 +70,12 @@ class Notifikasi extends MY_Controller {
     foreach($fetch->result() as $rows){
         $button1= "<a href=".base_url('notifikasi/read/'.$rows->id)." class='btn btn-icon icon-left btn-light'><i class='fa fa-eye'></i></a>";
         $button2= "<a href=".base_url('notifikasi/update/'.$rows->id)." class='btn btn-icon icon-left btn-warning'><i class='fa fa-pencil-square-o'></i></a>";
-        $button3 = "<a href=".base_url('notifikasi/delete/'.$rows->id)." class='btn btn-icon icon-left btn-danger' onclick='javasciprt: return confirm("Are You Sure ?")''><i class='fa fa-trash'></i></a>";
+        $button3 = "<a href=".base_url('notifikasi/delete/'.$rows->id)." class='btn btn-icon icon-left btn-danger' onclick='javasciprt: return confirm(\'Are You Sure ?\')''><i class='fa fa-trash'></i></a>";
         $sub_array=array();
-        $sub_array[]=$index;
-        $sub_array[]=$rows->reg_name;
-        $sub_array[]=$rows->reg_code;
-        $sub_array[]=$rows->area_name;
-        $sub_array[]=$rows->area_code;
-        $sub_array[]=$rows->ULP;
-        $sub_array[]=$rows->ULP_Kode;
+        $sub_array[]=$index;$sub_array[]=$rows->jenis;
+	 $sub_array[]=$rows->dari;
+	 $sub_array[]=$rows->pesan;
+	 
         $sub_array[]=$button1." ".$button2." ".$button3;
         $result[]      = $sub_array;
         $index++;
@@ -102,15 +96,13 @@ class Notifikasi extends MY_Controller {
         if ($row) {
             $data = array(
 		'id' => $row->id,
-		'user_id' => $row->user_id,
+		'jenis' => $row->jenis,
+		'dari' => $row->dari,
 		'pesan' => $row->pesan,
-		'status' => $row->status,
-		'created' => $row->created,
-		'deleted' => $row->deleted,
 	    );
-            $this->load->view('header');
+            $this->load->view('panel/header');
             $this->load->view('notifikasi_read', $data);
-            $this->load->view('footer');
+            $this->load->view('panel/footer');
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('notifikasi'));
@@ -123,16 +115,14 @@ class Notifikasi extends MY_Controller {
             'button' => 'Create',
             'action' => site_url('notifikasi/create_action'),
 	    'id' => set_value('id'),
-	    'user_id' => set_value('user_id'),
+	    'jenis' => set_value('jenis'),
+	    'dari' => set_value('dari'),
 	    'pesan' => set_value('pesan'),
-	    'status' => set_value('status'),
-	    'created' => set_value('created'),
-	    'deleted' => set_value('deleted'),
 	);
 
-        $this->load->view('header');
+        $this->load->view('panel/header');
         $this->load->view('notifikasi_form', $data);
-        $this->load->view('footer');
+        $this->load->view('panel/footer');
     }
     
     public function create_action() 
@@ -143,11 +133,9 @@ class Notifikasi extends MY_Controller {
             $this->create();
         } else {
             $data = array(
-		'user_id' => $this->input->post('user_id',TRUE),
+		'jenis' => $this->input->post('jenis',TRUE),
+		'dari' => $this->input->post('dari',TRUE),
 		'pesan' => $this->input->post('pesan',TRUE),
-		'status' => $this->input->post('status',TRUE),
-		'created' => $this->input->post('created',TRUE),
-		'deleted' => $this->input->post('deleted',TRUE),
 	    );
 
             $this->Notifikasi_model->insert($data);
@@ -165,15 +153,13 @@ class Notifikasi extends MY_Controller {
                 'button' => 'Update',
                 'action' => site_url('notifikasi/update_action'),
 		'id' => set_value('id', $row->id),
-		'user_id' => set_value('user_id', $row->user_id),
+		'jenis' => set_value('jenis', $row->jenis),
+		'dari' => set_value('dari', $row->dari),
 		'pesan' => set_value('pesan', $row->pesan),
-		'status' => set_value('status', $row->status),
-		'created' => set_value('created', $row->created),
-		'deleted' => set_value('deleted', $row->deleted),
 	    );
-            $this->load->view('header');
+            $this->load->view('panel/header');
             $this->load->view('notifikasi_form', $data);
-            $this->load->view('footer');
+            $this->load->view('panel/footer');
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('notifikasi'));
@@ -188,11 +174,9 @@ class Notifikasi extends MY_Controller {
             $this->update($this->input->post('id', TRUE));
         } else {
             $data = array(
-		'user_id' => $this->input->post('user_id',TRUE),
+		'jenis' => $this->input->post('jenis',TRUE),
+		'dari' => $this->input->post('dari',TRUE),
 		'pesan' => $this->input->post('pesan',TRUE),
-		'status' => $this->input->post('status',TRUE),
-		'created' => $this->input->post('created',TRUE),
-		'deleted' => $this->input->post('deleted',TRUE),
 	    );
 
             $this->Notifikasi_model->update($this->input->post('id', TRUE), $data);
@@ -217,11 +201,9 @@ class Notifikasi extends MY_Controller {
 
     public function _rules() 
     {
-	$this->form_validation->set_rules('user_id', 'user id', 'trim|required');
+	$this->form_validation->set_rules('jenis', 'jenis', 'trim|required');
+	$this->form_validation->set_rules('dari', 'dari', 'trim|required');
 	$this->form_validation->set_rules('pesan', 'pesan', 'trim|required');
-	$this->form_validation->set_rules('status', 'status', 'trim|required');
-	$this->form_validation->set_rules('created', 'created', 'trim|required');
-	$this->form_validation->set_rules('deleted', 'deleted', 'trim|required');
 
 	$this->form_validation->set_rules('id', 'id', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
@@ -232,5 +214,5 @@ class Notifikasi extends MY_Controller {
 /* End of file Notifikasi.php */
 /* Location: ./application/controllers/Notifikasi.php */
 /* Please DO NOT modify this information : */
-/* Generated by Harviacode Codeigniter CRUD Generator 2021-08-04 08:09:22 */
+/* Generated by Harviacode Codeigniter CRUD Generator 2021-08-11 08:31:20 */
 /* http://harviacode.com */

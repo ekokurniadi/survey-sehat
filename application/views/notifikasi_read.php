@@ -19,9 +19,16 @@
         <form class="form-horizontal">
 	   
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="int">User Id <?php echo form_error('user_id') ?></label>
+                <label class="col-sm-2 control-label" for="int">Jenis <?php echo form_error('jenis') ?></label>
                 <div class="col-sm-12">
-                  <input type="text" class="form-control" name="user_id" id="user_id" placeholder="User Id" value="<?php echo $user_id; ?>" readonly />
+                  <input type="text" class="form-control" name="jenis" id="jenis" placeholder="Jenis" value="<?php echo $jenis; ?>" readonly />
+                </div>
+              </div>
+	   
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="int">Dari <?php echo form_error('dari') ?></label>
+                <div class="col-sm-12">
+                  <input type="text" class="form-control" name="dari" id="dari" placeholder="Dari" value="<?php echo $dari; ?>" readonly />
                 </div>
               </div>
 	      
@@ -30,27 +37,6 @@
                 <label class="col-sm-2 control-label" for="pesan">Pesan <?php echo form_error('pesan') ?></label>
                 <div class="col-sm-12">
                     <textarea class="form-control" rows="3" name="pesan" id="pesan" placeholder="Pesan"><?php echo $pesan; ?></textarea>
-                </div>
-              </div>
-	   
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="varchar">Status <?php echo form_error('status') ?></label>
-                <div class="col-sm-12">
-                  <input type="text" class="form-control" name="status" id="status" placeholder="Status" value="<?php echo $status; ?>" readonly />
-                </div>
-              </div>
-	   
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="datetime">Created <?php echo form_error('created') ?></label>
-                <div class="col-sm-12">
-                  <input type="text" class="form-control" name="created" id="created" placeholder="Created" value="<?php echo $created; ?>" readonly />
-                </div>
-              </div>
-	   
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="int">Deleted <?php echo form_error('deleted') ?></label>
-                <div class="col-sm-12">
-                  <input type="text" class="form-control" name="deleted" id="deleted" placeholder="Deleted" value="<?php echo $deleted; ?>" readonly />
                 </div>
               </div>
 	   

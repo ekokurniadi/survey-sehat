@@ -70,8 +70,8 @@ class Survey extends MY_Controller
         }
         $index = 1;
         $button = "";
-        $fetch = $this->db->query("select a.id,a.kode_survey,a.judul,a.periode_awal,a.periode_akhir,a.poin,a.kuota,a.ketentuan,b.jenis,c.kategori_survey,(SELECT COUNT(id) from survey_member e where e.kode_survey=a.id) as peserta from survey a join jenis_survey b on a.jenis=b.id join kategori_survey c on a.kategori=c.id $where");
-        $fetch2 = $this->db->query("select a.id,a.kode_survey,a.judul,a.periode_akhir,a.periode_akhir,a.poin,a.kuota,a.ketentuan,b.jenis,c.kategori_survey,(SELECT COUNT(id) from survey_member e where e.kode_survey=a.id) as peserta from survey a join jenis_survey b on a.jenis=b.id join kategori_survey c on a.kategori=c.id ");
+        $fetch = $this->db->query("select a.id,a.kode_survey,a.judul,a.periode_awal,a.periode_akhir,a.poin,a.kuota,a.ketentuan,b.jenis,c.kategori_survey,(SELECT COUNT(id) from survey_member e where e.kode_survey=a.kode_survey) as peserta from survey a join jenis_survey b on a.jenis=b.id join kategori_survey c on a.kategori=c.id $where");
+        $fetch2 = $this->db->query("select a.id,a.kode_survey,a.judul,a.periode_akhir,a.periode_akhir,a.poin,a.kuota,a.ketentuan,b.jenis,c.kategori_survey,(SELECT COUNT(id) from survey_member e where e.kode_survey=a.kode_survey) as peserta from survey a join jenis_survey b on a.jenis=b.id join kategori_survey c on a.kategori=c.id ");
         foreach ($fetch->result() as $rows) {
             $button1 = "<a href=" . base_url('survey/read/' . $rows->id) . " class='btn btn-icon icon-left btn-light'><i class='fa fa-eye'></i></a>";
             $button2 = "<a href=" . base_url('survey/update/' . $rows->id) . " class='btn btn-icon icon-left btn-warning'><i class='fa fa-pencil-square-o'></i></a>";
@@ -81,10 +81,10 @@ class Survey extends MY_Controller
             $sub_array[] = $rows->kode_survey;
             $sub_array[] = $rows->judul;
             $sub_array[] = formatTanggal($rows->periode_awal) . " s/d " . formatTanggal($rows->periode_akhir);
-            $sub_array[] = $rows->poin;
+            $sub_array[] = $rows->kategori_survey;
             $sub_array[] = $rows->judul;
             $sub_array[] = $rows->jenis;
-            $sub_array[] = $rows->kategori_survey;
+            $sub_array[] = $rows->poin;
             $sub_array[] = $rows->peserta;
             $sub_array[] = $rows->ketentuan;
             $sub_array[] = $button1 . " " . $button2 . " " . $button3;
@@ -103,20 +103,24 @@ class Survey extends MY_Controller
     public function read($id)
     {
         $row = $this->Survey_model->get_by_id($id);
+
         if ($row) {
             $data = array(
-                'id' => $row->id,
-                'kode_survey' => $row->kode_survey,
-                'judul' => $row->judul,
-                'jenis' => $row->jenis,
-                'kategori' => $row->kategori,
-                'periode_awal' => $row->periode_awal,
-                'periode_akhir' => $row->periode_akhir,
-                'poin' => $row->poin,
-                'ketentuan' => $row->ketentuan,
+                'button' => '',
+                'action' => site_url('survey/update_action'),
+                'mode' => 'read',
+                'id' => set_value('id', $row->id),
+                'kode_survey' => set_value('kode_survey', $row->kode_survey),
+                'judul' => set_value('judul', $row->judul),
+                'jenis' => set_value('jenis', $row->jenis),
+                'kategori' => set_value('kategori', $row->kategori),
+                'periode_awal' => set_value('periode_awal', $row->periode_awal),
+                'periode_akhir' => set_value('periode_akhir', $row->periode_akhir),
+                'poin' => set_value('poin', $row->poin),
+                'ketentuan' => set_value('ketentuan', $row->ketentuan),
             );
             $this->load->view('panel/header');
-            $this->load->view('survey_read', $data);
+            $this->load->view('survey_form', $data);
             $this->load->view('panel/footer');
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
@@ -130,7 +134,8 @@ class Survey extends MY_Controller
         $string = '';
         for ($i = 0; $i < $panjang; $i++) {
             $pos = rand(0, strlen($karakter) - 1);
-            $string .= $karakter{$pos};
+            $string .= $karakter{
+            $pos};
         }
         return $string;
     }
@@ -142,7 +147,7 @@ class Survey extends MY_Controller
             'action' => site_url('survey/create_action'),
             'mode' => "create",
             'id' => set_value('id'),
-            'kode_survey' => set_value('kode_survey',$this->acak(10)),
+            'kode_survey' => set_value('kode_survey', $this->acak(10)),
             'judul' => set_value('judul'),
             'jenis' => set_value('jenis'),
             'kategori' => set_value('kategori'),
@@ -159,7 +164,7 @@ class Survey extends MY_Controller
 
     public function create_action()
     {
-       
+
         $header = [
             'kode_survey' => $_POST['kode_survey'],
             'judul' => $_POST['judul'],
@@ -171,26 +176,26 @@ class Survey extends MY_Controller
             'ketentuan' => $_POST['ketentuan'],
         ];
         $detail = $_POST['soal'];
-        foreach($detail as $dt){
-            $insert[]=[
-                'kode_survey'=>$_POST['kode_survey'],
-                'pertanyaan'=>$dt['pertanyaan'],
-                'jawaban_1'=>$dt['jawaban_1'],
-                'jawaban_2'=>$dt['jawaban_2'],
-                'jawaban_3'=>$dt['jawaban_3'],
-                'jawaban_4'=>$dt['jawaban_4'],
+        foreach ($detail as $dt) {
+            $insert[] = [
+                'kode_survey' => $_POST['kode_survey'],
+                'pertanyaan' => $dt['pertanyaan'],
+                'jawaban_1' => $dt['jawaban_1'],
+                'jawaban_2' => $dt['jawaban_2'],
+                'jawaban_3' => $dt['jawaban_3'],
+                'jawaban_4' => $dt['jawaban_4'],
             ];
         }
         $this->db->trans_begin();
-        $this->db->insert('survey',$header);
+        $this->db->insert('survey', $header);
         $this->db->insert_batch('survey_pertanyaan', $insert);
-        if($this->db->trans_status() === FALSE){
+        if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
             $response = [
                 "status" => "ERROR",
-                "pesan"=>"Terjadi kesalahan"
+                "pesan" => "Terjadi kesalahan"
             ];
-        }else{
+        } else {
             $this->db->trans_commit();
             $response = [
                 'status' => "sukses",
@@ -209,7 +214,7 @@ class Survey extends MY_Controller
             $data = array(
                 'button' => 'Update',
                 'action' => site_url('survey/update_action'),
-                'mode'=>'edit',
+                'mode' => 'edit',
                 'id' => set_value('id', $row->id),
                 'kode_survey' => set_value('kode_survey', $row->kode_survey),
                 'judul' => set_value('judul', $row->judul),
@@ -242,30 +247,30 @@ class Survey extends MY_Controller
             'poin' => $_POST['poin'],
             'ketentuan' => $_POST['ketentuan'],
         ];
-        $this->db->where('kode_survey',$_POST['kode_survey']);
+        $this->db->where('kode_survey', $_POST['kode_survey']);
         $this->db->delete('survey_pertanyaan');
         $detail = $_POST['soal'];
-        foreach($detail as $dt){
-            $insert[]=[
-                'kode_survey'=>$_POST['kode_survey'],
-                'pertanyaan'=>$dt['pertanyaan'],
-                'jawaban_1'=>$dt['jawaban_1'],
-                'jawaban_2'=>$dt['jawaban_2'],
-                'jawaban_3'=>$dt['jawaban_3'],
-                'jawaban_4'=>$dt['jawaban_4'],
+        foreach ($detail as $dt) {
+            $insert[] = [
+                'kode_survey' => $_POST['kode_survey'],
+                'pertanyaan' => $dt['pertanyaan'],
+                'jawaban_1' => $dt['jawaban_1'],
+                'jawaban_2' => $dt['jawaban_2'],
+                'jawaban_3' => $dt['jawaban_3'],
+                'jawaban_4' => $dt['jawaban_4'],
             ];
         }
         $this->db->trans_begin();
         $this->db->where('id', $id);
         $this->db->update('survey', $header);
         $this->db->insert_batch('survey_pertanyaan', $insert);
-        if($this->db->trans_status() === FALSE){
+        if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
             $response = [
                 "status" => "ERROR",
-                "pesan"=>"Terjadi kesalahan"
+                "pesan" => "Terjadi kesalahan"
             ];
-        }else{
+        } else {
             $this->db->trans_commit();
             $response = [
                 'status' => "sukses",
