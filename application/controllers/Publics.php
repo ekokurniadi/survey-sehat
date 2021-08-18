@@ -41,12 +41,12 @@ class Publics extends CI_Controller
         if ($notifPendaftaranDriver->num_rows() > 0) {
             echo json_encode(array(
                 "total_notif" => $notifPendaftaranDriver->row()->jumlah_poin,
-              
+
             ));
         } else {
             echo json_encode(array(
                 "total_notif" => $notifPendaftaranDriver->row()->jumlah_poin,
-               
+
             ));
         }
     }
@@ -106,7 +106,8 @@ class Publics extends CI_Controller
         }
     }
 
-    public function contact_us(){
+    public function contact_us()
+    {
         $data['dataPerusahaan'] = $this->db->get('profil_perusahaan')->row();
         if (isset($_SESSION['id']) == "") {
             $this->load->view('client/header');
@@ -246,5 +247,83 @@ class Publics extends CI_Controller
         $this->load->view('client/home/carousel');
         $this->load->view('client/kos/king_of_survey');
         $this->load->view('client/footer');
+    }
+
+    public function beranda()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/carousel');
+        $this->load->view('template/kerjakan');
+        $this->load->view('template/survey');
+        $this->load->view('template/index');
+        $this->load->view('template/footer');
+    }
+
+    public function fetch_data_survey()
+    {
+        $starts       = $this->input->post("start");
+        $length       = $this->input->post("length");
+        $LIMIT        = "LIMIT $starts, $length ";
+        $draw         = $this->input->post("draw");
+        $search       = $this->input->post("search")["value"];
+        $orders       = isset($_POST["order"]) ? $_POST["order"] : '';
+
+        $where = "WHERE 1=1";
+        // $searchingColumn;
+        $result = array();
+        if (isset($search)) {
+            if ($search != '') {
+                $searchingColumn = $search;
+                $where .= " AND (a.kode_survey LIKE '%$search%'
+                            OR a.judul LIKE '%$search%'
+                            OR c.kategori_survey LIKE '%$search%'
+                            OR b.jenis LIKE '%$search%'
+                            )";
+            }
+        }
+
+        if (isset($orders)) {
+            if ($orders != '') {
+                $order = $orders;
+                $order_column = ['a.kode_survey'];
+                $order_clm  = $order_column[$order[0]['column']];
+                $order_by   = $order[0]['dir'];
+                $where .= " ORDER BY $order_clm $order_by ";
+            } else {
+                $where .= " ORDER BY a.id ASC ";
+            }
+        } else {
+            $where .= " ORDER BY a.id ASC ";
+        }
+        if (isset($LIMIT)) {
+            if ($LIMIT != '') {
+                $where .= ' ' . $LIMIT;
+            }
+        }
+        $index = 1;
+        $button = "";
+        $fetch = $this->db->query("select a.id,a.kode_survey,a.judul,a.periode_awal,a.periode_akhir,a.poin,a.kuota,a.ketentuan,b.jenis,c.kategori_survey,(SELECT COUNT(id) from survey_member e where e.kode_survey=a.kode_survey) as peserta from survey a join jenis_survey b on a.jenis=b.id join kategori_survey c on a.kategori=c.id $where");
+        $fetch2 = $this->db->query("select a.id,a.kode_survey,a.judul,a.periode_akhir,a.periode_akhir,a.poin,a.kuota,a.ketentuan,b.jenis,c.kategori_survey,(SELECT COUNT(id) from survey_member e where e.kode_survey=a.kode_survey) as peserta from survey a join jenis_survey b on a.jenis=b.id join kategori_survey c on a.kategori=c.id ");
+        foreach ($fetch->result() as $rows) {
+            $sub_array = array();
+            $sub_array[] = $index;
+            $sub_array[] = "<div class='row'>
+            <div class='col-md-12'>".
+               formatTanggal($rows->periode_awal) ." ".  formatTanggal($rows->periode_akhir)
+            ."</div><div class='col-md-8'>".$rows->judul."</div><div class='col-md-4'><button class='btn btn-sm btn-danger'>Poin <br>".$rows->poin."</button></div>
+            <div class='col-md-12'>
+                <button class='btn btn-flat btn-md btn-primary'>Daftar</button>
+            </div>
+        </div>";
+            $result[]      = $sub_array;
+            $index++;
+        }
+        $output = array(
+            "draw"            =>     intval($this->input->post("draw")),
+            "recordsFiltered" =>     $fetch2->num_rows(),
+            "data"            =>     $result,
+
+        );
+        echo json_encode($output);
     }
 }

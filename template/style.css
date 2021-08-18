@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400&display=swap');
+section.headers {
+    background-color: #182260;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+section.navigation {
+    background-color: #3846a0;
+}
+
+nav.navbar {
+    background-color: #3846a0;
+}
+
+#navbarNavDropdown a {
+    color: beige;
+}
+
+#navbarNavDropdown div.set1 {
+    background-color: red;
+    width: 100%;
+    height: 2px;
+}
+
+#navbarNavDropdown a:hover {
+    color: yellow;
+}
+
+#navbarDropdownMenuLink a {
+    color: #182260;
+}
+
+#navbarDropdownMenuLink a:hover {
+    background-color: #d6d8db;
+    color: #182260;
+}
+
+.card-register {
+    background-color: #f52060;
+    display: block;
+    height: 200px;
+    width: 320px;
+}
+
+.card-total {
+    background-color: #0ea2d3;
+    display: block;
+    height: 200px;
+    width: 320px;
+}
+
+div.kerjakan {
+    background-color: #60a5f3;
+    width: 100%;
+    padding-top: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+}
+
+div.kerjakan h5 {
+    font-size: 15px;
+    color: white;
+    font-weight: bold;
+}
+
+div.lines {
+    background-color: #f52060;
+    width: 40% !important;
+    height: 2px;
+    align-content: center;
+    margin-bottom: 10px;
+}
+
+.card-kerjakan {
+    background-color: #f52060;
+}
+
+.card-kerjakan h4 {
+    font-size: 16px;
+    color: white;
+}
+
+.card-body-kerjakan h4 {
+    font-size: 15px;
+}
+
+.card-body-kerjakan {
+    height: 200px;
+    text-align: center;
+}
+
+.colum-public {
+    background-color: white;
+    /* margin-right: 3px; */
+}
+
+.colum-cepat {
+    background-color: white;
+    /* margin-right: 3px; */
+}
+
+.container-survey {
+    border: 2px solid #206bf5;
+    padding-top: auto;
+}
