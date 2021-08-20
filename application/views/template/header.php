@@ -28,17 +28,17 @@
     <script src="<?= base_url("js/lodash.min.js") ?>" type="text/javascript"></script>
     <script type="text/javascript" src="<?= base_url("js/moment.min.js") ?>"></script>
     <script type="text/javascript" src="<?= base_url("js/daterangepicker.min.js") ?>"></script>
-    <!-- load jquery CDN -->
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
+   
     <title id="title">{{title}}</title>
 </head>
 
 <body>
     <section class="headers">
-        <div class="container">
+        <div class="container py-3">
             <div class="row">
                 <div class="col-md-4 col-sm-4 col-xs-4 py-2">
-                    <img src="<?php echo base_url() ?>image/survey-sehat.jpeg" alt="" class="img-fluid" width="80px">
+                    <!-- <img src="<?php echo base_url() ?>image/survey-sehat.png" alt="" class="img-fluid" width="100px"> -->
+                    <strong>Survey</strong>Sehat
                 </div>
                 <div class="col-md-4 d-flex align-items-center ml-auto mb-3">
                     <button class="btn btn-flat btn-primary mr-2 px-5">Daftar</button>
@@ -55,19 +55,20 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav">
-                        <li class="nav-item active px-3">
-                            <a class="nav-link" href="#">Halaman Muka <span class="sr-only">(current)</span></a>
-                            <div class="set1">&nbsp;</div>
+                        <li class="nav-item  px-3">
+                            <a class="nav-link" href="<?= base_url('publics/beranda') ?>">Halaman Muka <span class="sr-only">(current)</span></a>
+                            <div class="set1"  <?php echo $this->uri->segment(2) == "beranda" ? "" :  "style='display: none;'" ?>>&nbsp;</div>
+                        </li>
+
+                        <li class="nav-item px-3">
+                            <a class="nav-link" href="<?= base_url('publics/perkenalan') ?>">Perkenalan</a>
+                            <div class="set1" <?php echo $this->uri->segment(2) == "perkenalan" ? "" :  "style='display: none;'" ?>>&nbsp;</div>
                         </li>
                         <li class="nav-item px-3">
-                            <a class="nav-link" href="#">Perkenalan</a>
-                            <div class="set1" style="display: none;">&nbsp;</div>
+                            <a class="nav-link" href="<?= base_url('publics/pointhadiah') ?>">Point dan Hadiah</a>
+                            <div class="set1" <?php echo $this->uri->segment(2) == "pointhadiah" ? "" :  "style='display: none;'" ?>>&nbsp;</div>
                         </li>
-                        <li class="nav-item px-3">
-                            <a class="nav-link" href="#">Point dan Hadiah</a>
-                            <div class="set1" style="display: none;">&nbsp;</div>
-                        </li>
-                        <li class="nav-item dropdown px-3">
+                        <!-- <li class="nav-item dropdown px-3">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" aria-hidden="true">
                                 Aktivitas
                             </a>
@@ -76,10 +77,10 @@
                                 <a class="dropdown-item" href="#">Another action</a>
                                 <a class="dropdown-item" href="#">Something else here</a>
                             </div>
-                        </li>
+                        </li> -->
                         <li class="nav-item px-3">
-                            <a class="nav-link" href="#">Laporan Penelitian</a>
-                            <div class="set1" style="display: none;">&nbsp;</div>
+                            <a class="nav-link" href="<?= base_url('publics/laporan_penelitian') ?>">Laporan Penelitian</a>
+                            <div class="set1" <?php echo $this->uri->segment(2) == "laporan_penelitian" ? "" :  "style='display: none;'" ?>>&nbsp;</div>
                         </li>
                         <li class="nav-item px-3">
                             <a class="nav-link" href="#">Q/A</a>

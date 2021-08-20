@@ -11,6 +11,9 @@ body {
 
 section.navigation {
     background-color: #3846a0;
+    position: sticky;
+    top: -1px;
+    z-index: 999;
 }
 
 nav.navbar {
@@ -105,7 +108,203 @@ div.lines {
     /* margin-right: 3px; */
 }
 
+#example1 th {
+    background-color: #f52060;
+    color: white;
+}
+
+#example2 th {
+    background-color: #f52060;
+    color: white;
+    position: sticky;
+    top: 0;
+}
+
+.table-responsive {
+    overflow: hidden;
+}
+
+#example2_paginate li.paginate_button.active a {
+    background-color: #f52060;
+    border: none;
+}
+
+#example1_paginate li.paginate_button.active a {
+    background-color: #f52060;
+    border: none;
+}
+
 .container-survey {
-    border: 2px solid #206bf5;
-    padding-top: auto;
+    border: 2px solid #f52060;
+    padding-top: 15px;
+}
+
+.container-perkenalan {
+    background-color: #efefef;
+    padding: 20px;
+}
+
+.container-perkenalan h4 {
+    text-align: center;
+    color: #182260;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+section.footers {
+    width: 100%;
+    background-color: #182260;
+    color: white;
+    min-height: 280px;
+}
+
+section.footers h4 {
+    font-size: 12pt;
+}
+
+section.footers a {
+    color: white;
+    text-decoration: none;
+    font-size: 11pt;
+}
+
+section.footers a:hover {
+    color: yellow;
+    text-decoration: none;
+    font-size: 11pt;
+}
+
+div.set2 {
+    justify-content: center;
+    background-color: red;
+    width: 30%;
+    height: 2px;
+    margin-bottom: 10px;
+}
+
+div.first {
+    border-right: 2px solid yellow;
+    min-height: 200px;
+    margin-top: 25px;
+}
+
+div.first2 {
+    /* border-right: 2px solid yellow; */
+    min-height: 200px;
+    margin-top: 25px;
+}
+
+div.footer-link {
+    font-size: 10pt;
+}
+
+div.footer-link a {
+    color: #f52060;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+#tentangKami p {
+    color: yellow;
+    font-weight: normal;
+    letter-spacing: 2px;
+    font-size: 10pt;
+}
+
+section.perkenalan div.visi {
+    border-left: 8px solid #f52060;
+}
+
+section.perkenalan div.visi span {
+    color: #f52060;
+}
+
+section.penukaran div.card-header.card-kerjakan h4 {
+    font-size: 15px;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 2;
+}
+
+section.penukaran div.card-body {
+    min-height: 300px;
+    background-color: #368cee;
+    color: white;
+}
+
+section.penukaran div.card-header {
+    min-height: 100px;
+}
+
+div.left-lines {
+    border-left: 5px solid #f52060;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    min-height: 100px;
+    background-color: white;
+}
+
+section.penukaran table#table-penukaran tr th {
+    background-color: #f52060;
+    text-align: center;
+    border-color: white;
+    color: white;
+}
+
+section.penukaran table#table-penukaran tr td {
+    background-color: white;
+}
+
+section.laporan_penelitian nav {
+    background-color: transparent;
+}
+
+section.laporan_penelitian div.tabs_laporan_penelitian {
+    background-color: #f52060;
+    padding: 5px 5px 5px 5px;
+    border-right: 2px solid white;
+}
+
+section.laporan_penelitian div.tabs_laporan_penelitian h5 {
+    text-align: center;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 5px;
+    letter-spacing: 2px;
+}
+
+section.laporan_penelitian div.tabs_laporan_penelitian a {
+    text-decoration: none;
+}
+
+section.laporan_penelitian div.tabs_laporan_penelitian h5:hover {
+    color: #182260;
+}
+
+div.news-image img {
+    background-size: contain;
+    width: 100%;
+    height: 100%;
+}
+
+section.laporan_penelitian div.container-perkenalan h5 {
+    color: #182260;
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+section.laporan_penelitian div.container-perkenalan p {
+    color: black;
+    font-size: 15px;
+    font-weight: normal;
+}
+
+section.laporan_penelitian div.container-perkenalan a.btn-readmore {
+    color: white;
+    font-size: 15px;
+    font-weight: normal;
+    background-color: #f52060;
+    border-radius: 50px;
 }

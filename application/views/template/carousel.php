@@ -32,8 +32,8 @@
                             <div class="d-flex justify-content-start mb-2 mt-5 px-2 text-white">
                                 <h3>Total Anggota</h3>
                             </div>
-                            <div class="d-flex justify-content-start px-2 text-white">
-                                <h3>500</h3>
+                            <div class="d-flex justify-content-start px-2 text-white" id="userCount">
+                                <h3>{{total}}</h3>
                             </div>
                         </div>
                     </div>
@@ -48,6 +48,14 @@
         el: '#carousels',
         data: {
             gambar: <?php echo json_encode($gambar) ?>,
+        }
+    });
+
+    <?php $user = $this->db->get_where('user',array('level'=>'User'))->num_rows()?>
+    var userCount = new Vue({
+        el: '#userCount',
+        data: {
+            total: <?php echo json_encode(number_format($user,0,',','.')) ?>,
         }
     });
 </script>

@@ -258,6 +258,24 @@ class Publics extends CI_Controller
         $this->load->view('template/index');
         $this->load->view('template/footer');
     }
+    public function perkenalan()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/perkenalan');
+        $this->load->view('template/footer');
+    }
+    public function pointhadiah()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/penukaran');
+        $this->load->view('template/footer');
+    }
+    public function laporan_penelitian()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/laporan_penelitian');
+        $this->load->view('template/footer');
+    }
 
     public function fetch_data_survey()
     {
@@ -267,8 +285,15 @@ class Publics extends CI_Controller
         $draw         = $this->input->post("draw");
         $search       = $this->input->post("search")["value"];
         $orders       = isset($_POST["order"]) ? $_POST["order"] : '';
+        $awal         = $this->input->post('awal');
+        $akhir         = $this->input->post('akhir');
 
         $where = "WHERE 1=1";
+
+        if ($awal != "" && $akhir != "") {
+            $where .= " AND a.periode_awal AND a.periode_akhir between '$awal' and '$akhir' ";
+        }
+
         // $searchingColumn;
         $result = array();
         if (isset($search)) {
@@ -303,16 +328,334 @@ class Publics extends CI_Controller
         $index = 1;
         $button = "";
         $fetch = $this->db->query("select a.id,a.kode_survey,a.judul,a.periode_awal,a.periode_akhir,a.poin,a.kuota,a.ketentuan,b.jenis,c.kategori_survey,(SELECT COUNT(id) from survey_member e where e.kode_survey=a.kode_survey) as peserta from survey a join jenis_survey b on a.jenis=b.id join kategori_survey c on a.kategori=c.id $where");
+        // log_r($this->db->last_query());
         $fetch2 = $this->db->query("select a.id,a.kode_survey,a.judul,a.periode_akhir,a.periode_akhir,a.poin,a.kuota,a.ketentuan,b.jenis,c.kategori_survey,(SELECT COUNT(id) from survey_member e where e.kode_survey=a.kode_survey) as peserta from survey a join jenis_survey b on a.jenis=b.id join kategori_survey c on a.kategori=c.id ");
         foreach ($fetch->result() as $rows) {
+            $id = isset($_SESSION['id']) ? $_SESSION['id'] : 0;
+            $select = $this->db->query("SELECT * from survey_member where id_user='$id' and kode_survey='$rows->kode_survey'");
+            if ($select->num_rows() > 0) {
+                $button = "<button class='btn btn-sm btn-danger bg-dark'>Selesai</button>";
+            } else {
+                $button = "<a href='" . base_url('publics/survey_register?id=' . $rows->id) . "' class='btn btn-sm btn-primary '>Daftar</a>";
+            }
             $sub_array = array();
             $sub_array[] = $index;
             $sub_array[] = "<div class='row'>
-            <div class='col-md-12'>".
-               formatTanggal($rows->periode_awal) ." ".  formatTanggal($rows->periode_akhir)
-            ."</div><div class='col-md-8'>".$rows->judul."</div><div class='col-md-4'><button class='btn btn-sm btn-danger'>Poin <br>".$rows->poin."</button></div>
-            <div class='col-md-12'>
-                <button class='btn btn-flat btn-md btn-primary'>Daftar</button>
+            <div class='col-md-12' style='font-weight:bold'>" .
+                formatTanggal($rows->periode_awal) . " - " .  formatTanggal($rows->periode_akhir)
+                . "</div><div class='col-md-8'>" . $rows->judul . "</div>
+                <div class='col-md-4'><button class='btn btn-sm flat btn-danger'>Poin : " . $rows->poin . "</button></div>
+                <div class='col-md-12'>&nbsp;</div>
+                <div class='col-md-12'>
+                   " . $button . "
+                </div>
+        </div>";
+
+            $result[]      = $sub_array;
+            $index++;
+        }
+        $output = array(
+            "draw"            =>     intval($this->input->post("draw")),
+            "recordsFiltered" =>     $fetch2->num_rows(),
+            "data"            =>     $result,
+
+        );
+        echo json_encode($output);
+    }
+    public function fetch_data_kuisioner()
+    {
+        $starts       = $this->input->post("start");
+        $length       = $this->input->post("length");
+        $LIMIT        = "LIMIT $starts, $length ";
+        $draw         = $this->input->post("draw");
+        $search       = $this->input->post("search")["value"];
+        $orders       = isset($_POST["order"]) ? $_POST["order"] : '';
+        $awal         = $this->input->post('awal_k');
+        $akhir         = $this->input->post('akhir_k');
+
+        $where = " WHERE 1=1 ";
+
+        if ($awal != "" && $akhir != "") {
+            $where .= " AND a.periode_awal AND a.periode_akhir between '$awal' and '$akhir' ";
+        }
+
+        // $searchingColumn;
+        $result = array();
+        if (isset($search)) {
+            if ($search != '') {
+                $searchingColumn = $search;
+                $where .= " AND (a.pertanyaan LIKE '%$search%'
+                            
+                            )";
+            }
+        }
+
+        if (isset($orders)) {
+            if ($orders != '') {
+                $order = $orders;
+                $order_column = ['a.kode_survey'];
+                $order_clm  = $order_column[$order[0]['column']];
+                $order_by   = $order[0]['dir'];
+                $where .= " ORDER BY $order_clm $order_by ";
+            } else {
+                $where .= " ORDER BY a.id ASC ";
+            }
+        } else {
+            $where .= " ORDER BY a.id ASC ";
+        }
+        if (isset($LIMIT)) {
+            if ($LIMIT != '') {
+                $where .= ' ' . $LIMIT;
+            }
+        }
+        $index = 1;
+        $button = "";
+        $fetch = $this->db->query("SELECT a.*,b.kategori_survey FROM kuisioner a join kategori_survey b on a.kategori=b.id  $where");
+        // log_r($this->db->last_query());
+        $fetch2 = $this->db->query("SELECT a.*,b.kategori_survey FROM kuisioner a join kategori_survey b on a.kategori=b.id");
+        foreach ($fetch->result() as $rows) {
+            $count_penjawab = $this->db->query("SELECT * from kuisioner_member_jawaban where kode_kuisioner='$rows->kode_kuisioner'");
+            $sub_array = array();
+            $sub_array[] = $index;
+            $sub_array[] = "<div class='row'>
+            <div class='col-md-12' style='font-weight:bold'>" .
+                formatTanggal($rows->periode_awal) . " - " .  formatTanggal($rows->periode_akhir) . "  |  " . $count_penjawab->num_rows() . " Menjawab"
+                . "</div>
+                <div class='col-md-8'>" . $rows->pertanyaan . "</div>
+                <div class='col-md-4'><button class='btn btn-outline-danger btn-sm btn-flat'>" . $rows->kategori_survey . "</button></div>
+            <div class='col-md-6'>
+                <button class='btn btn-flat btn-md btn-primary'>Vote</button>
+                <button class='btn btn-flat btn-md btn-success'>Hasil</button>
+            </div>
+           <br>
+        </div>";
+
+            $result[]      = $sub_array;
+            $index++;
+        }
+        $output = array(
+            "draw"            =>     intval($this->input->post("draw")),
+            "recordsFiltered" =>     $fetch2->num_rows(),
+            "data"            =>     $result,
+
+        );
+        echo json_encode($output);
+    }
+    public function fetch_data_penelitian()
+    {
+        $starts       = $this->input->post("start");
+        $length       = $this->input->post("length");
+        $LIMIT        = "LIMIT $starts, $length ";
+        $draw         = $this->input->post("draw");
+        $search       = $this->input->post("search")["value"];
+        $orders       = isset($_POST["order"]) ? $_POST["order"] : '';
+        $awal         = $this->input->post('awal');
+        $akhir         = $this->input->post('akhir');
+
+        $where = " WHERE 1=1 ";
+
+        if ($awal != "" && $akhir != "") {
+            $where .= " AND tanggal between '$awal' and '$akhir' ";
+        }
+
+        // $searchingColumn;
+        $result = array();
+        if (isset($search)) {
+            if ($search != '') {
+                $searchingColumn = $search;
+                $where .= " AND (judul LIKE '%$search%')";
+            }
+        }
+
+        if (isset($orders)) {
+            if ($orders != '') {
+                $order = $orders;
+                $order_column = ['judul'];
+                $order_clm  = $order_column[$order[0]['column']];
+                $order_by   = $order[0]['dir'];
+                $where .= " ORDER BY $order_clm $order_by ";
+            } else {
+                $where .= " ORDER BY id ASC ";
+            }
+        } else {
+            $where .= " ORDER BY id ASC ";
+        }
+        if (isset($LIMIT)) {
+            if ($LIMIT != '') {
+                $where .= ' ' . $LIMIT;
+            }
+        }
+        $index = 1;
+        $button = "";
+        $fetch = $this->db->query("SELECT * from laporan_penelitian $where");
+        // log_r($this->db->last_query());
+        $fetch2 = $this->db->query("SELECT * from laporan_penelitian");
+        foreach ($fetch->result() as $rows) {
+            $sub_array = array();
+            $sub_array[] = "<div class='col-md-12 left-lines py-3 mt-2'>
+            <div class='row'>
+                <div class='col-md-3 news-image'>
+                    <img src='".base_url('image/').$rows->foto_cover."' class='img-fluid' alt='gagf'>
+                </div>
+                <div class='col-md-7 ml-3 text-left'>
+                    <h5>".$rows->judul."</h5>
+                    <p>".substr($rows->isi,0,100)." ..."."</p>
+                </div>
+                <div class='col-md-1 d-flex align-items-end'>
+                    <a href='".base_url('publics/laporan_penelitian_detail/'.$rows->id)."' type='button' class='btn btn-flat btn-md btn-default btn-readmore'>Detail</a>
+                </div>
+            </div>
+        </div>";
+            $result[]      = $sub_array;
+            $index++;
+        }
+        $output = array(
+            "draw"            =>     intval($this->input->post("draw")),
+            "recordsFiltered" =>     $fetch2->num_rows(),
+            "data"            =>     $result,
+
+        );
+        echo json_encode($output);
+    }
+    public function fetch_data_berita()
+    {
+        $starts       = $this->input->post("start");
+        $length       = $this->input->post("length");
+        $LIMIT        = "LIMIT $starts, $length ";
+        $draw         = $this->input->post("draw");
+        $search       = $this->input->post("search")["value"];
+        $orders       = isset($_POST["order"]) ? $_POST["order"] : '';
+        $awal         = $this->input->post('awal');
+        $akhir         = $this->input->post('akhir');
+
+        $where = " WHERE 1=1 ";
+
+        if ($awal != "" && $akhir != "") {
+            $where .= " AND tanggal between '$awal' and '$akhir' ";
+        }
+
+        // $searchingColumn;
+        $result = array();
+        if (isset($search)) {
+            if ($search != '') {
+                $searchingColumn = $search;
+                $where .= " AND (judul LIKE '%$search%')";
+            }
+        }
+
+        if (isset($orders)) {
+            if ($orders != '') {
+                $order = $orders;
+                $order_column = ['judul'];
+                $order_clm  = $order_column[$order[0]['column']];
+                $order_by   = $order[0]['dir'];
+                $where .= " ORDER BY $order_clm $order_by ";
+            } else {
+                $where .= " ORDER BY id ASC ";
+            }
+        } else {
+            $where .= " ORDER BY id ASC ";
+        }
+        if (isset($LIMIT)) {
+            if ($LIMIT != '') {
+                $where .= ' ' . $LIMIT;
+            }
+        }
+        $index = 1;
+        $button = "";
+        $fetch = $this->db->query("SELECT * from berita_penelitian $where");
+        // log_r($this->db->last_query());
+        $fetch2 = $this->db->query("SELECT * from berita_penelitian");
+        foreach ($fetch->result() as $rows) {
+            $sub_array = array();
+            $sub_array[] = "<div class='col-md-12 left-lines py-3 mt-2'>
+            <div class='row'>
+                <div class='col-md-3 news-image'>
+                    <img src='".base_url('image/').$rows->foto_cover."' class='img-fluid' alt='gagf'>
+                </div>
+                <div class='col-md-7 ml-3 text-left'>
+                    <h5>".$rows->judul."</h5>
+                    <p>".substr($rows->isi,0,100)." ..."."</p>
+                </div>
+                <div class='col-md-1 d-flex align-items-end'>
+                    <a href='".base_url('publics/laporan_berita_detail/'.$rows->id)."' type='button' class='btn btn-flat btn-md btn-default btn-readmore'>Detail</a>
+                </div>
+            </div>
+        </div>";
+            $result[]      = $sub_array;
+            $index++;
+        }
+        $output = array(
+            "draw"            =>     intval($this->input->post("draw")),
+            "recordsFiltered" =>     $fetch2->num_rows(),
+            "data"            =>     $result,
+
+        );
+        echo json_encode($output);
+    }
+    public function fetch_data_pengumuman()
+    {
+        $starts       = $this->input->post("start");
+        $length       = $this->input->post("length");
+        $LIMIT        = "LIMIT $starts, $length ";
+        $draw         = $this->input->post("draw");
+        $search       = $this->input->post("search")["value"];
+        $orders       = isset($_POST["order"]) ? $_POST["order"] : '';
+        $awal         = $this->input->post('awal');
+        $akhir         = $this->input->post('akhir');
+
+        $where = " WHERE 1=1 ";
+
+        if ($awal != "" && $akhir != "") {
+            $where .= " AND tanggal between '$awal' and '$akhir' ";
+        }
+
+        // $searchingColumn;
+        $result = array();
+        if (isset($search)) {
+            if ($search != '') {
+                $searchingColumn = $search;
+                $where .= " AND (judul LIKE '%$search%')";
+            }
+        }
+
+        if (isset($orders)) {
+            if ($orders != '') {
+                $order = $orders;
+                $order_column = ['judul'];
+                $order_clm  = $order_column[$order[0]['column']];
+                $order_by   = $order[0]['dir'];
+                $where .= " ORDER BY $order_clm $order_by ";
+            } else {
+                $where .= " ORDER BY id ASC ";
+            }
+        } else {
+            $where .= " ORDER BY id ASC ";
+        }
+        if (isset($LIMIT)) {
+            if ($LIMIT != '') {
+                $where .= ' ' . $LIMIT;
+            }
+        }
+        $index = 1;
+        $button = "";
+        $fetch = $this->db->query("SELECT * from pengumuman $where");
+        // log_r($this->db->last_query());
+        $fetch2 = $this->db->query("SELECT * from pengumuman");
+        foreach ($fetch->result() as $rows) {
+            $sub_array = array();
+            $sub_array[] = "<div class='col-md-12 left-lines py-3 mt-2'>
+            <div class='row'>
+                <div class='col-md-3 news-image'>
+                    <img src='".base_url('image/').$rows->foto_cover."' class='img-fluid' alt='gagf'>
+                </div>
+                <div class='col-md-7 ml-3 text-left'>
+                    <h5>".$rows->judul."</h5>
+                    <p>".substr($rows->isi,0,100)." ..."."</p>
+                </div>
+                <div class='col-md-1 d-flex align-items-end'>
+                    <a href='".base_url('publics/laporan_pemberitahuan_detail/'.$rows->id)."' type='button' class='btn btn-flat btn-md btn-default btn-readmore'>Detail</a>
+                </div>
             </div>
         </div>";
             $result[]      = $sub_array;
