@@ -10,29 +10,6 @@ class Publics extends CI_Controller
         $this->load->library('form_validation');
     }
 
-    public function index()
-    {
-
-        $data['slider'] = $this->Carousel_model->get_all();
-        $data['getTotalAnggota'] = $this->Carousel_model->total_rows();
-        $data['alurPoint'] = $this->db->query("SELECT * FROM alur_point order by urutan asc")->result();
-
-
-
-        if (isset($_SESSION['id']) == "") {
-            $this->load->view('client/header');
-            $this->load->view('client/home/carousel', $data);
-        } else {
-            $this->load->view('client/header_after_login');
-            $this->load->view('client/home/carousel-after-login', $data);
-        }
-        $this->load->view('client/home/kerjakan_survey', $data);
-        $this->load->view('client/home/banner');
-        $this->load->view('client/home/index');
-        $this->load->view('client/footer');
-    }
-
-
     public function getPoint()
     {
 
@@ -212,44 +189,7 @@ class Publics extends CI_Controller
         }
     }
 
-
-    public function company_profile()
-    {
-        $data['dataPerusahaan'] = $this->db->get('profil_perusahaan')->row();
-        if (isset($_SESSION['id']) == "") {
-            $this->load->view('client/header');
-        } else {
-            $this->load->view('client/header_after_login');
-        }
-        $this->load->view('client/perkenalan/company-profile', $data);
-        $this->load->view('client/footer');
-    }
-    public function point()
-    {
-        $data['penukaran'] = $this->db->get('info_penukaran_point')->row();
-        $data['syarat'] = $this->db->query("SELECT * FROM syarat_penukaran_point order by urutan asc")->result();
-        $data['pdh'] = $this->db->query("SELECT * FROM point_dan_hadiah")->result();
-        if (isset($_SESSION['id']) == "") {
-            $this->load->view('client/header');
-        } else {
-            $this->load->view('client/header_after_login');
-        }
-        $this->load->view('client/point/point', $data);
-        $this->load->view('client/footer');
-    }
-    public function king_of_survey()
-    {
-        if (isset($_SESSION['id']) == "") {
-            $this->load->view('client/header');
-        } else {
-            $this->load->view('client/header_after_login');
-        }
-        $this->load->view('client/home/carousel');
-        $this->load->view('client/kos/king_of_survey');
-        $this->load->view('client/footer');
-    }
-
-    public function beranda()
+    public function index()
     {
         $this->load->view('template/header');
         $this->load->view('template/carousel');
@@ -275,6 +215,39 @@ class Publics extends CI_Controller
         $this->load->view('template/header');
         $this->load->view('template/laporan_penelitian');
         $this->load->view('template/footer');
+    }
+    public function faq()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/carousel');
+        $this->load->view('template/faq');
+        $this->load->view('template/footer');
+    }
+
+    public function saveMessage(){
+        $header = [
+            'kategori' => $_POST['kategori'],
+            'pertanyaan' => $_POST['prt'],
+            'nama' => $_POST['nama'],
+            'email' => $_POST['email'],
+            'status'=>"Open"
+        ];
+        $this->db->trans_begin();
+        $this->db->insert('faq', $header);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $response = [
+                "status" => "ERROR",
+                "pesan" => "Terjadi kesalahan"
+            ];
+        } else {
+            $this->db->trans_commit();
+            $response = [
+                'status' => "sukses",
+            ];
+            $this->session->set_flashdata('message', 'Create Record Success');
+        }
+        echo json_encode($response);
     }
 
     public function fetch_data_survey()
@@ -495,14 +468,14 @@ class Publics extends CI_Controller
             $sub_array[] = "<div class='col-md-12 left-lines py-3 mt-2'>
             <div class='row'>
                 <div class='col-md-3 news-image'>
-                    <img src='".base_url('image/').$rows->foto_cover."' class='img-fluid' alt='gagf'>
+                    <img src='" . base_url('image/') . $rows->foto_cover . "' class='img-fluid' alt='gagf'>
                 </div>
                 <div class='col-md-7 ml-3 text-left'>
-                    <h5>".$rows->judul."</h5>
-                    <p>".substr($rows->isi,0,100)." ..."."</p>
+                    <h5>" . $rows->judul . "</h5>
+                    <p>" . substr($rows->isi, 0, 100) . " ..." . "</p>
                 </div>
                 <div class='col-md-1 d-flex align-items-end'>
-                    <a href='".base_url('publics/laporan_penelitian_detail/'.$rows->id)."' type='button' class='btn btn-flat btn-md btn-default btn-readmore'>Detail</a>
+                    <a href='" . base_url('publics/laporan_penelitian_detail/' . $rows->id) . "' type='button' class='btn btn-flat btn-md btn-default btn-readmore'>Detail</a>
                 </div>
             </div>
         </div>";
@@ -571,14 +544,14 @@ class Publics extends CI_Controller
             $sub_array[] = "<div class='col-md-12 left-lines py-3 mt-2'>
             <div class='row'>
                 <div class='col-md-3 news-image'>
-                    <img src='".base_url('image/').$rows->foto_cover."' class='img-fluid' alt='gagf'>
+                    <img src='" . base_url('image/') . $rows->foto_cover . "' class='img-fluid' alt='gagf'>
                 </div>
                 <div class='col-md-7 ml-3 text-left'>
-                    <h5>".$rows->judul."</h5>
-                    <p>".substr($rows->isi,0,100)." ..."."</p>
+                    <h5>" . $rows->judul . "</h5>
+                    <p>" . substr($rows->isi, 0, 100) . " ..." . "</p>
                 </div>
                 <div class='col-md-1 d-flex align-items-end'>
-                    <a href='".base_url('publics/laporan_berita_detail/'.$rows->id)."' type='button' class='btn btn-flat btn-md btn-default btn-readmore'>Detail</a>
+                    <a href='" . base_url('publics/laporan_berita_detail/' . $rows->id) . "' type='button' class='btn btn-flat btn-md btn-default btn-readmore'>Detail</a>
                 </div>
             </div>
         </div>";
@@ -647,14 +620,14 @@ class Publics extends CI_Controller
             $sub_array[] = "<div class='col-md-12 left-lines py-3 mt-2'>
             <div class='row'>
                 <div class='col-md-3 news-image'>
-                    <img src='".base_url('image/').$rows->foto_cover."' class='img-fluid' alt='gagf'>
+                    <img src='" . base_url('image/') . $rows->foto_cover . "' class='img-fluid' alt='gagf'>
                 </div>
                 <div class='col-md-7 ml-3 text-left'>
-                    <h5>".$rows->judul."</h5>
-                    <p>".substr($rows->isi,0,100)." ..."."</p>
+                    <h5>" . $rows->judul . "</h5>
+                    <p>" . substr($rows->isi, 0, 100) . " ..." . "</p>
                 </div>
                 <div class='col-md-1 d-flex align-items-end'>
-                    <a href='".base_url('publics/laporan_pemberitahuan_detail/'.$rows->id)."' type='button' class='btn btn-flat btn-md btn-default btn-readmore'>Detail</a>
+                    <a href='" . base_url('publics/laporan_pemberitahuan_detail/' . $rows->id) . "' type='button' class='btn btn-flat btn-md btn-default btn-readmore'>Detail</a>
                 </div>
             </div>
         </div>";

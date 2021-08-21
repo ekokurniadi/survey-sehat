@@ -22,7 +22,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="keterangan">Keterangan <?php echo form_error('keterangan') ?></label>
                 <div class="col-sm-12">
-                    <textarea class="form-control" rows="3" name="keterangan" id="keterangan" placeholder="Keterangan"><?php echo $keterangan; ?></textarea>
+                    <textarea class="form-control textarea_editor" rows="3" name="keterangan" id="keterangan" placeholder="Keterangan"><?php echo $keterangan; ?></textarea>
                 </div>
               </div>
 	   

@@ -22,7 +22,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="detail">Detail <?php echo form_error('detail') ?></label>
                 <div class="col-sm-12">
-                    <textarea class="form-control" rows="3" name="detail" id="detail" placeholder="Detail"><?php echo $detail; ?></textarea>
+                    <textarea class="form-control textarea_editor" rows="3" name="detail" id="detail" placeholder="Detail"><?php echo $detail; ?></textarea>
                 </div>
               </div>
 	      
@@ -30,7 +30,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="langkah">Langkah <?php echo form_error('langkah') ?></label>
                 <div class="col-sm-12">
-                    <textarea class="form-control" rows="3" name="langkah" id="langkah" placeholder="Langkah"><?php echo $langkah; ?></textarea>
+                    <textarea class="form-control textarea_editor" rows="3" name="langkah" id="langkah" placeholder="Langkah"><?php echo $langkah; ?></textarea>
                 </div>
               </div>
 	      
@@ -38,7 +38,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="poin_dan_hadiah">Poin Dan Hadiah <?php echo form_error('poin_dan_hadiah') ?></label>
                 <div class="col-sm-12">
-                    <textarea class="form-control" rows="3" name="poin_dan_hadiah" id="poin_dan_hadiah" placeholder="Poin Dan Hadiah"><?php echo $poin_dan_hadiah; ?></textarea>
+                    <textarea class="form-control textarea_editor" rows="3" name="poin_dan_hadiah" id="poin_dan_hadiah" placeholder="Poin Dan Hadiah"><?php echo $poin_dan_hadiah; ?></textarea>
                 </div>
               </div>
 	   

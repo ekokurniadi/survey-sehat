@@ -35,7 +35,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="pesan">Pesan <?php echo form_error('pesan') ?></label>
                 <div class="col-sm-12">
-                    <textarea class="form-control" rows="3" name="pesan" id="pesan" placeholder="Pesan"><?php echo $pesan; ?></textarea>
+                    <textarea class="form-control textarea_editor" rows="3" name="pesan" id="pesan" placeholder="Pesan"><?php echo $pesan; ?></textarea>
                 </div>
               </div>
 	   

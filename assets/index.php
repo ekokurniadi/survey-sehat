@@ -31,7 +31,7 @@
                       </div>
                       <div class="form-group mb-0">
                         <label>Message</label>
-                        <textarea class="form-control" required=""></textarea>
+                        <textarea class="form-control textarea_editor" required=""></textarea>
                       </div>
                     </div>
                     <div class="card-footer text-right">

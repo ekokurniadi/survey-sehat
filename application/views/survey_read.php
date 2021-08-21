@@ -71,7 +71,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="ketentuan">Ketentuan <?php echo form_error('ketentuan') ?></label>
                 <div class="col-sm-12">
-                    <textarea class="form-control" rows="3" name="ketentuan" id="ketentuan" placeholder="Ketentuan"><?php echo $ketentuan; ?></textarea>
+                    <textarea class="form-control textarea_editor" rows="3" name="ketentuan" id="ketentuan" placeholder="Ketentuan"><?php echo $ketentuan; ?></textarea>
                 </div>
               </div>
 	   

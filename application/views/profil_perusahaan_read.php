@@ -29,7 +29,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="sistem_operasi">Sistem Operasi <?php echo form_error('sistem_operasi') ?></label>
                 <div class="col-sm-12">
-                    <textarea class="form-control" rows="3" name="sistem_operasi" id="sistem_operasi" placeholder="Sistem Operasi"><?php echo $sistem_operasi; ?></textarea>
+                    <textarea class="form-control textarea_editor" rows="3" name="sistem_operasi" id="sistem_operasi" placeholder="Sistem Operasi"><?php echo $sistem_operasi; ?></textarea>
                 </div>
               </div>
 	   
@@ -44,7 +44,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="pengenalan_perusahaan">Pengenalan Perusahaan <?php echo form_error('pengenalan_perusahaan') ?></label>
                 <div class="col-sm-12">
-                    <textarea class="form-control" rows="3" name="pengenalan_perusahaan" id="pengenalan_perusahaan" placeholder="Pengenalan Perusahaan"><?php echo $pengenalan_perusahaan; ?></textarea>
+                    <textarea class="form-control textarea_editor" rows="3" name="pengenalan_perusahaan" id="pengenalan_perusahaan" placeholder="Pengenalan Perusahaan"><?php echo $pengenalan_perusahaan; ?></textarea>
                 </div>
               </div>
 	   
@@ -59,7 +59,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="isi_visi_perusahaan">Isi Visi Perusahaan <?php echo form_error('isi_visi_perusahaan') ?></label>
                 <div class="col-sm-12">
-                    <textarea class="form-control" rows="3" name="isi_visi_perusahaan" id="isi_visi_perusahaan" placeholder="Isi Visi Perusahaan"><?php echo $isi_visi_perusahaan; ?></textarea>
+                    <textarea class="form-control textarea_editor" rows="3" name="isi_visi_perusahaan" id="isi_visi_perusahaan" placeholder="Isi Visi Perusahaan"><?php echo $isi_visi_perusahaan; ?></textarea>
                 </div>
               </div>
 	   
@@ -74,7 +74,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="isi_misi_perusahaan">Isi Misi Perusahaan <?php echo form_error('isi_misi_perusahaan') ?></label>
                 <div class="col-sm-12">
-                    <textarea class="form-control" rows="3" name="isi_misi_perusahaan" id="isi_misi_perusahaan" placeholder="Isi Misi Perusahaan"><?php echo $isi_misi_perusahaan; ?></textarea>
+                    <textarea class="form-control textarea_editor" rows="3" name="isi_misi_perusahaan" id="isi_misi_perusahaan" placeholder="Isi Misi Perusahaan"><?php echo $isi_misi_perusahaan; ?></textarea>
                 </div>
               </div>
 	   

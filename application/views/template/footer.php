@@ -1,5 +1,5 @@
 <footer>
-<section class="footers">
+  <section class="footers">
     <div class="container">
       <div class="row ">
         <div class="col-md-4 justify-content-center py-2 first">
@@ -7,7 +7,7 @@
           <div class="set2">&nbsp;</div>
           <ul style="list-style-type: none;margin: 0;padding: 0;">
             <li>
-              <a href="">Halaman Muka</a>
+              <a href="<?= base_url('publics') ?>">Halaman Muka</a>
             </li>
             <li>
               <a href="">Point & Hadiah</a>
@@ -65,6 +65,40 @@
 </footer>
 
 <script>
+  function success_send() {
+    Swal.fire({
+      title: 'Terima kasih, Pesan berhasil dikirimkan',
+      width: 600,
+      padding: '3em',
+      background: '#fff url(https://sweetalert2.github.io/images/trees.png)',
+      backdrop: `
+    rgba(0,0,123,0.4)
+    url("https://sweetalert2.github.io/images/nyan-cat.gif")
+    left top
+    no-repeat
+  `
+    })
+  }
+
+  function gagal_send() {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
+  }
+  function validationError() {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Silahkan isi data dengan lengkap !',
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
+  }
+</script>
+
+<script>
   <?php $tentangKami = $this->db->get('profil_perusahaan')->row() ?>
   var tentangKami = new Vue({
     el: '#tentangKami',
@@ -102,6 +136,20 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
     -->
+<script type="text/javascript" src="<?= base_url() ?>assets/tinymce/tinymce.min.js"></script>
+<script type="text/javascript">
+  tinymce.init({
+    selector: ".textarea_editor",
+    branding: false,
+    plugins: [
+      "advlist autolink link image lists charmap print preview hr anchor pagebreak",
+      "searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
+      "table contextmenu directionality emoticons paste textcolor responsivefilemanager code"
+    ],
+    toolbar1: "undo redo | bold italic underline",
+    image_advtab: true,
+  });
+</script>
 </body>
 
 </html>

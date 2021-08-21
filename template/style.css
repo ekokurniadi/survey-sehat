@@ -308,3 +308,37 @@ section.laporan_penelitian div.container-perkenalan a.btn-readmore {
     background-color: #f52060;
     border-radius: 50px;
 }
+
+section.faq ul.tabs {
+    background-color: #60a5f3;
+    color: white;
+}
+
+section.faq ul.tabs a {
+    background-color: #60a5f3;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+section.faq ul.tabs a.active {
+    color: yellow;
+}
+
+section.faq p.pertanyaan {
+    background-color: white;
+    min-width: 98%;
+    border: 2px solid #0ea2d3;
+    padding: 15px;
+    border-left: 5px solid #f52060;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+section.faq div.collapse div.card.card-body.jawaban {
+    min-width: 98%;
+}
+
+section.faq i {
+    color: #f52060
+}

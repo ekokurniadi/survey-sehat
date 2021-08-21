@@ -6,7 +6,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?= base_url('publics/beranda') ?>">Home</a></li>
                         <li class="breadcrumb-item" aria-current="page"><?= ucwords(str_replace("_", " ", $this->uri->segment(2))) ?></li>
-                        <li class="breadcrumb-item active" aria-current="page"><?= ucwords(str_replace("_", " ", $this->uri->segment(3))) ?></li>
+                        <li class="breadcrumb-item active" aria-current="page"><?= ucwords(str_replace("_", " ", $this->uri->segment(3))) == "" ? "Laporan Penelitian" : ucwords(str_replace("_", " ", $this->uri->segment(3)))?></li>
                     </ol>
                 </nav>
             </div>

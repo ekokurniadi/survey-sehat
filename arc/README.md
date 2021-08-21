@@ -1,1 +1,0 @@
-# teknisiku_web

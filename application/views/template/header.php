@@ -28,7 +28,7 @@
     <script src="<?= base_url("js/lodash.min.js") ?>" type="text/javascript"></script>
     <script type="text/javascript" src="<?= base_url("js/moment.min.js") ?>"></script>
     <script type="text/javascript" src="<?= base_url("js/daterangepicker.min.js") ?>"></script>
-   
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title id="title">{{title}}</title>
 </head>
 
@@ -56,8 +56,8 @@
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav">
                         <li class="nav-item  px-3">
-                            <a class="nav-link" href="<?= base_url('publics/beranda') ?>">Halaman Muka <span class="sr-only">(current)</span></a>
-                            <div class="set1"  <?php echo $this->uri->segment(2) == "beranda" ? "" :  "style='display: none;'" ?>>&nbsp;</div>
+                            <a class="nav-link" href="<?= base_url('publics') ?>">Halaman Muka <span class="sr-only">(current)</span></a>
+                            <div class="set1"  <?php echo $this->uri->segment(2) == "" ? "" :  "style='display: none;'" ?>>&nbsp;</div>
                         </li>
 
                         <li class="nav-item px-3">
@@ -68,27 +68,17 @@
                             <a class="nav-link" href="<?= base_url('publics/pointhadiah') ?>">Point dan Hadiah</a>
                             <div class="set1" <?php echo $this->uri->segment(2) == "pointhadiah" ? "" :  "style='display: none;'" ?>>&nbsp;</div>
                         </li>
-                        <!-- <li class="nav-item dropdown px-3">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" aria-hidden="true">
-                                Aktivitas
-                            </a>
-                            <div class="dropdown-menu" id="navbarDropdownMenuLink" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li> -->
                         <li class="nav-item px-3">
                             <a class="nav-link" href="<?= base_url('publics/laporan_penelitian') ?>">Laporan Penelitian</a>
                             <div class="set1" <?php echo $this->uri->segment(2) == "laporan_penelitian" ? "" :  "style='display: none;'" ?>>&nbsp;</div>
                         </li>
                         <li class="nav-item px-3">
-                            <a class="nav-link" href="#">Q/A</a>
-                            <div class="set1" style="display: none;">&nbsp;</div>
+                            <a class="nav-link" href="<?= base_url('publics/faq') ?>">Q/A</a>
+                            <div class="set1" <?php echo $this->uri->segment(2) == "faq" ? "" :  "style='display: none;'" ?>>&nbsp;</div>
                         </li>
                         <li class="nav-item px-3">
-                            <a class="nav-link" href="#">Hubungi Kami</a>
-                            <div class="set1" style="display: none;">&nbsp;</div>
+                            <a class="nav-link" href="<?= base_url('publics/contact') ?>">Hubungi Kami</a>
+                            <div class="set1" <?php echo $this->uri->segment(2) == "contact" ? "" :  "style='display: none;'" ?> style="display: none;">&nbsp;</div>
                         </li>
                     </ul>
                 </div>
