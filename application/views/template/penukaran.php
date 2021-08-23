@@ -71,19 +71,21 @@
             </div>
         </div>
         <div class="row container-perkenalan mt-3 mb-3">
-            <div class="col-md-12">
-                <table class="table table-bordered table-hovered" id="table-penukaran">
-                    <tr>
-                        <th>DETAIL</th>
-                        <th>PROSES - LANGKAH</th>
-                        <th>POINT & HADIAH</th>
-                    </tr>
-                    <tr>
-                        <td v-html="detail"></td>
-                        <td v-html="langkah"></td>
-                        <td v-html="point_dan_hadiah"></td>
-                    </tr>
-                </table>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive responsive">
+                    <table class="table table-bordered" id="table-penukaran">
+                        <tr>
+                            <th>DETAIL</th>
+                            <th>PROSES - LANGKAH</th>
+                            <th>POINT & HADIAH</th>
+                        </tr>
+                        <tr>
+                            <td v-html="detail"></td>
+                            <td v-html="langkah"></td>
+                            <td v-html="point_dan_hadiah"></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -186,7 +186,7 @@
             $('#login').hide();
             $('#daftar_').show();
             $('#survey').hide();
-            $('#point').hide();
+            $('#poin').hide();
             $('#lainnya').hide();
         }
         if (value == 1) {
@@ -198,7 +198,7 @@
             $('#login').hide();
             $('#daftar_').show();
             $('#survey').hide();
-            $('#point').hide();
+            $('#poin').hide();
             $('#lainnya').hide();
         }
         if (value == 2) {
@@ -210,7 +210,7 @@
             $('#login').show();
             $('#daftar_').hide();
             $('#survey').hide();
-            $('#point').hide();
+            $('#poin').hide();
             $('#lainnya').hide();
         }
         if (value == 3) {
@@ -222,7 +222,7 @@
             $('#login').hide();
             $('#daftar_').hide();
             $('#survey').show();
-            $('#point').hide();
+            $('#poin').hide();
             $('#lainnya').hide();
         }
         if (value == 4) {
@@ -234,7 +234,7 @@
             $('#login').hide();
             $('#daftar_').hide();
             $('#survey').hide();
-            $('#point').show();
+            $('#poin').show();
             $('#lainnya').hide();
         }
         if (value == 5) {
@@ -246,7 +246,7 @@
             $('#login').hide();
             $('#daftar_').hide();
             $('#survey').hide();
-            $('#point').hide();
+            $('#poin').hide();
             $('#lainnya').show();
         }
 

@@ -10,19 +10,19 @@
               <a href="<?= base_url('publics') ?>">Halaman Muka</a>
             </li>
             <li>
-              <a href="">Point & Hadiah</a>
+              <a href="<?= base_url('publics/perkenalan') ?>">Perkenalan</a>
             </li>
             <li>
-              <a href="">Laporan Penelitian</a>
+              <a href="<?= base_url('publics/pointhadiah') ?>">Point & Hadiah</a>
             </li>
             <li>
-              <a href="">FAQ</a>
+              <a href="<?= base_url('publics/laporan_penelitian') ?>">Laporan Penelitian</a>
             </li>
             <li>
-              <a href="">Hubungi Kami</a>
+              <a href="<?= base_url('publics/faq') ?>">FAQ</a>
             </li>
             <li>
-              <a href="">Kebijakan</a>
+              <a href="<?= base_url('publics/contact') ?>">Hubungi Kami</a>
             </li>
           </ul>
         </div>

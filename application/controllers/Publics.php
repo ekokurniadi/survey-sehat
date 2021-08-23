@@ -161,31 +161,58 @@ class Publics extends CI_Controller
         }
     }
 
+    public function input_kuisioner_action()
+    {
+        $header = [
+            "kode_kuisioner" => $_POST['kode_kuisioner'],
+            "id_user" => $_POST['session'],
+            "id_jawaban" => $_POST['jawaban'],
+        ];
+        $this->db->insert('kuisioner_member_jawaban', $header);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $response = [
+                'status' => "ERROR",
+                "pesan" => "Terjadi kesalahan",
+            ];
+        } else {
+            $this->db->trans_commit();
+            $response = [
+                'status' => "sukses",
+                'link' => base_url('publics/')
+            ];
+            $this->session->set_flashdata('message', 'Create Record Success');
+        }
+        echo json_encode($response);
+    }
+
     public function register_action()
     {
         $nama = $this->input->post('nama');
         $email = $this->input->post('email');
         $no_telp = $this->input->post('no_telp');
         $password = $this->input->post('password');
-        $level = $this->input->post('level');
+        // $level = $this->input->post('level');
 
         $cek = $this->db->get_where('user', array('email' => $email));
         if ($cek->num_rows() > 0) {
             $_SESSION['pesan'] = "Email sudah terdaftar, silahkan login";
-            $_SESSION['tipe'] = "danger";
-            redirect(site_url('publics/register'));
+            $_SESSION['tipe'] = "error";
+            redirect(site_url('publics'));
         } else {
             $data = array(
                 "nama" => $nama,
                 "email" => $email,
                 "no_telp" => $no_telp,
                 "password" => sha1($password),
-                "level" => $level
+                "level" => "user",
+                "foto_ktp"=> upload_gambar_biasa('foto_ktp', 'image/', 'jpeg|png|jpg|gif|svg|SVG', 10000, 'foto_ktp'),
+               
             );
             $this->db->insert('user', $data);
             $_SESSION['pesan'] = "Registrasi berhasil, silahkan login ke akun anda";
             $_SESSION['tipe'] = "success";
-            redirect(site_url('publics/register'));
+            redirect(site_url('publics'));
         }
     }
 
@@ -223,14 +250,21 @@ class Publics extends CI_Controller
         $this->load->view('template/faq');
         $this->load->view('template/footer');
     }
+    public function contact()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/contact');
+        $this->load->view('template/footer');
+    }
 
-    public function saveMessage(){
+    public function saveMessage()
+    {
         $header = [
             'kategori' => $_POST['kategori'],
             'pertanyaan' => $_POST['prt'],
             'nama' => $_POST['nama'],
             'email' => $_POST['email'],
-            'status'=>"Open"
+            'status' => "Open"
         ];
         $this->db->trans_begin();
         $this->db->insert('faq', $header);
@@ -248,6 +282,20 @@ class Publics extends CI_Controller
             $this->session->set_flashdata('message', 'Create Record Success');
         }
         echo json_encode($response);
+    }
+
+    public function kuisioner_vote($id)
+    {
+        $session = isset($_SESSION['id']) ? $_SESSION['id'] : "";
+
+        if ($session == "") {
+            redirect(site_url('publics'));
+        } else {
+            $data['header'] = $this->db->get_where('kuisioner', array('id' => $id));
+            $this->load->view('template/header');
+            $this->load->view('template/isi_kuisioner', $data);
+            $this->load->view('template/footer');
+        }
     }
 
     public function fetch_data_survey()
@@ -304,12 +352,16 @@ class Publics extends CI_Controller
         // log_r($this->db->last_query());
         $fetch2 = $this->db->query("select a.id,a.kode_survey,a.judul,a.periode_akhir,a.periode_akhir,a.poin,a.kuota,a.ketentuan,b.jenis,c.kategori_survey,(SELECT COUNT(id) from survey_member e where e.kode_survey=a.kode_survey) as peserta from survey a join jenis_survey b on a.jenis=b.id join kategori_survey c on a.kategori=c.id ");
         foreach ($fetch->result() as $rows) {
-            $id = isset($_SESSION['id']) ? $_SESSION['id'] : 0;
+            $id = isset($_SESSION['id']) ? $_SESSION['id'] : "";
             $select = $this->db->query("SELECT * from survey_member where id_user='$id' and kode_survey='$rows->kode_survey'");
-            if ($select->num_rows() > 0) {
-                $button = "<button class='btn btn-sm btn-danger bg-dark'>Selesai</button>";
-            } else {
-                $button = "<a href='" . base_url('publics/survey_register?id=' . $rows->id) . "' class='btn btn-sm btn-primary '>Daftar</a>";
+            if($id==""){
+                $button = "<a href='#' class='btn btn-flat btn-primary' data-toggle='modal' data-target='#exampleModal'>Daftar</a>";
+            }else{
+                if ($select->num_rows() > 0) {
+                    $button = "<button class='btn btn-sm btn-danger bg-dark'>Selesai</button>";
+                } else {
+                    $button = "<a href='" . base_url('publics/survey_register?id=' . $rows->id) . "' class='btn btn-sm btn-primary '>Daftar</a>";
+                }
             }
             $sub_array = array();
             $sub_array[] = $index;
@@ -335,6 +387,48 @@ class Publics extends CI_Controller
         );
         echo json_encode($output);
     }
+
+    public function kuisioner_hasil($id)
+    {
+        $data['header'] = $this->db->get_where('kuisioner', array('id' => $id));
+        $this->load->view('template/header');
+        $this->load->view('template/grafik_kuisioner', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function grafikData()
+    {
+        $id = $this->input->post('id');
+        $filter = $this->input->post('filter');
+        $where = " where b.id_kuisioner='$id' ";
+        if ($filter == "") {
+            $where .= "";
+        } else {
+            $where .= " AND b.id ='$filter' ";
+        }
+        $data = $this->db->query("select count(a.id_user) as total,b.id,b.jawaban from kuisioner_member_jawaban a join kuisioner_jawaban b on a.id_jawaban=b.id $where GROUP by b.jawaban");
+        $count = $this->db->query("select count(a.id_user) as total,b.id,b.jawaban from kuisioner_member_jawaban a join kuisioner_jawaban b on a.id_jawaban=b.id $where");
+        $response = array();
+        $index = 1;
+
+        foreach ($data->result() as $rows) {
+
+            $sub_array = array();
+            $sub_array['urutan'] = $index;
+            $sub_array['id'] = $rows->id;
+            $sub_array['jawaban'] = $rows->jawaban;
+            $sub_array['total'] = $rows->total;
+            $sub_array['totalData'] = $count->row()->total;
+            $sub_array['percent'] = round(($rows->total / $count->row()->total) * 100);
+            $response[] = $sub_array;
+            $index++;
+        }
+        echo json_encode(array(
+            "status" => "Sukses",
+            "data" => $response
+        ));
+    }
+
     public function fetch_data_kuisioner()
     {
         $starts       = $this->input->post("start");
@@ -388,6 +482,21 @@ class Publics extends CI_Controller
         $fetch2 = $this->db->query("SELECT a.*,b.kategori_survey FROM kuisioner a join kategori_survey b on a.kategori=b.id");
         foreach ($fetch->result() as $rows) {
             $count_penjawab = $this->db->query("SELECT * from kuisioner_member_jawaban where kode_kuisioner='$rows->kode_kuisioner'");
+            $id = isset($_SESSION['id']) ? $_SESSION['id'] : "";
+            $select = $this->db->query("SELECT * from kuisioner_member_jawaban where id_user='$id' and kode_kuisioner='$rows->kode_kuisioner'");
+            if ($id == "") {
+                $button = "<a href='#' class='btn btn-flat btn-primary' data-toggle='modal' data-target='#exampleModal'>Vote</a>";
+                $button1 = "<a href='#' class='btn btn-flat btn-success' data-toggle='modal' data-target='#exampleModal'>Hasil</a>";
+            } else {
+                if ($select->num_rows() > 0) {
+                    $button = "<a href='#' class='btn btn-sm btn-danger bg-dark'>Selesai</button>";
+                    $button1 = "<a href='" . base_url('publics/kuisioner_hasil/' . $rows->id) . "' class='btn btn-sm btn-success '>Hasil</a>";
+                } else {
+                    $button = "<a href='" . base_url('publics/kuisioner_vote/' . $rows->id) . "' class='btn btn-sm btn-primary '>Vote</a>";
+                    $button1 = "<a href='" . base_url('publics/kuisioner_hasil/' . $rows->id) . "' class='btn btn-sm btn-success '>Hasil</a>";
+                }
+            }
+
             $sub_array = array();
             $sub_array[] = $index;
             $sub_array[] = "<div class='row'>
@@ -397,8 +506,8 @@ class Publics extends CI_Controller
                 <div class='col-md-8'>" . $rows->pertanyaan . "</div>
                 <div class='col-md-4'><button class='btn btn-outline-danger btn-sm btn-flat'>" . $rows->kategori_survey . "</button></div>
             <div class='col-md-6'>
-                <button class='btn btn-flat btn-md btn-primary'>Vote</button>
-                <button class='btn btn-flat btn-md btn-success'>Hasil</button>
+                " . $button . "
+               " . $button1 . "
             </div>
            <br>
         </div>";
@@ -490,6 +599,30 @@ class Publics extends CI_Controller
         );
         echo json_encode($output);
     }
+
+    public function laporan_penelitian_detail($id)
+    {
+        $data['row'] = $this->db->get_where('laporan_penelitian', array('id' => $id))->row();
+        $this->load->view('template/header');
+        $this->load->view('template/laporan_penelitian_detail', $data);
+        $this->load->view('template/footer');
+    }
+    public function laporan_berita_detail($id)
+    {
+        $data['row'] = $this->db->get_where('berita_penelitian', array('id' => $id))->row();
+        $this->load->view('template/header');
+        $this->load->view('template/laporan_penelitian_detail', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function laporan_pemberitahuan_detail($id)
+    {
+        $data['row'] = $this->db->get_where('pengumuman', array('id' => $id))->row();
+        $this->load->view('template/header');
+        $this->load->view('template/laporan_penelitian_detail', $data);
+        $this->load->view('template/footer');
+    }
+
     public function fetch_data_berita()
     {
         $starts       = $this->input->post("start");
