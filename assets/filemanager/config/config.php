@@ -76,7 +76,7 @@ $config = array(
     | with start and final /
     |
     */
-    'upload_dir' => '/assets/source/',
+    'upload_dir' => '/surveysehat/assets/source/',
     /*
     |--------------------------------------------------------------------------
     | relative path from filemanager folder to upload folder
@@ -219,8 +219,8 @@ $config = array(
     |--------------------------------------------------------------------------
     |
     */
-    'filePermission' => 0755,
-    'folderPermission' => 0777,
+    'filePermission' => 0766,
+    'folderPermission' => 0766,
 
 
     /*

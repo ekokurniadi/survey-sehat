@@ -16,12 +16,12 @@
                                 <tr>
                                     <td>
                                     <label for="foto_ktp">Nama Lengkap</label>
-                                        <input type="text" required class="tanya" name="nama" id="nama" placeholder="Nama"></td>
+                                        <input type="text" required class="tanya" name="namas" id="namas" placeholder="Nama"></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <label for="foto_ktp">Email</label>
-                                        <input type="text" required class="tanya" name="email" id="email" placeholder="Email">
+                                        <input type="text" required class="tanya" name="emails" id="emails" placeholder="Email">
                                     </td>
                                 </tr>
                                 <tr>
@@ -33,7 +33,7 @@
                                 <tr>
                                     <td>
                                         <label for="foto_ktp">Password</label>
-                                        <input type="password" required class="tanya" name="password" id="password" placeholder="Password">
+                                        <input type="password" required class="tanya" name="passwords" id="passwords" placeholder="Password">
                                     </td>
                                 </tr>
                                 <tr>
@@ -45,7 +45,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button type="submit" id="submitMessage" class="btn btn-flat btn-primary mt-2"></span> Register</button>
+                                        <button type="submit" class="btn btn-flat btn-primary mt-2"></span> Register</button>
                                     </td>
                                 </tr>
                     </table>

@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12 mt-3">
                 <img src="<?php echo base_url() ?>image/default/images/home/icon_05.gif" width="30px" alt="">
-                <strong>Penukaran Poin</strong>
+                <strong>Hasil Kuisioner</strong>
             </div>
         </div>
         <div class="row container-perkenalan mt-2 mb-3">
@@ -51,7 +51,6 @@
                 y: response.data[i]['percent'],
             })
         }
-        console.log(dataPoints);
         renderGraph(dataPoints);
     }
 </script>

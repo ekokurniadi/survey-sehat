@@ -117,6 +117,7 @@ class Survey extends MY_Controller
                 'periode_awal' => set_value('periode_awal', $row->periode_awal),
                 'periode_akhir' => set_value('periode_akhir', $row->periode_akhir),
                 'poin' => set_value('poin', $row->poin),
+                'kuota' => set_value('kuota', $row->kuota),
                 'ketentuan' => set_value('ketentuan', $row->ketentuan),
             );
             $this->load->view('panel/header');
@@ -135,9 +136,21 @@ class Survey extends MY_Controller
         for ($i = 0; $i < $panjang; $i++) {
             $pos = rand(0, strlen($karakter) - 1);
             $string .= $karakter{
-            $pos};
+                $pos};
         }
         return $string;
+    }
+
+    function acak2($panjang)
+    {
+        $karakter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789';
+        $string = '';
+        for ($i = 0; $i < $panjang; $i++) {
+            $pos = rand(0, strlen($karakter) - 1);
+            $string .= $karakter{
+                $pos};
+        }
+        echo json_encode(array("data" => $string));
     }
 
     public function create()
@@ -154,6 +167,7 @@ class Survey extends MY_Controller
             'periode_awal' => set_value('periode_awal'),
             'periode_akhir' => set_value('periode_akhir'),
             'poin' => set_value('poin'),
+            'kuota' => set_value('kuota'),
             'ketentuan' => set_value('ketentuan'),
         );
 
@@ -175,20 +189,9 @@ class Survey extends MY_Controller
             'poin' => $_POST['poin'],
             'ketentuan' => $_POST['ketentuan'],
         ];
-        $detail = $_POST['soal'];
-        foreach ($detail as $dt) {
-            $insert[] = [
-                'kode_survey' => $_POST['kode_survey'],
-                'pertanyaan' => $dt['pertanyaan'],
-                'jawaban_1' => $dt['jawaban_1'],
-                'jawaban_2' => $dt['jawaban_2'],
-                'jawaban_3' => $dt['jawaban_3'],
-                'jawaban_4' => $dt['jawaban_4'],
-            ];
-        }
+
         $this->db->trans_begin();
         $this->db->insert('survey', $header);
-        $this->db->insert_batch('survey_pertanyaan', $insert);
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
             $response = [
@@ -202,6 +205,87 @@ class Survey extends MY_Controller
                 'link' => base_url('survey')
             ];
             $this->session->set_flashdata('message', 'Create Record Success');
+        }
+        echo json_encode($response);
+    }
+
+
+    public function addDetails()
+    {
+        $insert = [
+            "kode_survey" => $_POST['kode_survey'],
+            "pertanyaan" => $_POST['pertanyaan'],
+            "jawaban_1" => $_POST['jawaban_1'],
+            "jawaban_2" => $_POST['jawaban_2'],
+            "jawaban_3" => $_POST['jawaban_3'],
+            "jawaban_4" => $_POST['jawaban_4'],
+        ];
+
+        $this->db->trans_begin();
+        $this->db->insert('survey_pertanyaan', $insert);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $response = [
+                "status" => "ERROR",
+                "pesan" => "Terjadi kesalahan"
+            ];
+        } else {
+            $this->db->trans_commit();
+            $response = [
+                'status' => "sukses",
+            ];
+        }
+        echo json_encode($response);
+    }
+
+    public function loadData()
+    {
+        $id = $this->input->post('id');
+        echo " <table class='table table-bordered'>
+        <thead>
+                    <tr>
+                     <th>No</th>
+                    <th>Pertanyaan</th>
+                    <th>Jawaban 1</th>
+                    <th>Jawaban 2</th>
+                    <th>Jawaban 3</th>
+                    <th>Jawaban 4</th>
+                    <th>Aksi</th>
+                    </tr>
+            </thead>";
+        $no = 1;
+        $data = $this->db->get_where('survey_pertanyaan', array('kode_survey' => $id))->result();
+        foreach ($data as $d) {
+            echo "<tr id='dataku$d->id'>
+                                <td>$no</td>
+                                <td>$d->pertanyaan</td>
+                                <td>$d->jawaban_1</td>
+                                <td>$d->jawaban_2</td>
+                                <td>$d->jawaban_3</td>
+                                <td>$d->jawaban_4</td>
+                                <td><button type='button' class='btn btn-danger btn-sm' onClick='hapus($d->id)'><span class='fa fa-trash'><span></button></td>
+                             </tr>";
+            $no++;
+        }
+
+        echo "</table>";
+    }
+
+    public function hapusData()
+    {
+        $id = $this->input->post('id');
+        $this->db->where('id', $id);
+        $delete =  $this->db->delete('survey_pertanyaan');
+        if ($delete) {
+            $response = [
+                "status" => "success",
+
+            ];
+        } else {
+            $response = [
+                "status" => "ERROR",
+
+            ];
         }
         echo json_encode($response);
     }
@@ -223,6 +307,7 @@ class Survey extends MY_Controller
                 'periode_awal' => set_value('periode_awal', $row->periode_awal),
                 'periode_akhir' => set_value('periode_akhir', $row->periode_akhir),
                 'poin' => set_value('poin', $row->poin),
+                'kuota' => set_value('kuota', $row->kuota),
                 'ketentuan' => set_value('ketentuan', $row->ketentuan),
             );
             $this->load->view('panel/header');
@@ -247,23 +332,10 @@ class Survey extends MY_Controller
             'poin' => $_POST['poin'],
             'ketentuan' => $_POST['ketentuan'],
         ];
-        $this->db->where('kode_survey', $_POST['kode_survey']);
-        $this->db->delete('survey_pertanyaan');
-        $detail = $_POST['soal'];
-        foreach ($detail as $dt) {
-            $insert[] = [
-                'kode_survey' => $_POST['kode_survey'],
-                'pertanyaan' => $dt['pertanyaan'],
-                'jawaban_1' => $dt['jawaban_1'],
-                'jawaban_2' => $dt['jawaban_2'],
-                'jawaban_3' => $dt['jawaban_3'],
-                'jawaban_4' => $dt['jawaban_4'],
-            ];
-        }
+       
         $this->db->trans_begin();
         $this->db->where('id', $id);
         $this->db->update('survey', $header);
-        $this->db->insert_batch('survey_pertanyaan', $insert);
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
             $response = [
@@ -304,6 +376,7 @@ class Survey extends MY_Controller
         $this->form_validation->set_rules('periode_awal', 'periode awal', 'trim|required');
         $this->form_validation->set_rules('periode_akhir', 'periode akhir', 'trim|required');
         $this->form_validation->set_rules('poin', 'poin', 'trim|required');
+        $this->form_validation->set_rules('kuota', 'kuota', 'trim|required');
         $this->form_validation->set_rules('ketentuan', 'ketentuan', 'trim|required');
 
         $this->form_validation->set_rules('id', 'id', 'trim');

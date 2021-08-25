@@ -45,7 +45,7 @@
                     <!-- <img src="<?php echo base_url() ?>image/survey-sehat.png" alt="" class="img-fluid" width="100px"> -->
                     <strong>Survey</strong>Sehat
                 </div>
-                <?php $id = isset($_SESSION['id']) ? isset($_SESSION['id']) : "" ?>
+                <?php $id = isset($_SESSION['id']) ? $_SESSION['id'] : "" ?>
                 <?php if ($id == "") { ?>
                     <div class="col-md-4 d-flex align-items-center ml-auto mb-3">
                         <a href="#" class="btn btn-flat btn-primary px-5 mr-2" data-toggle="modal" data-target="#exampleModalRegister">Daftar</a>
@@ -56,7 +56,11 @@
                     <div class="col-md-5 ml-auto mb-3">
                         <a href="#" class="btn btn-flat btn-sm btn-primary"></i> Penukaran</a>
                         <a href="#" class="btn btn-flat btn-sm btn-primary" style="background-color: #f52060;"><i class="fas fa-coins" id="point" style="color:white"></i> </a>
-                        <img src="<?php echo base_url('image/') . $gambar->foto_profil ?>" width="50px" height="50px" class="rounded-circle mr-" alt="">
+                        <?php if ($gambar->foto_profil == "") { ?>
+                            <img src="<?php echo base_url() . 'image/default.png' ?>" width="50px" height="50px" class="rounded-circle mr-" alt="">
+                        <?php } else { ?>
+                            <img src="<?php echo base_url('image/') . $gambar->foto_profil ?>" width="50px" height="50px" class="rounded-circle mr-" alt="">
+                        <?php } ?>
                         <a href="#" class="btn btn-flat btn-sm btn-default" style="color: white;"><?= $gambar->nama ?></a>
                         <div class="dropdown">
                             <button class="dropbtn btn btn-flat btn-sm btn-default" id="ntf"><i class="fa fa-bell"></i></button>
@@ -155,10 +159,10 @@
         ?>
             <script>
                 Swal.fire({
-                    icon: '<?php echo $_SESSION['tipe']?>',
+                    icon: '<?php echo $_SESSION['tipe'] ?>',
                     title: 'Notification',
-                    text: '<?php echo $_SESSION['pesan']?>',
-                    
+                    text: '<?php echo $_SESSION['pesan'] ?>',
+
                 })
             </script>
         <?php

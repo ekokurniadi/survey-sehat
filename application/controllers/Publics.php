@@ -33,15 +33,31 @@ class Publics extends CI_Controller
         $id_survey = $_POST['id_survey'];
         $id_user = $_SESSION['id'];
         $cek = $this->db->get_where('survey_member', array('kode_survey' => $id_survey, 'id_user' => $id_user));
+        $cekPeserta = $this->db->get_where('survey_member', array('kode_survey' => $id_survey, 'dapat_poin' => 1))->num_rows();
+
+        $cekKuota = $this->db->get_where('survey', array('kode_survey' => $id_survey))->row();
 
         if ($cek->num_rows() > 0) {
             $this->db->where('kode_survey', $id_survey);
             $this->db->where('id_user', $id_user);
             $this->db->update('survey_member', array('status' => 1));
-            echo json_encode(array(
-                "status" => "sukses",
-                "link" => base_url('publics'),
-            ));
+            if ($cekPeserta < $cekKuota->kuota) {
+                $this->db->where('kode_survey', $id_survey);
+                $this->db->where('id_user', $id_user);
+                $this->db->update('survey_member', array('dapat_poin' => 1,'poin'=>$cekKuota->poin));
+                $this->db->query("UPDATE user set jumlah_poin =jumlah_poin+$cekKuota->poin where id='$id_user'");
+                echo json_encode(array(
+                    "status" => "sukses",
+                    "pesan" => "Terima kasih telah mengikuti survey, poin anda akan ditambahkan",
+                    "link" => base_url('publics'),
+                ));
+            } else {
+                echo json_encode(array(
+                    "status" => "sukses",
+                    "pesan" => "Terima kasih telah mengikuti survey, anda telah melewati maksimal kuota peserta, poin tidak akan ditambahkan.",
+                    "link" => base_url('publics'),
+                ));
+            }
         } else {
             echo json_encode(array(
                 "status" => "gagal",
@@ -188,10 +204,10 @@ class Publics extends CI_Controller
 
     public function register_action()
     {
-        $nama = $this->input->post('nama');
-        $email = $this->input->post('email');
+        $nama = $this->input->post('namas');
+        $email = $this->input->post('emails');
         $no_telp = $this->input->post('no_telp');
-        $password = $this->input->post('password');
+        $password = $this->input->post('passwords');
         // $level = $this->input->post('level');
 
         $cek = $this->db->get_where('user', array('email' => $email));
@@ -206,8 +222,8 @@ class Publics extends CI_Controller
                 "no_telp" => $no_telp,
                 "password" => sha1($password),
                 "level" => "user",
-                "foto_ktp"=> upload_gambar_biasa('foto_ktp', 'image/', 'jpeg|png|jpg|gif|svg|SVG', 10000, 'foto_ktp'),
-               
+                "foto_ktp" => upload_gambar_biasa('foto_ktp', 'image/', 'jpeg|png|jpg|gif|svg|SVG', 10000, 'foto_ktp'),
+
             );
             $this->db->insert('user', $data);
             $_SESSION['pesan'] = "Registrasi berhasil, silahkan login ke akun anda";
@@ -268,6 +284,32 @@ class Publics extends CI_Controller
         ];
         $this->db->trans_begin();
         $this->db->insert('faq', $header);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $response = [
+                "status" => "ERROR",
+                "pesan" => "Terjadi kesalahan"
+            ];
+        } else {
+            $this->db->trans_commit();
+            $response = [
+                'status' => "sukses",
+            ];
+            $this->session->set_flashdata('message', 'Create Record Success');
+        }
+        echo json_encode($response);
+    }
+    public function saveMessageContact()
+    {
+        $header = [
+            'pertanyaan' => $_POST['tanyaan'],
+            'nama' => $_POST['namakamu'],
+            'email' => $_POST['ema'],
+            'subject' => $_POST['sbj'],
+            'status' => "Open"
+        ];
+        $this->db->trans_begin();
+        $this->db->insert('messageContact', $header);
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
             $response = [
@@ -354,9 +396,9 @@ class Publics extends CI_Controller
         foreach ($fetch->result() as $rows) {
             $id = isset($_SESSION['id']) ? $_SESSION['id'] : "";
             $select = $this->db->query("SELECT * from survey_member where id_user='$id' and kode_survey='$rows->kode_survey'");
-            if($id==""){
+            if ($id == "") {
                 $button = "<a href='#' class='btn btn-flat btn-primary' data-toggle='modal' data-target='#exampleModal'>Daftar</a>";
-            }else{
+            } else {
                 if ($select->num_rows() > 0) {
                     $button = "<button class='btn btn-sm btn-danger bg-dark'>Selesai</button>";
                 } else {

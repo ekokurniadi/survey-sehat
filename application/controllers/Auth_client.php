@@ -41,8 +41,9 @@ class Auth_client extends MY_Controller
 				redirect("publics");
 			}
 		}
-
-		$this->load->view("client/login");
+		$_SESSION['pesan'] = "User tidak terdaftar";
+		$_SESSION['tipe'] = "error";
+		redirect("publics");
 	}
 
 	public function logout()

@@ -29,9 +29,11 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/js/froala_editor.pkgd.min.js"></script>
   <link rel="stylesheet" href="<?= base_url() ?>assets/loader.css">
   <script type="text/javascript" src="<?= base_url() ?>assets/loader.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </head>
-<?php if ($_SESSION['email'] == "") {
+<?php if ($_SESSION['email'] == "" && $_SESSION['level'] == "user") {
   redirect(site_url('auth'));
 } ?>
 

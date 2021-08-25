@@ -41,7 +41,7 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>
-                            <button type="button" id="submitMessage" class="btn btn-flat btn-primary mt-2"><span class="fa fa-send"></span> Send</button>
+                            <button type="button" id="submitPesan" class="btn btn-flat btn-primary mt-2"><span class="fa fa-send"></span> Send</button>
                         </td>
                     </tr>
             </table>
@@ -261,7 +261,8 @@
         $('#prt').val("");
     }
 
-    $('#submitMessage').click(function() {
+    $('#submitPesan').click(function() {
+        console.log("hello");
         var form = $('#form_').serializeArray();
         var values = {}
         for (field of form) {
@@ -277,8 +278,8 @@
         } else {
             $.ajax({
                 beforeSend: function() {
-                    $('#submitMessage').attr('disabled', true);
-                    $('#submitMessage').html('<i class="fa fa-spinner fa-spin"></i> Process');
+                    $('#submitPesan').attr('disabled', true);
+                    $('#submitPesan').html('<i class="fa fa-spinner fa-spin"></i> Process');
                 },
                 url: '<?= base_url('publics/saveMessage') ?>',
                 type: 'POST',
@@ -286,20 +287,20 @@
                 cache: false,
                 dataType: 'JSON',
                 success: function(response) {
-                    $('#submitMessage').html('<span class="fa fa-send"></span> Send');
-                    $('#submitMessage').attr('disabled', false);
+                    $('#submitPesan').html('<span class="fa fa-send"></span> Send');
+                    $('#submitPesan').attr('disabled', false);
                     if (response.status == 'sukses') {
                         success_send();
                         kosongkan();
                     } else {
-                        $('#submitMessage').attr('disabled', false);
+                        $('#submitPesan').attr('disabled', false);
                         gagal_send();
                     }
                 },
                 error: function() {
                     gagal_send();
                     alert("Gagal");
-                    $('#submitMessage').attr('disabled', false);
+                    $('#submitPesan').attr('disabled', false);
                 }
             });
         }

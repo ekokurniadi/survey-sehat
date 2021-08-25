@@ -6,7 +6,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?= base_url('publics/beranda') ?>">Home</a></li>
                         <li class="breadcrumb-item" aria-current="page"><?= ucwords(str_replace("_", " ", $this->uri->segment(2))) ?></li>
-                        <li class="breadcrumb-item active" aria-current="page"><?= ucwords(str_replace("_", " ", $this->uri->segment(3))) == "" ? "Laporan Penelitian" : ucwords(str_replace("_", " ", $this->uri->segment(3)))?></li>
+                        <li class="breadcrumb-item active" aria-current="page"><?= ucwords(str_replace("_", " ", $this->uri->segment(3))) == "" ? "Laporan Penelitian" : ucwords(str_replace("_", " ", $this->uri->segment(3))) ?></li>
                     </ol>
                 </nav>
             </div>
@@ -33,7 +33,7 @@
             <table id="example" width="100%">
                 <thead>
                     <tr>
-                        <th style="background-color: transparent !important"></th>
+                        <th style="background-color: transparent !important;width:100%" colspan="5"></th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -43,7 +43,7 @@
             <table id="example1" width="100%">
                 <thead>
                     <tr>
-                        <th style="background-color: transparent !important"></th>
+                        <th style="background-color: transparent !important;width:100%" colspan="5"></th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -53,7 +53,8 @@
             <table id="example2" width="100%">
                 <thead>
                     <tr>
-                        <th style="background-color: transparent !important"></th>
+                        <<th style="background-color: transparent !important;width:100%" colspan="5">
+                            </th>
                     </tr>
                 </thead>
                 <tbody></tbody>

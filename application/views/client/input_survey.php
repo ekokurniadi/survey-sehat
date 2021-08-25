@@ -9,6 +9,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Survey Sehat </title>
 </head>
 <?php
@@ -51,42 +52,41 @@ $nomor = $halaman_awal + 1;
                                         <tr>
                                             <td>
                                                 <div class="form-check">
-                                                    <label class="form-check-label" for="exampleRadios1">
-                                                        <?= $nomor; ?>. <?= $rows->pertanyaan ?>
-                                                        <input type="hidden" name="id_pertanyaan" id="id_pertanyaan" value="<?= $rows->id ?>">
-                                                    </label>
+                                                    <?= $nomor; ?>. <?= $rows->pertanyaan ?>
+                                                    <input type="hidden" name="id_pertanyaan" id="id_pertanyaan" value="<?= $rows->id ?>">
+
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" id="jawaban_1" name="jawaban" value="<?= $rows->jawaban_1 ?>">
-                                                    <label class="form-check-label" for="exampleRadios1">
-                                                        <?= $rows->jawaban_1 ?>
-                                                    </label>
+                                                    <input class="form-check-input" type="radio" id="jawaban_1" name="jawaban" value='<?= $rows->jawaban_1 ?>'>
+
+                                                    <?= $rows->jawaban_1 ?>
+
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" id="jawaban_2" name="jawaban" value="<?= $rows->jawaban_2 ?>">
-                                                    <label class="form-check-label" for="exampleRadios1">
-                                                        <?= $rows->jawaban_2 ?>
-                                                    </label>
+                                                    <input class="form-check-input" type="radio" id="jawaban_2" name="jawaban" value='<?= $rows->jawaban_2 ?>'>
+
+                                                    <?= $rows->jawaban_2 ?>
+
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" id="jawaban_3" name="jawaban" value="<?= $rows->jawaban_3 ?>">
-                                                    <label class="form-check-label" for="exampleRadios1">
-                                                        <?= $rows->jawaban_3 ?>
-                                                    </label>
+                                                    <input class="form-check-input" type="radio" id="jawaban_3" name="jawaban" value='<?= $rows->jawaban_3 ?>'>
+
+                                                    <?= $rows->jawaban_3 ?>
+
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" id="jawaban_4" name="jawaban" value="<?= $rows->jawaban_4 ?>">
-                                                    <label class="form-check-label" for="exampleRadios1">
-                                                        <?= $rows->jawaban_4 ?>
-                                                    </label>
+                                                    <input class="form-check-input" type="radio" id="jawaban_4" name="jawaban" value='<?= $rows->jawaban_4 ?>'>
+
+                                                    <?= $rows->jawaban_4 ?>
+
                                                 </div>
                                             </td>
                                         </tr>
@@ -95,14 +95,14 @@ $nomor = $halaman_awal + 1;
                                     <?php if ($halaman > $total_halaman) { ?>
                                         <tr>
                                             <td>
-                                            <img src="<?=base_url()?>image/thx.jpg" alt="" width="30%">
-                                            <br>
-                                            <br>
-                                            <p>
-                                            Terima kasih Anda telah menjawab Survey, 
-                                                Klik tombol simpan untuk menyimpan 
-                                            </p>
-                                               
+                                                <img src="<?= base_url() ?>image/thx.jpg" alt="" width="30%">
+                                                <br>
+                                                <br>
+                                                <p>
+                                                    Terima kasih Anda telah menjawab Survey,
+                                                    Klik tombol simpan untuk menyimpan
+                                                </p>
+
                                             </td>
                                         </tr>
                                     <?php } ?>
@@ -165,9 +165,7 @@ $nomor = $halaman_awal + 1;
                 cache: false,
                 dataType: 'JSON',
                 success: function(response) {
-                  
-                        window.location = '<?php echo base_url() ?>publics/input_survey?q=<?= $kode_survey ?>&halaman=<?= $next ?>';
-                    
+                    window.location = '<?php echo base_url() ?>publics/input_survey?q=<?= $kode_survey ?>&halaman=<?= $next ?>';
                 },
                 error: function() {
                     alert('gagal');
@@ -193,7 +191,14 @@ $nomor = $halaman_awal + 1;
                 success: function(response) {
                     $('#submitBtn').html('<i class="fa fa-save"></i> Save');
                     if (response.status == 'sukses') {
-                        window.location = response.link;
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Oops...',
+                            text: response.pesan,
+                        });
+                        setTimeout(() => {
+                            window.location = response.link;
+                        }, 2000);
                     } else {
                         $('#submitBtn').attr('disabled', false);
                         alert(response.pesan);
@@ -206,6 +211,8 @@ $nomor = $halaman_awal + 1;
             });
         });
     </script>
+
+
 </body>
 
 </html>
