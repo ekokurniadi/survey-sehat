@@ -407,6 +407,63 @@ section.contact_us input[type=file].tanya {
     border-left: 5px solid #0ea2d3;
 }
 
+div.parent {
+    background-color: #fffdfd;
+    min-height: 600px;
+}
+
+section.contact_us input[type=radio].tanya:checked {
+    background: #f52060;
+}
+
+section.contact_us input[type=date].tanya {
+    background: white;
+    border: 1.5px solid #0ea2d3;
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 3px;
+    outline: none;
+    color: #f52060;
+    border-left: 5px solid #0ea2d3;
+}
+
+section.contact_us select.tanya {
+    background: white;
+    border: 1.5px solid #0ea2d3;
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 3px;
+    outline: none;
+    color: #f52060;
+    border-left: 5px solid #0ea2d3;
+}
+
+section.contact_us select.tanya.select2 {
+    background: white;
+    border: 1.5px solid #0ea2d3;
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 3px;
+    outline: none;
+    color: #f52060;
+    border-left: 5px solid #0ea2d3;
+    z-index: 9999;
+}
+
+section.contact_us select.tanya option {
+    background: white;
+    border: 1.5px solid #0ea2d3;
+    width: 70%;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 3px;
+    outline: none;
+    border-left: 5px solid #0ea2d3;
+}
+
 section.contact_us input[type=password].tanya:focus {
     border: 2px solid #f52060;
     border-left: 5px solid #0ea2d3;

@@ -17,6 +17,7 @@
 
               <div class="col-md-4">
                 <?php echo anchor(site_url('survey/create'), '<i class="fa fa-plus"></i> Add New', 'class="btn btn-icon icon-left btn-primary"'); ?>
+                <a href="#" class="btn btn-flat btn-success" data-toggle="modal" data-target="#UploadSurvey"><i class="fa fa-file-excel"></i> Upload dari Excel</a>
               </div>
 
               <div class="col-md-4 text-center">
@@ -43,8 +44,7 @@
                       <th>Judul</th>
                       <th>Jenis</th>
                       <th>Kategori</th>
-                      <th>Periode Awal</th>
-                      <th>Periode Akhir</th>
+                      <th>Periode</th>
                       <th>Poin</th>
                       <th>Peserta</th>
                       <th>Ketentuan</th>
@@ -109,4 +109,23 @@
     </div>
 
   </div>
+</div>
+<?php $this->load->view('modal_upload_survey') ?>
+<div style="margin-top: 8px" id="message">
+  <?php
+  if (isset($_SESSION['pesan']) && $_SESSION['pesan'] <> '') {
+  ?>
+    <script>
+      Swal.fire({
+        icon: '<?php echo $_SESSION['tipe'] ?>',
+        title: 'Notification',
+        text: '<?php echo $_SESSION['pesan'] ?>',
+
+      })
+    </script>
+  <?php
+  }
+  $_SESSION['pesan'] = '';
+
+  ?>
 </div>

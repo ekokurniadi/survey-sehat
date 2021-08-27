@@ -1,3 +1,4 @@
+</div>
 <footer>
   <section class="footers">
     <div class="container">
@@ -65,6 +66,15 @@
 </footer>
 
 <script>
+  $(document).ready(function() {
+    // load select2
+    $('.select2').select2({
+      width: 'resolve',
+      placeholder: "Select an option",
+    });
+
+  });
+
   function success_send() {
     Swal.fire({
       title: 'Terima kasih, Pesan berhasil dikirimkan',
@@ -88,6 +98,7 @@
       footer: '<a href="">Why do I have this issue?</a>'
     })
   }
+
   function validationError() {
     Swal.fire({
       icon: 'error',

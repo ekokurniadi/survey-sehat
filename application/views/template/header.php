@@ -57,9 +57,9 @@
                         <a href="#" class="btn btn-flat btn-sm btn-primary"></i> Penukaran</a>
                         <a href="#" class="btn btn-flat btn-sm btn-primary" style="background-color: #f52060;"><i class="fas fa-coins" id="point" style="color:white"></i> </a>
                         <?php if ($gambar->foto_profil == "") { ?>
-                            <img src="<?php echo base_url() . 'image/default.png' ?>" width="50px" height="50px" class="rounded-circle mr-" alt="">
+                            <img id="imgUser3" src="<?php echo base_url() . 'image/default.png' ?>" width="50px" height="50px" class="rounded-circle mr-" alt="">
                         <?php } else { ?>
-                            <img src="<?php echo base_url('image/') . $gambar->foto_profil ?>" width="50px" height="50px" class="rounded-circle mr-" alt="">
+                            <img id="imgUser4" src="<?php echo base_url('image/') . $gambar->foto_profil ?>" width="50px" height="50px" class="rounded-circle mr-" alt="">
                         <?php } ?>
                         <a href="#" class="btn btn-flat btn-sm btn-default" style="color: white;"><?= $gambar->nama ?></a>
                         <div class="dropdown">
@@ -76,12 +76,12 @@
                             <div class="dropdown-content2">
                                 <ul class="dropdown-notif2">
                                     <li>
-                                        <a href="">
+                                        <a href="<?php echo base_url('publics/user_profile') ?>">
                                             <i class="fa fa-user rounded-circle"></i> Profile
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="">
+                                        <a href="#" id="ganti" data-toggle="modal" data-target="#modalGantiPassword">
                                             <i class="fa fa-lock rounded-password"></i> Ganti Password
                                         </a>
                                     </li>
@@ -153,6 +153,8 @@
     </section>
     <?php $this->load->view('template/modal_login') ?>
     <?php $this->load->view('template/register_modal') ?>
+    <?php $this->load->view('template/modal_ganti_password') ?>
+
     <div style="margin-top: 8px" id="message">
         <?php
         if (isset($_SESSION['pesan']) && $_SESSION['pesan'] <> '') {
@@ -191,6 +193,10 @@
             $('.dropdown-content2').toggle('slow');
             $('.dropdown-content2').toggleClass('blo');
         });
+        $('#ganti').on('click', function(e) {
+            $('.dropdown-content2').toggle('slow');
+            $('.dropdown-content2').toggleClass('blo');
+        });
     </script>
 
     <script>
@@ -198,8 +204,8 @@
             get_notif();
             getPengumuman();
             setTimeout(get_notif, 5000);
-            setInterval(get_notif, 5000); // The interval set to 20 seconds
-            setInterval(getPengumuman, 5000); // The interval set to 20 seconds
+            setInterval(get_notif, 5000);
+            setInterval(getPengumuman, 5000);
 
         })
 
@@ -242,3 +248,4 @@
             $(".dropdown-notif").append(html);
         }
     </script>
+    <div class="parent">

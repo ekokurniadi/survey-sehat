@@ -80,10 +80,9 @@ class Survey extends MY_Controller
             $sub_array[] = $index;
             $sub_array[] = $rows->kode_survey;
             $sub_array[] = $rows->judul;
-            $sub_array[] = formatTanggal($rows->periode_awal) . " s/d " . formatTanggal($rows->periode_akhir);
-            $sub_array[] = $rows->kategori_survey;
-            $sub_array[] = $rows->judul;
             $sub_array[] = $rows->jenis;
+            $sub_array[] = $rows->kategori_survey;
+            $sub_array[] = formatTanggal($rows->periode_awal) . " s/d " . formatTanggal($rows->periode_akhir);
             $sub_array[] = $rows->poin;
             $sub_array[] = $rows->peserta;
             $sub_array[] = $rows->ketentuan;
@@ -319,6 +318,77 @@ class Survey extends MY_Controller
         }
     }
 
+    public function upload_survey_action()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $filename = $_FILES['userfile']['name'];
+        $this->load->library('upload');
+        $nmfile = "home" . time();
+        $config['upload_path']   = './excel/';
+        $config['overwrite']     = true;
+        $config['allowed_types'] = 'xlsx';
+        $config['file_name'] = $_FILES['userfile']['name'];
+
+        $this->upload->initialize($config);
+
+        if ($_FILES['userfile']['name']) {
+            if ($this->upload->do_upload('userfile')) {
+                $gbr = $this->upload->data();
+                include APPPATH . 'third_party/PHPExcel/PHPExcel.php';
+
+                $excelreader = new PHPExcel_Reader_Excel2007();
+                $loadexcel = $excelreader->load('excel/' . $filename . '');
+                $sheet = $loadexcel->getActiveSheet()->toArray(null, true, true, true);
+                unset($sheet[1]);
+
+
+                foreach ($sheet as $rows) {
+                    $cek = $this->db->get_where('survey', array('judul' => $rows['B']));
+                    $kode = $this->acak(10);
+                    $data = array(
+                        "kode_survey" => $kode,
+                        "judul" => $rows['B'],
+                        "jenis" => 2,
+                        "kategori" => 1,
+                        "periode_awal" => $rows['C'],
+                        "periode_akhir" => $rows['D'],
+                        "poin" => $rows['E'] == "" ? 0 : $rows['E'],
+                        "kuota" => $rows['F'] == "" ? 0 : $rows['F'],
+                        "ketentuan" => $rows['G'] == "" ? "" : $rows['G'],
+                    );
+
+
+                    if ($cek->num_rows() <= 0) {
+                        $this->db->insert('survey', $data);
+                    }
+
+                    $cekJudul = $this->db->query("SELECT kode_survey,judul from survey where judul='{$rows['B']}'");
+                    if($cekJudul->row()->judul == $rows['B']){
+                        $key = $cekJudul->row()->kode_survey;
+                        $detail = array(
+                            "kode_survey" => $key,
+                            "pertanyaan" => $rows['H'],
+                            "jawaban_1" => $rows['I'],
+                            "jawaban_2" => $rows['J'],
+                            "jawaban_3" => $rows['K'],
+                            "jawaban_4" => $rows['L'],
+                        );
+                        $insert = $this->db->insert('survey_pertanyaan', $detail);
+                    }
+                }
+                if ($insert) {
+                    echo json_encode(array("status" => "sukses", "link" => base_url('survey')));
+                    $_SESSION['pesan'] = "Data Berhasil di Upload.";
+                    $_SESSION['tipe'] = "success";
+                } else {
+                    echo json_encode(array("status" => "error", "link" => base_url('survey')));
+                    $_SESSION['pesan'] = "Data Gagal di Upload.";
+                    $_SESSION['tipe'] = "error";
+                }
+            }
+        }
+    }
+
     public function update_action()
     {
         $id = $this->input->post('id');
@@ -332,7 +402,7 @@ class Survey extends MY_Controller
             'poin' => $_POST['poin'],
             'ketentuan' => $_POST['ketentuan'],
         ];
-       
+
         $this->db->trans_begin();
         $this->db->where('id', $id);
         $this->db->update('survey', $header);

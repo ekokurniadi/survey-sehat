@@ -44,7 +44,7 @@ class Publics extends CI_Controller
             if ($cekPeserta < $cekKuota->kuota) {
                 $this->db->where('kode_survey', $id_survey);
                 $this->db->where('id_user', $id_user);
-                $this->db->update('survey_member', array('dapat_poin' => 1,'poin'=>$cekKuota->poin));
+                $this->db->update('survey_member', array('dapat_poin' => 1, 'poin' => $cekKuota->poin));
                 $this->db->query("UPDATE user set jumlah_poin =jumlah_poin+$cekKuota->poin where id='$id_user'");
                 echo json_encode(array(
                     "status" => "sukses",
@@ -230,6 +230,42 @@ class Publics extends CI_Controller
             $_SESSION['tipe'] = "success";
             redirect(site_url('publics'));
         }
+    }
+
+    public function updateFotoProfile()
+    {
+        $filename = $_FILES['foto_profil']['name'];
+        $location = "image/" . $filename;
+        $imageFileType = pathinfo($location, PATHINFO_EXTENSION);
+        $imageFileType = strtolower($imageFileType);
+        $valid_extensions = array("jpg", "jpeg", "png");
+        $response = array();
+        if (in_array(strtolower($imageFileType), $valid_extensions)) {
+            /* Upload file */
+            if (move_uploaded_file($_FILES['foto_profil']['tmp_name'], $location)) {
+                $this->db->where('id', $_SESSION['id']);
+                $this->db->update('user', array('foto_profil' => $filename));
+                echo json_encode(array(
+                    "status"=>200,
+                    "data"=>base_url().$location
+                ));
+            }else{
+                echo json_encode(array(
+                    "status"=>500,
+                    "pesan"=>"Gagal"
+                )); 
+            }
+        }
+    }
+
+
+    public function user_profile()
+    {
+        $id = $_SESSION['id'];
+        $data['data'] = $this->db->get_where('user', array('id' => $id))->row();
+        $this->load->view('template/header');
+        $this->load->view('template/user_profile', $data);
+        $this->load->view('template/footer');
     }
 
     public function index()

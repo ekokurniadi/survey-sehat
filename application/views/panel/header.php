@@ -30,7 +30,18 @@
   <link rel="stylesheet" href="<?= base_url() ?>assets/loader.css">
   <script type="text/javascript" src="<?= base_url() ?>assets/loader.js"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+  <script src="<?= base_url("js/vue/qs.min.js") ?>" type="text/javascript"></script>
+  <script src="<?= base_url("js/vue/vue.min.js") ?>" type="text/javascript"></script>
+  <script src="<?= base_url("js/vue/axios.min.js") ?>" type="text/javascript"></script>
+  <script src="<?= base_url("js/vue/accounting.js") ?>" type="text/javascript"></script>
+  <script src="<?= base_url("js/vue/vue-numeric.min.js") ?>" type="text/javascript"></script>
+  <script src="<?= base_url("js/lodash.min.js") ?>" type="text/javascript"></script>
+  <script type="text/javascript" src="<?= base_url("js/moment.min.js") ?>"></script>
+  <script type="text/javascript" src="<?= base_url("js/daterangepicker.min.js") ?>"></script>
+  <link rel="stylesheet" type="text/css" href="<?= base_url("js/daterangepicker.css") ?>" />
+  <script>
+    Vue.use(VueNumeric.default);
+  </script>
 
 </head>
 <?php if ($_SESSION['email'] == "" && $_SESSION['level'] == "user") {

@@ -11,13 +11,17 @@ class Dashboard extends MY_Controller
 
     public function index()
     {
-        $data = array(
-            'user' => $this->db->get('user'),
-        );
-
-        $this->load->view('panel/header');
-        $this->load->view('panel/index', $data);
-        $this->load->view('panel/footer');
+        if($_SESSION['id']=="" || $_SESSION['level']=="user"){
+            redirect(site_url('auth'));
+        }else{
+            $data = array(
+                'user' => $this->db->get('user'),
+            );
+    
+            $this->load->view('panel/header');
+            $this->load->view('panel/index', $data);
+            $this->load->view('panel/footer');
+        }
     }
 
     public function getNotification()
