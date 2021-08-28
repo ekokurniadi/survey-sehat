@@ -49,8 +49,6 @@
                       <th>No Ktp</th>
                       <th>Status Pernikahan</th>
                       <th>Pekerjaan</th>
-                      <th>Tingkat Pendidikan</th>
-                      <th>Bidang Industri Pekerjaan</th>
                       <th>Profesi</th>
                       <th>Provinsi</th>
                       <th>Kota</th>
@@ -61,7 +59,6 @@
                       <th>Jumlah Pendapatan Perbulan</th>
                       <th>Jumlah Pendapatan Keluarga Perbulan</th>
                       <th>Telepon Rumah</th>
-                      <th>Rekening Bank</th>
                       <th>Mobil Yang Dimiliki</th>
                       <th>Motor Yang Dimiliki</th>
                       <th>Hp Yang Dimiliki</th>

@@ -202,6 +202,12 @@ class Publics extends CI_Controller
         echo json_encode($response);
     }
 
+    public function penukaran_poin_user(){
+        $this->load->view('template/header');
+        $this->load->view('template/penukaran_poin');
+        $this->load->view('template/footer');
+    }
+
     public function register_action()
     {
         $nama = $this->input->post('namas');
@@ -220,7 +226,7 @@ class Publics extends CI_Controller
                 "nama" => $nama,
                 "email" => $email,
                 "no_telp" => $no_telp,
-                "password" => sha1($password),
+                "password" => $password,
                 "level" => "user",
                 "foto_ktp" => upload_gambar_biasa('foto_ktp', 'image/', 'jpeg|png|jpg|gif|svg|SVG', 10000, 'foto_ktp'),
 
@@ -234,29 +240,341 @@ class Publics extends CI_Controller
 
     public function updateFotoProfile()
     {
-        $filename = $_FILES['foto_profil']['name'];
-        $location = "image/" . $filename;
-        $imageFileType = pathinfo($location, PATHINFO_EXTENSION);
-        $imageFileType = strtolower($imageFileType);
-        $valid_extensions = array("jpg", "jpeg", "png");
-        $response = array();
-        if (in_array(strtolower($imageFileType), $valid_extensions)) {
-            /* Upload file */
-            if (move_uploaded_file($_FILES['foto_profil']['tmp_name'], $location)) {
-                $this->db->where('id', $_SESSION['id']);
-                $this->db->update('user', array('foto_profil' => $filename));
-                echo json_encode(array(
-                    "status"=>200,
-                    "data"=>base_url().$location
-                ));
-            }else{
-                echo json_encode(array(
-                    "status"=>500,
-                    "pesan"=>"Gagal"
-                )); 
-            }
+        if (upload_gambar_biasa('foto_profil', 'image/', 'jpeg|png|jpg|gif|svg|SVG', 10000, 'foto_profil')) {
+            $this->db->where('id', $_SESSION['id']);
+            $this->db->update('user', array('foto_profil' => upload_gambar_biasa('foto_profil', 'image/', 'jpeg|png|jpg|gif|svg|SVG', 10000, 'foto_profil')));
+            echo json_encode(array(
+                "status" => 200,
+                "data" => base_url() . "image/" . upload_gambar_biasa('foto_profil', 'image/', 'jpeg|png|jpg|gif|svg|SVG', 10000, 'foto_profil')
+            ));
+        } else {
+            echo json_encode(array(
+                "status" => 500,
+                "pesan" => "Gagal"
+            ));
         }
     }
+    public function updateFotoKTP()
+    {
+        if (upload_gambar_biasa('foto_ktp', 'image/', 'jpeg|png|jpg|gif|svg|SVG', 10000, 'foto_ktp')) {
+            $this->db->where('id', $_SESSION['id']);
+            $this->db->update('user', array('foto_ktp' => upload_gambar_biasa('foto_ktp', 'image/', 'jpeg|png|jpg|gif|svg|SVG', 10000, 'foto_ktp')));
+            echo json_encode(array(
+                "status" => 200,
+                "data" => base_url() . "image/" . upload_gambar_biasa('foto_ktp', 'image/', 'jpeg|png|jpg|gif|svg|SVG', 10000, 'foto_ktp')
+            ));
+        } else {
+            echo json_encode(array(
+                "status" => 500,
+                "pesan" => "Gagal"
+            ));
+        }
+    }
+
+
+    public function fetch_data_provinsi()
+    {
+        $starts       = $this->input->post("start");
+        $length       = $this->input->post("length");
+        $LIMIT        = "LIMIT $starts, $length ";
+        $search       = $this->input->post('search')['value'];
+        $orders       = isset($_POST['order']) ? $_POST['order'] : '';
+
+
+        $where = "WHERE 1=1";
+        $result = array();
+        if (isset($search)) {
+            if ($search != '') {
+                $where .= " AND (provinsi LIKE '%$search%')";
+            }
+        }
+
+        if (isset($orders)) {
+            if ($orders != '') {
+                $order = $orders;
+                $order_column = ['', 'id_provinsi', 'provinsi',];
+                $order_clm  = $order_column[$order[0]['column']];
+                $order_by   = $order[0]['dir'];
+                $where .= " ORDER BY $order_clm $order_by ";
+            } else {
+                $where .= " ORDER BY id ASC ";
+            }
+        } else {
+            $where .= " ORDER BY id ASC ";
+        }
+        if (isset($LIMIT)) {
+            if ($LIMIT != '') {
+                $where .= ' ' . $LIMIT;
+            }
+        }
+        $index = 1;
+        $button = "";
+        $fetch = $this->db->query("SELECT * from master_provinsi $where");
+        $fetch2 = $this->db->query("SELECT * from master_provinsi");
+        $status = "";
+        foreach ($fetch->result() as $rows) {
+            $button1 = "<button onclick='return getProvinsi(" . $rows->id . ")' class='btn btn-flat btn-xs btn-success' data-dismiss='modal' type='button'><i class='fa fa-check'></i></button>";
+            $sub_array = array();
+            $sub_array[] = $index;
+            $sub_array[] = $rows->id_provinsi;
+            $sub_array[] = $rows->provinsi;
+            $sub_array[] = $button1;
+            $result[]   = $sub_array;
+            $index++;
+        }
+
+        $output = array(
+            "draw"            =>     intval($this->input->post("draw")),
+            "recordsFiltered" =>     $fetch2->num_rows(),
+            "data"            =>     $result,
+
+        );
+        echo json_encode($output);
+    }
+    public function fetch_data_pekerjaan()
+    {
+        $starts       = $this->input->post("start");
+        $length       = $this->input->post("length");
+        $LIMIT        = "LIMIT $starts, $length ";
+        $search       = $this->input->post('search')['value'];
+        $orders       = isset($_POST['order']) ? $_POST['order'] : '';
+
+
+        $where = "WHERE 1=1";
+        $result = array();
+        if (isset($search)) {
+            if ($search != '') {
+                $where .= " AND (pekerjaan LIKE '%$search%')";
+            }
+        }
+
+        if (isset($orders)) {
+            if ($orders != '') {
+                $order = $orders;
+                $order_column = ['', 'id', 'pekerjaan',];
+                $order_clm  = $order_column[$order[0]['column']];
+                $order_by   = $order[0]['dir'];
+                $where .= " ORDER BY $order_clm $order_by ";
+            } else {
+                $where .= " ORDER BY id ASC ";
+            }
+        } else {
+            $where .= " ORDER BY id ASC ";
+        }
+        if (isset($LIMIT)) {
+            if ($LIMIT != '') {
+                $where .= ' ' . $LIMIT;
+            }
+        }
+        $index = 1;
+        $button = "";
+        $fetch = $this->db->query("SELECT * from master_pekerjaan $where");
+        $fetch2 = $this->db->query("SELECT * from master_pekerjaan");
+        $status = "";
+        foreach ($fetch->result() as $rows) {
+            $button1 = "<button onclick='return getPekerjaan(" . $rows->id . ")' class='btn btn-flat btn-xs btn-success' data-dismiss='modal' type='button'><i class='fa fa-check'></i></button>";
+            $sub_array = array();
+            $sub_array[] = $index;
+            $sub_array[] = $rows->pekerjaan;
+            $sub_array[] = $button1;
+            $result[]   = $sub_array;
+            $index++;
+        }
+
+        $output = array(
+            "draw"            =>     intval($this->input->post("draw")),
+            "recordsFiltered" =>     $fetch2->num_rows(),
+            "data"            =>     $result,
+
+        );
+        echo json_encode($output);
+    }
+    public function fetch_data_provider()
+    {
+        $starts       = $this->input->post("start");
+        $length       = $this->input->post("length");
+        $LIMIT        = "LIMIT $starts, $length ";
+        $search       = $this->input->post('search')['value'];
+        $orders       = isset($_POST['order']) ? $_POST['order'] : '';
+
+
+        $where = "WHERE 1=1";
+        $result = array();
+        if (isset($search)) {
+            if ($search != '') {
+                $where .= " AND (nama_operator LIKE '%$search%' OR kode_operator LIKE '%$search%')";
+            }
+        }
+
+        if (isset($orders)) {
+            if ($orders != '') {
+                $order = $orders;
+                $order_column = ['', 'kode_operator', 'nama_operator',];
+                $order_clm  = $order_column[$order[0]['column']];
+                $order_by   = $order[0]['dir'];
+                $where .= " ORDER BY $order_clm $order_by ";
+            } else {
+                $where .= " ORDER BY id ASC ";
+            }
+        } else {
+            $where .= " ORDER BY id ASC ";
+        }
+        if (isset($LIMIT)) {
+            if ($LIMIT != '') {
+                $where .= ' ' . $LIMIT;
+            }
+        }
+        $index = 1;
+        $button = "";
+        $fetch = $this->db->query("SELECT * from operator_selular $where");
+        $fetch2 = $this->db->query("SELECT * from operator_selular");
+        $status = "";
+        foreach ($fetch->result() as $rows) {
+            $button1 = "<button onclick='return getProvider(" . $rows->id . ")' class='btn btn-flat btn-xs btn-success' data-dismiss='modal' type='button'><i class='fa fa-check'></i></button>";
+            $sub_array = array();
+            $sub_array[] = $index;
+            $sub_array[] = $rows->kode_operator;
+            $sub_array[] = $rows->nama_operator;
+            $sub_array[] = $button1;
+            $result[]   = $sub_array;
+            $index++;
+        }
+
+        $output = array(
+            "draw"            =>     intval($this->input->post("draw")),
+            "recordsFiltered" =>     $fetch2->num_rows(),
+            "data"            =>     $result,
+
+        );
+        echo json_encode($output);
+    }
+
+    public function fetch_data_kota()
+    {
+        $starts       = $this->input->post("start");
+        $length       = $this->input->post("length");
+        $LIMIT        = "LIMIT $starts, $length ";
+        $search       = $this->input->post('search')['value'];
+        $orders       = isset($_POST['order']) ? $_POST['order'] : '';
+        $id_provinsi  = $this->input->post('id_provinsi');
+
+
+        $where = "WHERE 1=1 and id_provinsi='$id_provinsi' ";
+        $result = array();
+        if (isset($search)) {
+            if ($search != '') {
+                $where .= " AND (kabupaten_kota LIKE '%$search%')";
+            }
+        }
+
+        if (isset($orders)) {
+            if ($orders != '') {
+                $order = $orders;
+                $order_column = ['', 'id_provinsi', 'kabupaten_kota',];
+                $order_clm  = $order_column[$order[0]['column']];
+                $order_by   = $order[0]['dir'];
+                $where .= " ORDER BY $order_clm $order_by ";
+            } else {
+                $where .= " ORDER BY id ASC ";
+            }
+        } else {
+            $where .= " ORDER BY id ASC ";
+        }
+        if (isset($LIMIT)) {
+            if ($LIMIT != '') {
+                $where .= ' ' . $LIMIT;
+            }
+        }
+        $index = 1;
+        $button = "";
+        $fetch = $this->db->query("SELECT * from master_kabupaten_kota $where");
+        $fetch2 = $this->db->query("SELECT * from master_kabupaten_kota where id_provinsi='$id_provinsi'");
+        $status = "";
+        foreach ($fetch->result() as $rows) {
+            $button1 = "<button onclick='return getKota(" . $rows->id . ")' class='btn btn-flat btn-xs btn-success' data-dismiss='modal' type='button'><i class='fa fa-check'></i></button>";
+            $sub_array = array();
+            $sub_array[] = $index;
+            $sub_array[] = $rows->id_provinsi;
+            $sub_array[] = $rows->kabupaten_kota;
+            $sub_array[] = $button1;
+            $result[]   = $sub_array;
+            $index++;
+        }
+
+        $output = array(
+            "draw"            =>     intval($this->input->post("draw")),
+            "recordsFiltered" =>     $fetch2->num_rows(),
+            "data"            =>     $result,
+
+        );
+        echo json_encode($output);
+    }
+
+
+    public function saveProfile()
+    {
+        $id = $_SESSION['id'];
+        $no_ktp = $this->input->post('ktp');
+        $tanggal_lahir = $this->input->post('tanggal_lahir');
+        $no_hp = $this->input->post('no_telp');
+        $jenis_kelamin = $this->input->post('jk');
+        $status_pernikahan = $this->input->post('status_pernikahan');
+        $pekerjaan = $this->input->post('pekerjaan_id');
+        $tingkat_pendidikan = $this->input->post('tingkat_pendidikan');
+        $provinsi = $this->input->post('provinsi_id');
+        $kota = $this->input->post('kota_id');
+        $tipe_tempat_tinggal = $this->input->post('tipe_tempat_tinggal');
+        $alamat = $this->input->post('alamat');
+        $kartu_provider = $this->input->post('kartu_provider_id');
+        $jumlah_anak = $this->input->post('jumlah_anak');
+        $jumlah_keluarga = $this->input->post('jumlah_keluarga');
+        $pendapatan_perbulan = $this->input->post('jumlah_pendapatan_perbulan');
+        $pendapatan_keluarga_perbulan = $this->input->post('jumlah_pendapatan_keluarga_perbulan');
+        $telepon_rumah = $this->input->post('telepon_rumah');
+        $mobil_yang_dimiliki = $this->input->post('mobil_yang_dimiliki');
+        $motor_yang_dimiliki = $this->input->post('motor_yang_dimiliki');
+        $hp_yang_dimiliki = $this->input->post('hp_yang_dimiliki');
+
+        $data = array(
+            "tanggal_lahir" => $tanggal_lahir,
+            "no_ktp" => $no_ktp,
+            "no_telp" => $no_hp,
+            "jenis_kelamin" => $jenis_kelamin,
+            "status_pernikahan" => $status_pernikahan,
+            "pekerjaan" => $pekerjaan,
+            "tingkat_pendidikan" => $tingkat_pendidikan,
+            "provinsi" => $provinsi,
+            "kota" => $kota,
+            "tipe_tempat_tinggal" => $tipe_tempat_tinggal,
+            "alamat" => $alamat,
+            "kartu_provider" => $kartu_provider,
+            "jumlah_anak" => $jumlah_anak,
+            "jumlah_keluarga" => $jumlah_keluarga,
+            "jumlah_pendapatan_perbulan" => $pendapatan_perbulan,
+            "jumlah_pendapatan_keluarga_perbulan" => $pendapatan_keluarga_perbulan,
+            "telepon_rumah" => $telepon_rumah,
+            "mobil_yang_dimiliki" => $mobil_yang_dimiliki,
+            "motor_yang_dimiliki" => $motor_yang_dimiliki,
+            "hp_yang_dimiliki" => $hp_yang_dimiliki,
+        );
+
+        $this->db->where('id', $id);
+        $update = $this->db->update('user', $data);
+        if ($update) {
+            $response = [
+                'status' => "sukses",
+                'link' => base_url('publics')
+            ];
+        }else{
+            $response = [
+                'status' => "error",
+                'pesan' => "Terjadi kesalahan",
+            ];
+        }
+
+        echo json_encode($response);
+    }
+
 
 
     public function user_profile()
@@ -335,6 +653,72 @@ class Publics extends CI_Controller
         }
         echo json_encode($response);
     }
+
+    public function getByIdProv()
+    {
+        $id = $this->input->post('id');
+        $query = $this->db->query("SELECT * from master_provinsi where id='$id'");
+        if ($query->num_rows() > 0) {
+            $data = array(
+                "id" => $query->row()->id_provinsi,
+                "name" => $query->row()->provinsi,
+
+            );
+            $response = array("status" => "sukses", "value" => $data);
+        } else {
+            $response = array("status" => "error", "pesan" => "Data tidak ditemukan");
+        }
+        echo json_encode($response);
+    }
+    public function getByIdKota()
+    {
+        $id = $this->input->post('id');
+        $query = $this->db->query("SELECT * from master_kabupaten_kota where id='$id'");
+        if ($query->num_rows() > 0) {
+            $data = array(
+                "id" => $query->row()->id,
+                "name" => $query->row()->kabupaten_kota,
+
+            );
+            $response = array("status" => "sukses", "value" => $data);
+        } else {
+            $response = array("status" => "error", "pesan" => "Data tidak ditemukan");
+        }
+        echo json_encode($response);
+    }
+    public function getByIdPekerjaan()
+    {
+        $id = $this->input->post('id');
+        $query = $this->db->query("SELECT * from master_pekerjaan where id='$id'");
+        if ($query->num_rows() > 0) {
+            $data = array(
+                "id" => $query->row()->id,
+                "name" => $query->row()->pekerjaan,
+
+            );
+            $response = array("status" => "sukses", "value" => $data);
+        } else {
+            $response = array("status" => "error", "pesan" => "Data tidak ditemukan");
+        }
+        echo json_encode($response);
+    }
+    public function getByIdProvider()
+    {
+        $id = $this->input->post('id');
+        $query = $this->db->query("SELECT * from operator_selular where id='$id'");
+        if ($query->num_rows() > 0) {
+            $data = array(
+                "id" => $query->row()->id,
+                "name" => $query->row()->nama_operator,
+
+            );
+            $response = array("status" => "sukses", "value" => $data);
+        } else {
+            $response = array("status" => "error", "pesan" => "Data tidak ditemukan");
+        }
+        echo json_encode($response);
+    }
+
     public function saveMessageContact()
     {
         $header = [

@@ -89,7 +89,7 @@
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
               <?php
               $id = $_SESSION['id'];
-              $foto = $this->db->query("select * from user where id='$id'")->row_array();
+              $foto = $this->db->query("select * from admin_user where id='$id'")->row_array();
               ?>
               <img alt="image" src="<?php echo base_url() ?>/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
 

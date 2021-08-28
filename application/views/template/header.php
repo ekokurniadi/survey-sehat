@@ -86,13 +86,8 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="">
+                                        <a href="<?php echo base_url('publics/penukaran_poin_user') ?>">
                                             <i class="fas fa-coins rounded-password"></i> Penukaran Poin
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            <i class="fas fa-trash rounded-password"></i> Hapus Akun
                                         </a>
                                     </li>
                                     <li>

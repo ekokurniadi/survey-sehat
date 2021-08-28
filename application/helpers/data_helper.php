@@ -41,7 +41,7 @@ function get_data($tabel,$primary_key,$id,$select)
 function upload_gambar_biasa($nama_gambar, $lokasi_gambar, $tipe_gambar, $ukuran_gambar, $name_file_form)
 {
     $CI =& get_instance();
-    $nmfile = $nama_gambar."_".time();
+    $nmfile = $nama_gambar."_".time().rand(0,200);
     $config['upload_path'] = './'.$lokasi_gambar;
     $config['allowed_types'] = $tipe_gambar;
     $config['max_size'] = $ukuran_gambar;

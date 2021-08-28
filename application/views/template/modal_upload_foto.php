@@ -48,7 +48,7 @@
     $('#btnSaveImage').click(function() {
         var form = new FormData();
         var files = $('#userFoto')[0].files;
-
+        console.log(files)
         if (files.length > 0) {
             form.append('foto_profil', files[0]);
             $.ajax({

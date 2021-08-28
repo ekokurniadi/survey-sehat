@@ -2,7 +2,7 @@
 
 class Auth_model extends CI_Model {
 
-	private $table = "user";
+	private $table = "admin_user";
 	private $_data = array('password');
 
 	public function validate()
