@@ -150,7 +150,7 @@
 
         function get_notif() {
           $.ajax({
-            url: "<?php echo site_url('dashboard/getNotification'); ?>",
+            url: "<?php echo site_url('dashboard/getNotificationAdmin'); ?>",
             cache: false,
             type: "POST",
             dataType: 'JSON',

@@ -202,11 +202,40 @@ class Publics extends CI_Controller
         echo json_encode($response);
     }
 
-    public function penukaran_poin_user(){
+    public function penukaran_poin_user()
+    {
         $this->load->view('template/header');
         $this->load->view('template/penukaran_poin');
         $this->load->view('template/footer');
     }
+
+    public function penukaran_poin_user_action()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        if ($_SESSION['id'] == "") {
+            $_SESSION['pesan'] = "Sesi anda telah berakhir, silahkan login";
+            $_SESSION['tipe'] = "error";
+            redirect('publics');
+        } else {
+            $data = [
+                "tanggal_pengajuan" => date('Y-m-d'),
+                "id_user" => $_SESSION['id'],
+                "poin" => $_POST['poin_'],
+                "jenis_penukaran" => $_POST['kategori'],
+                "status" => 1,
+            ];
+            $this->db->insert('pengajuan_penukaran_poin', $data);
+            $lastId =$this->db->insert_id();
+            $this->db->insert('notifikasi',array('jenis'=>2,'dari'=>0,'pesan'=>'Pengajuan Penukaran Poin','status'=>0,'created_at'=>date('Y-m-d H:i:s'),'link'=>'pengajuan_penukaran_poin/read/'.$lastId.'','id_user'=>$_SESSION['id']));
+            $poin = $_POST['poin_'];
+            $this->db->query("update user set jumlah_poin = jumlah_poin - $poin where id='{$_SESSION['id']}'");
+            $_SESSION['pesan'] = "Penukaran poin berhasil, admin akan memproses pengajuan anda. Mohon menunggu.";
+            $_SESSION['tipe'] = "success";
+            redirect('publics/penukaran_poin_user');
+        }
+    }
+
+
 
     public function register_action()
     {
@@ -232,6 +261,8 @@ class Publics extends CI_Controller
 
             );
             $this->db->insert('user', $data);
+            $lastId =$this->db->insert_id();
+            $this->db->insert('notifikasi',array('jenis'=>1,'dari'=>$lastId,'pesan'=>'Selamat datang silahkan lengkapi data anda.','status'=>0,'created_at'=>date('Y-m-d H:i:s'),'link'=>'publics/user_profile','id_user'=>0));
             $_SESSION['pesan'] = "Registrasi berhasil, silahkan login ke akun anda";
             $_SESSION['tipe'] = "success";
             redirect(site_url('publics'));
@@ -331,6 +362,146 @@ class Publics extends CI_Controller
         );
         echo json_encode($output);
     }
+
+    public function fetch_data_penukaran()
+    {
+        $starts       = $this->input->post("start");
+        $length       = $this->input->post("length");
+        $LIMIT        = "LIMIT $starts, $length ";
+        $search       = $this->input->post('search')['value'];
+        $orders       = isset($_POST['order']) ? $_POST['order'] : '';
+
+
+        $where = "WHERE 1=1 and id_user='{$_SESSION['id']}' and status=1";
+        $result = array();
+        if (isset($search)) {
+            if ($search != '') {
+                $where .= " AND (status LIKE '%$search%' OR jenis_penukaran LIKE '%$search%')";
+            }
+        }
+
+        if (isset($orders)) {
+            if ($orders != '') {
+                $order = $orders;
+                $order_column = ['', '', '',];
+                $order_clm  = $order_column[$order[0]['column']];
+                $order_by   = $order[0]['dir'];
+                $where .= " ORDER BY $order_clm $order_by ";
+            } else {
+                $where .= " ORDER BY id ASC ";
+            }
+        } else {
+            $where .= " ORDER BY id ASC ";
+        }
+        if (isset($LIMIT)) {
+            if ($LIMIT != '') {
+                $where .= ' ' . $LIMIT;
+            }
+        }
+        $index = 1;
+        $button = "";
+        $fetch = $this->db->query("SELECT * from pengajuan_penukaran_poin $where");
+        $fetch2 = $this->db->query("SELECT * from pengajuan_penukaran_poin");
+        $status = "";
+        foreach ($fetch->result() as $rows) {
+            if ($rows->status == 1) {
+                $content = "Pengajuan";
+            } elseif ($rows->status == 2) {
+                $content = "Proses";
+            } else {
+                $content = "Ditolak";
+            }
+            $label = "<span class='btn btn-flat btn-info'>$content</span>";
+            $sub_array = array();
+            $sub_array[] = $index;
+            $sub_array[] = formatTanggal($rows->tanggal_pengajuan);
+            $sub_array[] = $rows->poin;
+            $sub_array[] = $rows->jenis_penukaran;
+            $sub_array[] = $rows->catatan;
+            $sub_array[] = $label;
+
+            $result[]   = $sub_array;
+            $index++;
+        }
+
+        $output = array(
+            "draw"            =>     intval($this->input->post("draw")),
+            "recordsFiltered" =>     $fetch2->num_rows(),
+            "data"            =>     $result,
+
+        );
+        echo json_encode($output);
+    }
+    public function fetch_data_penukaran_history()
+    {
+        $starts       = $this->input->post("start");
+        $length       = $this->input->post("length");
+        $LIMIT        = "LIMIT $starts, $length ";
+        $search       = $this->input->post('search')['value'];
+        $orders       = isset($_POST['order']) ? $_POST['order'] : '';
+
+
+        $where = "WHERE 1=1 and id_user='{$_SESSION['id']}' and status in('2','3')";
+        $result = array();
+        if (isset($search)) {
+            if ($search != '') {
+                $where .= " AND (status LIKE '%$search%' OR jenis_penukaran LIKE '%$search%')";
+            }
+        }
+
+        if (isset($orders)) {
+            if ($orders != '') {
+                $order = $orders;
+                $order_column = ['', '', '',];
+                $order_clm  = $order_column[$order[0]['column']];
+                $order_by   = $order[0]['dir'];
+                $where .= " ORDER BY $order_clm $order_by ";
+            } else {
+                $where .= " ORDER BY id ASC ";
+            }
+        } else {
+            $where .= " ORDER BY id ASC ";
+        }
+        if (isset($LIMIT)) {
+            if ($LIMIT != '') {
+                $where .= ' ' . $LIMIT;
+            }
+        }
+        $index = 1;
+        $button = "";
+        $fetch = $this->db->query("SELECT * from pengajuan_penukaran_poin $where");
+        $fetch2 = $this->db->query("SELECT * from pengajuan_penukaran_poin");
+        $status = "";
+        foreach ($fetch->result() as $rows) {
+            if ($rows->status == 1) {
+                $content = "Pengajuan";
+            } elseif ($rows->status == 2) {
+                $content = "Proses";
+            } else {
+                $content = "Ditolak";
+            }
+            $label = "<span class='btn btn-flat btn-info'>$content</span>";
+            $sub_array = array();
+            $sub_array[] = $index;
+            $sub_array[] = formatTanggal($rows->tanggal_pengajuan);
+            $sub_array[] = $rows->poin;
+            $sub_array[] = $rows->jenis_penukaran;
+            $sub_array[] = $rows->catatan;
+            $sub_array[] = $label;
+
+            $result[]   = $sub_array;
+            $index++;
+        }
+
+        $output = array(
+            "draw"            =>     intval($this->input->post("draw")),
+            "recordsFiltered" =>     $fetch2->num_rows(),
+            "data"            =>     $result,
+
+        );
+        echo json_encode($output);
+    }
+
     public function fetch_data_pekerjaan()
     {
         $starts       = $this->input->post("start");
@@ -565,7 +736,7 @@ class Publics extends CI_Controller
                 'status' => "sukses",
                 'link' => base_url('publics')
             ];
-        }else{
+        } else {
             $response = [
                 'status' => "error",
                 'pesan' => "Terjadi kesalahan",

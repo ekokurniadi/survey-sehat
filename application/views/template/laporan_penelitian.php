@@ -53,7 +53,7 @@
             <table id="example2" width="100%">
                 <thead>
                     <tr>
-                        <<th style="background-color: transparent !important;width:100%" colspan="5">
+                        <th style="background-color: transparent !important;width:100%" colspan="5">
                             </th>
                     </tr>
                 </thead>

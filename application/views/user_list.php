@@ -40,6 +40,7 @@
                     <tr>
                       <th>No</th>
                       <th>Foto Profil</th>
+                      <th>Status</th>
                       <th>Nama</th>
                       <th>Email</th>
                       <th>Password</th>

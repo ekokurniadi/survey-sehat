@@ -35,6 +35,21 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <title id="title">{{title}}</title>
+    <style>
+        div#circle {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            right: 2px;
+
+        }
+
+        div.red-dot {
+            background-color: red;
+        }
+    </style>
 </head>
 
 <body>
@@ -54,16 +69,19 @@
                 <?php } else { ?>
                     <?php $gambar = $this->db->get_where('user', array('id' => $id))->row() ?>
                     <div class="col-md-5 ml-auto mb-3">
-                        <a href="#" class="btn btn-flat btn-sm btn-primary"></i> Penukaran</a>
-                        <a href="#" class="btn btn-flat btn-sm btn-primary" style="background-color: #f52060;"><i class="fas fa-coins" id="point" style="color:white"></i> </a>
+                        <a href="<?php echo base_url('publics/penukaran_poin_user') ?>" class="btn btn-flat btn-sm btn-primary"></i> Penukaran</a>
+                        <a href="#" class="btn btn-flat btn-sm btn-primary" style="background-color: #f52060;"><i class="fas fa-coins" style="color:white"></i> <em id="point"></em></a>
                         <?php if ($gambar->foto_profil == "") { ?>
                             <img id="imgUser3" src="<?php echo base_url() . 'image/default.png' ?>" width="50px" height="50px" class="rounded-circle mr-" alt="">
                         <?php } else { ?>
                             <img id="imgUser4" src="<?php echo base_url('image/') . $gambar->foto_profil ?>" width="50px" height="50px" class="rounded-circle mr-" alt="">
                         <?php } ?>
-                        <a href="#" class="btn btn-flat btn-sm btn-default" style="color: white;"><?= $gambar->nama ?></a>
+                        <a href="#" class="btn btn-flat btn-sm btn-default" style="color: white;font-size:10pt;"><?= $gambar->nama ?></a>
                         <div class="dropdown">
-                            <button class="dropbtn btn btn-flat btn-sm btn-default" id="ntf"><i class="fa fa-bell"></i></button>
+                            <div class="notif-wrp" style="position: relative;">
+                                <button class="dropbtn btn btn-flat btn-sm btn-default" id="ntf"><i class="fa fa-bell"></i></button>
+                            </div>
+                            <div id="circle"></div>
                             <div class="dropdown-content">
                                 <ul class="dropdown-notif">
 
@@ -169,6 +187,19 @@
         ?>
     </div>
 
+    <?php if ($_SESSION['id'] != "" && $_SESSION['status'] == 1) {
+        // banned sementara
+        echo "<script>
+            Swal.fire({
+                icon:'error',
+                title:'PERINGATAN',
+                text: 'Akun anda dinonaktifkan, karena melanggar ketentuan dari survey sehat',
+            });
+            setTimeout(() => {
+                    window.location = '" . base_url('auth_client/logout') . "';
+            }, 3000);
+        </script>";
+    } ?>
 
     <script>
         var title = new Vue({
@@ -218,6 +249,7 @@
 
         function showPoint(response) {
             $('#point').text(response.total_notif + " Point");
+
         }
 
         function getPengumuman() {
@@ -228,6 +260,12 @@
                 dataType: 'JSON',
                 success: function(response) {
                     showPengumuman(response);
+                    if (response.data.length >0) {
+                       $('#circle').attr('class','red-dot');
+                    }else{
+                        $('#circle').removeClass('class','red-dot');
+                        
+                    }
                 },
             });
         }
@@ -236,7 +274,7 @@
             $(".dropdown-notif").html('');
             var html = '';
             for (rsp of response.data) {
-                html += "<li><a href='" + rsp[3] + "'><i class='fa fa-info'> Notifikasi</i><div class='dropdown-item-desc'>" + rsp[4] + "</div></a><span></span></li>";
+                html += "<li><a href='#'><i class='fa fa-info'> Notifikasi</i><div class='dropdown-item-desc'>" + rsp[4] + "</div></a><span></span></li>";
                 // toastr_success(rsp.pesan);        
             }
             // console.log(popup_showed);
