@@ -225,8 +225,8 @@ class Publics extends CI_Controller
                 "status" => 1,
             ];
             $this->db->insert('pengajuan_penukaran_poin', $data);
-            $lastId =$this->db->insert_id();
-            $this->db->insert('notifikasi',array('jenis'=>2,'dari'=>0,'pesan'=>'Pengajuan Penukaran Poin','status'=>0,'created_at'=>date('Y-m-d H:i:s'),'link'=>'pengajuan_penukaran_poin/read/'.$lastId.'','id_user'=>$_SESSION['id']));
+            $lastId = $this->db->insert_id();
+            $this->db->insert('notifikasi', array('jenis' => 2, 'dari' => 0, 'pesan' => 'Pengajuan Penukaran Poin', 'status' => 0, 'created_at' => date('Y-m-d H:i:s'), 'link' => 'pengajuan_penukaran_poin/read/' . $lastId . '', 'id_user' => $_SESSION['id']));
             $poin = $_POST['poin_'];
             $this->db->query("update user set jumlah_poin = jumlah_poin - $poin where id='{$_SESSION['id']}'");
             $_SESSION['pesan'] = "Penukaran poin berhasil, admin akan memproses pengajuan anda. Mohon menunggu.";
@@ -261,12 +261,19 @@ class Publics extends CI_Controller
 
             );
             $this->db->insert('user', $data);
-            $lastId =$this->db->insert_id();
-            $this->db->insert('notifikasi',array('jenis'=>1,'dari'=>$lastId,'pesan'=>'Selamat datang silahkan lengkapi data anda.','status'=>0,'created_at'=>date('Y-m-d H:i:s'),'link'=>'publics/user_profile','id_user'=>0));
+            $lastId = $this->db->insert_id();
+            $this->db->insert('notifikasi', array('jenis' => 1, 'dari' => $lastId, 'pesan' => 'Selamat datang silahkan lengkapi data anda.', 'status' => 0, 'created_at' => date('Y-m-d H:i:s'), 'link' => 'publics/user_profile', 'id_user' => 0));
             $_SESSION['pesan'] = "Registrasi berhasil, silahkan login ke akun anda";
             $_SESSION['tipe'] = "success";
             redirect(site_url('publics'));
         }
+    }
+
+    public function surveypilihan()
+    {
+        $this->load->view('template/header');
+        $this->load->view('template/surveyPilihan');
+        $this->load->view('template/footer');
     }
 
     public function updateFotoProfile()
@@ -931,6 +938,14 @@ class Publics extends CI_Controller
         }
     }
 
+
+    public function updateNotif(){
+        $id = $this->input->post('id');
+        $this->db->where('id',$id);
+        $this->db->update('notifikasi',array("status"=>1));
+        echo json_encode(array("status"=>"sukses"));
+    }
+
     public function fetch_data_survey()
     {
         $starts       = $this->input->post("start");
@@ -984,6 +999,93 @@ class Publics extends CI_Controller
         $fetch = $this->db->query("select a.id,a.kode_survey,a.judul,a.periode_awal,a.periode_akhir,a.poin,a.kuota,a.ketentuan,b.jenis,c.kategori_survey,(SELECT COUNT(id) from survey_member e where e.kode_survey=a.kode_survey) as peserta from survey a join jenis_survey b on a.jenis=b.id join kategori_survey c on a.kategori=c.id $where");
         // log_r($this->db->last_query());
         $fetch2 = $this->db->query("select a.id,a.kode_survey,a.judul,a.periode_akhir,a.periode_akhir,a.poin,a.kuota,a.ketentuan,b.jenis,c.kategori_survey,(SELECT COUNT(id) from survey_member e where e.kode_survey=a.kode_survey) as peserta from survey a join jenis_survey b on a.jenis=b.id join kategori_survey c on a.kategori=c.id ");
+        foreach ($fetch->result() as $rows) {
+            $id = isset($_SESSION['id']) ? $_SESSION['id'] : "";
+            $select = $this->db->query("SELECT * from survey_member where id_user='$id' and kode_survey='$rows->kode_survey'");
+            if ($id == "") {
+                $button = "<a href='#' class='btn btn-flat btn-primary' data-toggle='modal' data-target='#exampleModal'>Daftar</a>";
+            } else {
+                if ($select->num_rows() > 0) {
+                    $button = "<button class='btn btn-sm btn-danger bg-dark'>Selesai</button>";
+                } else {
+                    $button = "<a href='" . base_url('publics/survey_register?id=' . $rows->id) . "' class='btn btn-sm btn-primary '>Daftar</a>";
+                }
+            }
+            $sub_array = array();
+            $sub_array[] = $index;
+            $sub_array[] = "<div class='row'>
+            <div class='col-md-12' style='font-weight:bold'>" .
+                formatTanggal($rows->periode_awal) . " - " .  formatTanggal($rows->periode_akhir)
+                . "</div><div class='col-md-8'>" . $rows->judul . "</div>
+                <div class='col-md-4'><button class='btn btn-sm flat btn-danger'>Poin : " . $rows->poin . "</button></div>
+                <div class='col-md-12'>&nbsp;</div>
+                <div class='col-md-12'>
+                   " . $button . "
+                </div>
+        </div>";
+
+            $result[]      = $sub_array;
+            $index++;
+        }
+        $output = array(
+            "draw"            =>     intval($this->input->post("draw")),
+            "recordsFiltered" =>     $fetch2->num_rows(),
+            "data"            =>     $result,
+
+        );
+        echo json_encode($output);
+    }
+    public function fetch_data_survey_pilihan()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $starts       = $this->input->post("start");
+        $length       = $this->input->post("length");
+        $LIMIT        = "LIMIT $starts, $length ";
+        $draw         = $this->input->post("draw");
+        $search       = $this->input->post("search")["value"];
+        $orders       = isset($_POST["order"]) ? $_POST["order"] : '';
+        $id           = $this->input->post('id');
+        $date         = date('Y-m-d');
+
+
+        $where = "WHERE 1=1 and e.id_user='$id'  ";
+
+        // $searchingColumn;
+        $result = array();
+        if (isset($search)) {
+            if ($search != '') {
+                $searchingColumn = $search;
+                $where .= " AND (a.kode_survey LIKE '%$search%'
+                            OR a.judul LIKE '%$search%'
+                            OR c.kategori_survey LIKE '%$search%'
+                            OR b.jenis LIKE '%$search%'
+                            )";
+            }
+        }
+
+        if (isset($orders)) {
+            if ($orders != '') {
+                $order = $orders;
+                $order_column = ['a.kode_survey'];
+                $order_clm  = $order_column[$order[0]['column']];
+                $order_by   = $order[0]['dir'];
+                $where .= " ORDER BY $order_clm $order_by ";
+            } else {
+                $where .= " ORDER BY a.id ASC ";
+            }
+        } else {
+            $where .= " ORDER BY a.id ASC ";
+        }
+        if (isset($LIMIT)) {
+            if ($LIMIT != '') {
+                $where .= ' ' . $LIMIT;
+            }
+        }
+        $index = 1;
+        $button = "";
+        $fetch = $this->db->query("select a.id,a.kode_survey,a.judul,a.periode_awal,a.periode_akhir,a.poin,a.kuota,a.ketentuan,b.jenis,c.kategori_survey from survey a join jenis_survey b on a.jenis=b.id join kategori_survey c on a.kategori=c.id join survey_pilihan_user e on a.kode_survey=e.kode_survey $where");
+        // log_r($this->db->last_query());
+        $fetch2 = $this->db->query("select a.id,a.kode_survey,a.judul,a.periode_akhir,a.periode_akhir,a.poin,a.kuota,a.ketentuan,b.jenis,c.kategori_survey from survey a join jenis_survey b on a.jenis=b.id join kategori_survey c on a.kategori=c.id join survey_pilihan_user e on a.kode_survey=e.kode_survey");
         foreach ($fetch->result() as $rows) {
             $id = isset($_SESSION['id']) ? $_SESSION['id'] : "";
             $select = $this->db->query("SELECT * from survey_member where id_user='$id' and kode_survey='$rows->kode_survey'");

@@ -26,6 +26,19 @@ nav.navbar {
     color: beige;
 }
 
+div.dropdown-menu {
+    background-color: #182260;
+}
+
+div.dropdown-menu a {
+    color: beige;
+}
+
+div.dropdown-menu a:hover {
+    color: beige;
+    background-color: #182260;
+}
+
 #navbarNavDropdown div.set1 {
     background-color: red;
     width: 100%;

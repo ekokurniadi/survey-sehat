@@ -47,8 +47,7 @@
                       <th>Periode</th>
                       <th>Poin</th>
                       <th>Peserta</th>
-                      <th>Ketentuan</th>
-                      <th>Action</th>
+                      <th width="200px">Action</th>
                     </tr>
                   </thead>
                   <tbody></tbody>

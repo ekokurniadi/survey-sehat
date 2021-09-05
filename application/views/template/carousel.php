@@ -30,7 +30,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 col-sm-12 col-xs-12 mb-2">
-                            <div class="card card-total" style="background: url('http://localhost/surveysehat/assetsPublic/application/templates/default/default/images/common/bg_01.gif') no-repeat scroll right top #0ea2d3;">
+                            <div class="card card-total" style="background: url('<?=base_url()?>image/default/images/common/bg_01.gif') no-repeat scroll right top #0ea2d3;">
                                 <div class="d-flex justify-content-start mb-2 mt-5 px-2 text-white">
                                     <h3>Total Anggota</h3>
                                 </div>
@@ -69,7 +69,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 col-sm-12 col-xs-12 mb-2">
-                            <div class="card card-total" style="background: url('http://localhost/surveysehat/assetsPublic/application/templates/default/default/images/common/bg_01.gif') no-repeat scroll right top #0ea2d3;">
+                            <div class="card card-total" style="background: url('<?=base_url()?>image/default/images/common/bg_01.gif') no-repeat scroll right top #0ea2d3;">
                                 <div class="d-flex justify-content-start mb-2 mt-5 px-2 text-white">
                                     <h3>Total Anggota</h3>
                                 </div>

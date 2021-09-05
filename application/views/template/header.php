@@ -143,6 +143,19 @@
                             <a class="nav-link" href="<?= base_url('publics/perkenalan') ?>">Perkenalan</a>
                             <div class="set1" <?php echo $this->uri->segment(2) == "perkenalan" ? "" :  "style='display: none;'" ?>>&nbsp;</div>
                         </li>
+                        <?php if ($_SESSION['id'] == "") { ?>
+
+                        <?php } else { ?>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Aktivitas
+                                </a>
+                                <div class="set1" <?php echo $this->uri->segment(2) == "surveypilihan" ? "" :  "style='display: none;'" ?>>&nbsp;</div>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="<?= base_url('publics/surveypilihan') ?>">Survey</a>
+                                </div>
+                            </li>
+                        <?php } ?>
                         <li class="nav-item px-3">
                             <a class="nav-link" href="<?= base_url('publics/pointhadiah') ?>">Point dan Hadiah</a>
                             <div class="set1" <?php echo $this->uri->segment(2) == "pointhadiah" ? "" :  "style='display: none;'" ?>>&nbsp;</div>
@@ -187,7 +200,7 @@
         ?>
     </div>
 
-    <?php if ($_SESSION['id'] != "" && $_SESSION['status'] == 1) {
+    <?php if ($_SESSION['status'] == 1) {
         // banned sementara
         echo "<script>
             Swal.fire({
@@ -260,11 +273,14 @@
                 dataType: 'JSON',
                 success: function(response) {
                     showPengumuman(response);
-                    if (response.data.length >0) {
-                       $('#circle').attr('class','red-dot');
-                    }else{
-                        $('#circle').removeClass('class','red-dot');
-                        
+                    if (response.data.length > 0) {
+                        $('#circle').attr('class', 'red-dot');
+                    } else {
+                        $('#circle').removeClass('class', 'red-dot');
+                        $(".dropdown-notif").html('');
+                        var html = '';
+                        html +="<li>Tidak ada Notifikasi</li>";
+                        $(".dropdown-notif").append(html);
                     }
                 },
             });
@@ -274,11 +290,25 @@
             $(".dropdown-notif").html('');
             var html = '';
             for (rsp of response.data) {
-                html += "<li><a href='#'><i class='fa fa-info'> Notifikasi</i><div class='dropdown-item-desc'>" + rsp[4] + "</div></a><span></span></li>";
+                html += "<li><a href='" + rsp[3] + "' onclick='updateNotif(rsp[0])'><i class='fa fa-info'> Notifikasi</i><div class='dropdown-item-desc'>" + rsp[4] + "</div></a><span></span></li>";
                 // toastr_success(rsp.pesan);        
             }
             // console.log(popup_showed);
             $(".dropdown-notif").append(html);
+        }
+
+        function updateNotif(id) {
+            $.ajax({
+                url: '<?= base_url('publics/updateNotif') ?>',
+                type: 'POST',
+                cache: false,
+                data: {
+                    id: id
+                },
+                success: function(response) {
+                    alert(response);
+                }
+            });
         }
     </script>
     <div class="parent">

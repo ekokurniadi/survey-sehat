@@ -146,6 +146,12 @@
                           </td>
                         </tr>
                         <tr>
+                          <td>Jawaban 5</td>
+                          <td>
+                            <textarea class="form-control textarea_editor" rows="3" name="jawaban_5" id="jawaban_5" placeholder="Jawaban 5"></textarea>
+                          </td>
+                        </tr>
+                        <tr>
                           <td colspan="2" v-if="mode == 'edit' || mode=='create'">
                             <button type="button" onclick="tambahkan()" class="btn btn-md btn-flat btn-primary"><i class="fa fa-plus"></i> Simpan</button>
                           </td>
@@ -190,6 +196,7 @@
       var jawaban_2 = $('#jawaban_2').val();
       var jawaban_3 = $('#jawaban_3').val();
       var jawaban_4 = $('#jawaban_4').val();
+      var jawaban_5 = $('#jawaban_5').val();
 
       var data = {
         kode_survey: kode_survey,
@@ -198,6 +205,7 @@
         jawaban_2: jawaban_2,
         jawaban_3: jawaban_3,
         jawaban_4: jawaban_4,
+        jawaban_5: jawaban_5,
       }
 
       simpanData(data);
@@ -249,6 +257,7 @@
             jawaban_2: data.jawaban_2,
             jawaban_3: data.jawaban_3,
             jawaban_4: data.jawaban_4,
+            jawaban_5: data.jawaban_5,
           },
           cache: false,
           dataType: 'JSON',

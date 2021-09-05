@@ -107,6 +107,72 @@ class Kuisioner extends MY_Controller
         echo json_encode($output);
     }
 
+
+
+    public function upload_kuisioner_action()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $filename = $_FILES['userfile']['name'];
+        $this->load->library('upload');
+        $nmfile = "home" . time();
+        $config['upload_path']   = './excel/';
+        $config['overwrite']     = true;
+        $config['allowed_types'] = 'xlsx';
+        $config['file_name'] = $_FILES['userfile']['name'];
+
+        $this->upload->initialize($config);
+
+        if ($_FILES['userfile']['name']) {
+            if ($this->upload->do_upload('userfile')) {
+                $gbr = $this->upload->data();
+                include APPPATH . 'third_party/PHPExcel/PHPExcel.php';
+
+                $excelreader = new PHPExcel_Reader_Excel2007();
+                $loadexcel = $excelreader->load('excel/' . $filename . '');
+                $sheet = $loadexcel->getActiveSheet()->toArray(null, true, true, true);
+                unset($sheet[1]);
+
+
+                foreach ($sheet as $rows) {
+                    $cek = $this->db->get_where('kuisioner', array('pertanyaan' => $rows['B'], 'periode_awal' => $rows['C'], 'periode_akhir' => $rows['D']));
+                    $kode = $this->acak(10);
+                    $data = array(
+                        "kode_kuisioner" => $kode,
+                        "pertanyaan" => $rows['B'],
+                        "kategori" => 1,
+                        "periode_awal" => $rows['C'],
+                        "periode_akhir" => $rows['D'],
+                    );
+
+
+                    if ($cek->num_rows() <= 0) {
+                        $this->db->insert('kuisioner', $data);
+                    }
+
+                    $cekJudul = $this->db->query("SELECT kode_kuisioner,pertanyaan,periode_awal,periode_akhir from kuisioner where pertanyaan='{$rows['B']}' and periode_awal='{$rows['C']}' and periode_akhir='{$rows['D']}'");
+                    if ($cekJudul->row()->pertanyaan == $rows['B']) {
+                        $key = $cekJudul->row()->kode_kuisioner;
+                        $detail = array(
+                            "id_kuisioner" => $key,
+                            "jawaban" => $rows['E'],
+                        );
+                        $insert = $this->db->insert('kuisioner_jawaban', $detail);
+                    }
+                }
+                if ($insert) {
+                    echo json_encode(array("status" => "sukses", "link" => base_url('kuisioner')));
+                    $_SESSION['pesan'] = "Data Berhasil di Upload.";
+                    $_SESSION['tipe'] = "success";
+                } else {
+                    echo json_encode(array("status" => "error", "link" => base_url('kuisioner')));
+                    $_SESSION['pesan'] = "Data Gagal di Upload.";
+                    $_SESSION['tipe'] = "error";
+                }
+            }
+        }
+    }
+
+
     public function read($id)
     {
         $row = $this->Kuisioner_model->get_by_id($id);
