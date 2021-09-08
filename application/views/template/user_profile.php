@@ -1,3 +1,12 @@
+<style>
+    form#form_user_profile label.error {
+        color: red;
+    }
+</style>
+<?php
+$id = $_SESSION['id'];
+$data = $this->db->get_where('user', array('id' => $id))->row();
+?>
 <section class="contact_us" style="font-size: 10pt;">
     <div class="container">
         <div class="row">
@@ -21,156 +30,176 @@
                         <button type="button" class="btn btn-danger btn-sm btn-flat mt-2" data-toggle="modal" data-target="#modalUploadFoto">Upload Foto</button>
                     </div>
                 </div>
-                <label for="" class="control-label col-md-1">Nama</label>
-                <div class="col-md-5 mb-2">
-                    <input type="text" required class="tanya" readonly name="nama" id="nama" placeholder="Email" value="<?php echo $data->nama ?>">
+                <label for="" class="control-label col-md-1 ">Nama<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
+                    <input type="text" required class="tanya" readonly name="nama" id="nama" placeholder="Nama Lengkap" value="<?php echo $data->nama ?>">
                 </div>
-                <label for="" class="control-label col-md-1">No.HP</label>
-                <div class="col-md-5 mb-2">
-                    <input type="text" required class="tanya" name="no_telp" id="no_telp" placeholder="No. Telp" value="<?php echo $data->no_telp ?>">
+                <label for="" class="control-label col-md-1 ">No.HP(WA)<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
+                    <input type="text" required class="tanya" name="no_telp" id="no_telp" placeholder="No. Telp(WA)" value="<?php echo $data->no_telp ?>">
                 </div>
-                <label for="" class="control-label col-md-1">Tanggal Lahir</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">Tanggal Lahir<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
                     <input type="date" required class="tanya" name="tanggal_lahir" id="tanggal_lahir" placeholder="No. Telp" value="<?php echo $data->tanggal_lahir ?>">
                 </div>
-                <label for="" class="control-label col-md-1">Jenis Kelamin</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">Jenis Kelamin<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
                     <input type="radio" required class="tanya" name="jk" id="jk" placeholder="No. Telp" value="0" <?= $data->jenis_kelamin == 0 ? "checked" : "" ?>>
-                    <label for="">Laki-Laki</label>
+                    <label for="">Laki-Laki </label>
                     <input type="radio" required class="tanya" name="jk" id="jk" placeholder="No. Telp" value="1" <?= $data->jenis_kelamin == 1 ? "checked" : "" ?>>
-                    <label for="">Perempuan</label>
+                    <label for="">Perempuan </label>
                 </div>
-                <label for="" class="control-label col-md-1">No.KTP</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">No.KTP<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
                     <input type="text" required class="tanya" name="ktp" id="ktp" placeholder="No. KTP" value="<?php echo $data->no_ktp ?>">
                 </div>
-                <label for="" class="control-label col-md-1">Foto KTP</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">Foto KTP<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
                     <input type="file" class="tanya" onchange="upload_ktp(this)" name="foto_ktp" id="foto_ktp" placeholder="No. foto_ktp" value="<?php echo $data->foto_ktp ?>" style="width:65%">
                     <button type="button" data-toggle="modal" data-target="#modalPreview" class="btn btn-primary btn-sm btn-flat">
                         <i class="fa fa-picture-o"></i> Preview
                     </button>
                 </div>
-                <label for="" class="control-label col-md-1">Status Pernikahan</label>
-                <div class="col-md-5 mb-2">
-                    <select name="status_pernikahan" id="status_pernikahan" class="tanya">
+                <label for="" class="control-label col-md-1 ">Status Pernikahan<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
+                    <select name="status_pernikahan" id="status_pernikahan" class="tanya" required>
                         <option value="<?= $data->status_pernikahan ?>"><?= $data->status_pernikahan == "" ? "Choose an option" : $data->status_pernikahan ?></option>
                         <option value="Single">Single</option>
                         <option value="Menikah">Menikah</option>
-                        <option value="Cerai">Cerai</option>
+                        <option value="Cerai Mati">Cerai Mati</option>
+                        <option value="Cerai Hidup">Cerai Hidup</option>
                     </select>
                 </div>
-                <label for="" class="control-label col-md-1">Pekerjaan</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">Pekerjaan<em style="color:red;">*</em> </label>
+
+                <div class="col-md-5 mb-2 ">
                     <?php $datapekerjaan = $this->db->get_where('master_pekerjaan', array('id' => $data->pekerjaan)) ?>
-                    <input type="text" required readonly class="tanya" name="pekerjaan" id="pekerjaan" placeholder="Pekerjaan" value="<?php echo $datapekerjaan->row()->pekerjaan ?>">
-                    <button type="button" id="searchPekerjaan" data-toggle="modal" data-target="#modalPekerjaan" class="btn btn-primary btn-sm" style="margin-left:-50px;">
-                        <i class="fa fa-search"></i>
-                    </button>
-                    <input type="hidden" required class="tanya" name="pekerjaan_id" id="pekerjaan_id" placeholder="Provinsi" value="<?= $data->pekerjaan ?>">
+                    <input type="text" required data-toggle="modal" data-target="#modalPekerjaan" readonly class="tanya" name="pekerjaan" id="pekerjaan" placeholder="Pekerjaan" value="<?php echo $datapekerjaan->row()->pekerjaan ?>">
+                    <input type="hidden" class="tanya" name="pekerjaan_id" id="pekerjaan_id" placeholder="Provinsi" value="<?= $data->pekerjaan ?>">
                 </div>
-                <label for="" class="control-label col-md-1">Tingkat Pendidikan</label>
-                <div class="col-md-5 mb-2">
-                    <select name="tingkat_pendidikan" id="tingkat_pendidikan" class="tanya">
+                <label for="" class="control-label col-md-1 ">Bidang Pekerjaan<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
+                    <select name="bidang_industri_pekerjaan" id="bidang_industri_pekerjaan" class="tanya" required>
+                        <option value="<?= $data->bidang_industri_pekerjaan ?>"><?= $data->bidang_industri_pekerjaan == "" ? "Choose an option" : $data->bidang_industri_pekerjaan ?></option>
+                        <option value="Kesehatan">Kesehatan</option>
+                        <option value="Konstruksi">Konstruksi</option>
+                        <option value="Sales/Marketing">Sales/Marketing</option>
+                        <option value="Administrasi">Administrasi</option>
+                        <option value="Teknologi Informasi">Teknologi Informasi</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Kesenian">Kesenian</option>
+                        <option value="Industri">Industri</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                </div>
+
+                <label for="" class="control-label col-md-1 ">Tingkat Pendidikan<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
+                    <select name="tingkat_pendidikan" id="tingkat_pendidikan" class="tanya" required>
                         <option value="<?= $data->tingkat_pendidikan ?>"><?= $data->tingkat_pendidikan == "" ? "Choose an option" : $data->tingkat_pendidikan ?></option>
                         <option value="SD">SD</option>
                         <option value="SMP">SMP</option>
                         <option value="SMA">SMA</option>
                         <option value="Kejuruan">Kejuruan</option>
+                        <option value="Diploma">Diploma</option>
                         <option value="Strata-I">Strata-I</option>
                         <option value="Strata-II">Strata-II</option>
                         <option value="Strata-III">Strata-III</option>
                     </select>
                 </div>
-                <label for="" class="control-label col-md-1">Provinsi</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">Provinsi<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
                     <?php $dataprovinsi = $this->db->get_where('master_provinsi', array('id_provinsi' => $data->provinsi)) ?>
-                    <input type="text" readonly required class="tanya" name="provinsi" id="provinsi" placeholder="Provinsi" value="<?= $dataprovinsi->row()->provinsi ?>">
-                    <button type="button" data-toggle="modal" data-target="#modalProvinsi" class="btn btn-primary btn-sm" style="margin-left:-50px;">
-                        <i class="fa fa-search"></i>
-                    </button>
-                    <input type="hidden" required class="tanya" name="provinsi_id" id="provinsi_id" placeholder="Provinsi" value="<?= $data->provinsi ?>">
+                    <input type="text" readonly data-toggle="modal" data-target="#modalProvinsi" required class="tanya" name="provinsi" id="provinsi" placeholder="Provinsi" value="<?= $dataprovinsi->row()->provinsi ?>">
+                    <input type="hidden" class="tanya" name="provinsi_id" id="provinsi_id" placeholder="Provinsi" value="<?= $data->provinsi ?>">
                 </div>
-                <label for="" class="control-label col-md-1">Kota</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">Kota<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
                     <?php $datakota = $this->db->get_where('master_kabupaten_kota', array('id' => $data->kota)) ?>
-                    <input type="text" readonly required class="tanya" name="kota" id="kota" placeholder="Kota" value="<?= $datakota->row()->kabupaten_kota ?>">
-                    <button type="button" data-toggle="modal" data-target="#modalKota" class="btn btn-primary btn-sm" style="margin-left:-50px;">
-                        <i class="fa fa-search"></i>
-                    </button>
-                    <input type="hidden" required class="tanya" name="kota_id" id="kota_id" placeholder="Provinsi" value="<?= $data->kota ?>">
+                    <input type="text" readonly data-toggle="modal" data-target="#modalKota" required class="tanya" name="kota" id="kota" placeholder="Kota" value="<?= $datakota->row()->kabupaten_kota ?>">
+                    <input type="hidden" class="tanya" name="kota_id" id="kota_id" placeholder="Provinsi" value="<?= $data->kota ?>">
                 </div>
-                <label for="" class="control-label col-md-1">Tipe Tempat Tinggal</label>
-                <div class="col-md-5 mb-2">
-                    <select name="tipe_tempat_tinggal" id="tipe_tempat_tinggal" class="tanya">
+                <label for="" class="control-label col-md-1 ">Tipe Tempat Tinggal<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
+                    <select name="tipe_tempat_tinggal" id="tipe_tempat_tinggal" class="tanya" required>
                         <option value="<?= $data->tipe_tempat_tinggal ?>"><?= $data->tipe_tempat_tinggal == "" ? "Choose an option" : $data->tipe_tempat_tinggal ?></option>
                         <option value="Rumah Pribadi">Rumah Pribadi</option>
                         <option value="Apartemen">Apartemen</option>
-                        <option value="Rusun">Rusun</option>
-                        <option value="Perumahan">Perumahan</option>
-                        <option value="Perumahan">Ruko</option>
+                        <option value="Rumah Kontrak">Rumah Kontrak</option>
+                        <option value="Kost">Kost</option>
                         <option value="Lainnya">Lainnya</option>
                     </select>
                 </div>
-                <label for="" class="control-label col-md-1">Alamat</label>
-                <div class="col-md-5 mb-2">
-                    <textarea name="alamat" id="alamat" class="tanya" cols="30" rows="5"><?= $data->alamat ?></textarea>
+                <label for="" class="control-label col-md-1 ">Alamat<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
+                    <textarea name="alamat" id="alamat" class="tanya" required cols="30" rows="5"><?= $data->alamat ?></textarea>
                 </div>
-                <label for="" class="control-label col-md-1">Kartu Provider</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">Kartu Provider<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
                     <?php $dataProvider = $this->db->get_where('operator_selular', array('id' => $data->kartu_provider)) ?>
-                    <input type="text" readonly required class="tanya" name="kartu_provider" id="kartu_provider" placeholder="Kartu Provider" value="<?= $dataProvider->row()->nama_operator ?>">
-                    <button type="button" id="searchProvider" data-toggle="modal" data-target="#modalProvider" class="btn btn-primary btn-sm" style="margin-left:-50px;">
-                        <i class="fa fa-search"></i>
-                    </button>
-                    <input type="hidden" required class="tanya" name="kartu_provider_id" id="kartu_provider_id" placeholder="Provinsi" value="<?= $data->kartu_provider ?>">
+                    <input type="text" readonly required data-toggle="modal" data-target="#modalProvider" class="tanya" name="kartu_provider" id="kartu_provider" placeholder="Kartu Provider" value="<?= $dataProvider->row()->nama_operator ?>">
+                    <input type="hidden" class="tanya" name="kartu_provider_id" id="kartu_provider_id" placeholder="Provinsi" value="<?= $data->kartu_provider ?>">
                 </div>
-                <label for="" class="control-label col-md-1">Jumlah Anak</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">Jumlah Anak<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
                     <input type="text" required class="tanya" name="jumlah_anak" id="jumlah_anak" placeholder="Jumlah Anak" value="<?php echo $data->jumlah_anak ?>">
                 </div>
-                <label for="" class="control-label col-md-1">Jumlah Keluarga</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">Jumlah Keluarga<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
                     <input type="text" required class="tanya" name="jumlah_keluarga" id="jumlah_keluarga" placeholder="Jumlah Keluarga" value="<?php echo $data->jumlah_keluarga ?>">
                 </div>
-                <label for="" class="control-label col-md-1">Pendapatan Perbulan</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">Pendapatan Perbulan<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
                     <input type="text" required class="tanya" name="jumlah_pendapatan_perbulan" id="jumlah_pendapatan_perbulan" placeholder="Pendapatan Perbulan" value="<?php echo $data->jumlah_pendapatan_perbulan ?>">
                 </div>
-                <label for="" class="control-label col-md-1">Pendapatan Keluarga Perbulan</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">Pendapatan Keluarga Perbulan<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
                     <input type="text" required class="tanya" name="jumlah_pendapatan_keluarga_perbulan" id="jumlah_pendapatan_keluarga_perbulan" placeholder="Pendapatan Keluarga Perbulan" value="<?php echo $data->jumlah_pendapatan_keluarga_perbulan ?>">
                 </div>
-                <label for="" class="control-label col-md-1">Telepon Rumah</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">Telepon Rumah<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
                     <input type="text" required class="tanya" name="telepon_rumah" id="telepon_rumah" placeholder="Telepon Rumah" value="<?php echo $data->telepon_rumah ?>">
                 </div>
-                <label for="" class="control-label col-md-1">Mobil yang dimiliki</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">Mobil yang dimiliki<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
                     <input type="text" required class="tanya" name="mobil_yang_dimiliki" id="mobil_yang_dimiliki" placeholder="Mobil yang dimiliki" value="<?php echo $data->mobil_yang_dimiliki ?>">
                 </div>
-                <label for="" class="control-label col-md-1">Motor yang dimiliki</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">Motor yang dimiliki<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
                     <input type="text" required class="tanya" name="motor_yang_dimiliki" id="motor_yang_dimiliki" placeholder="Motor yang dimiliki" value="<?php echo $data->motor_yang_dimiliki ?>">
                 </div>
-                <label for="" class="control-label col-md-1">HP yang dimiliki</label>
-                <div class="col-md-5 mb-2">
+                <label for="" class="control-label col-md-1 ">HP yang dimiliki<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
                     <input type="text" required class="tanya" name="hp_yang_dimiliki" id="hp_yang_dimiliki" placeholder="HP yang dimiliki" value="<?php echo $data->hp_yang_dimiliki ?>">
                 </div>
-                <label for="" class="control-label col-md-1">&nbsp;</label>
+                <label for="" class="control-label col-md-1 ">Asuransi Kesehatan<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
+                    <select name="asuransi_kesehatan" required id="asuransi_kesehatan" class="tanya">
+                        <option value="<?= $data->asuransi_kesehatan ?>"><?= $data->asuransi_kesehatan == "" ? "Choose an option" : $data->asuransi_kesehatan ?></option>
+                        <option value="Tidak Ada">Tidak Ada</option>
+                        <option value="BPJS">BPJS</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                </div>
+                <label for="" class="control-label col-md-1 ">Riwayat Penyakit Sistemik<em style="color:red;">*</em> </label>
+                <div class="col-md-5 mb-2 form-group">
+                    <select name="riwayat_penyakit" id="riwayat_penyakit" class="tanya" required>
+                        <option value="<?= $data->riwayat_penyakit ?>"><?= $data->riwayat_penyakit == "" ? "Choose an option" : $data->riwayat_penyakit ?></option>
+                        <option value="Tidak Ada">Tidak Ada</option>
+                        <option value="Hipertensi">Hipertensi(Darah Tinggi)</option>
+                        <option value="Diabetes Melitus">Diabetes Melitus(Kencing Manis)</option>
+                    </select>
+                </div>
+                <label for="" class="control-label col-md-1 ">&nbsp;</label>
                 <div class="col-md-3 mb-2">
                     <button class="btn btn-danger btn-flat btn-block btn-sm" type="button" id="btnSaveProfile"><span class="fa fa-save"></span> Simpan Perubahan</button>
+
                 </div>
             </div>
         </form>
     </div>
 </section>
-<?php $this->load->view('template/modal_upload_foto') ?>
-<?php $this->load->view('template/modal_provinsi') ?>
-<?php $this->load->view('template/modal_kota') ?>
-<?php $this->load->view('template/modal_preview') ?>
-<?php $this->load->view('template/modal_pekerjaan') ?>
-<?php $this->load->view('template/modal_provider') ?>
+
 <script>
     function getProvinsi(id) {
         $.ajax({
@@ -332,41 +361,65 @@
     }
 
     $('#btnSaveProfile').click(function() {
+        $('#form_user_profile').validate({
+            rules: {
+                'checkbox': {
+                    required: true
+                }
+            },
+            highlight: function(input) {
+                $(input).parents('label').addClass('has-error');
+            },
+            unhighlight: function(input) {
+                $(input).parents('.validation').removeClass('has-error');
+            }
+        })
         var values = {}
         var form_user_profile = $('#form_user_profile').serializeArray();
+        var form = $('#form_user_profile');
         for (field of form_user_profile) {
             values[field.name] = field.value;
         }
 
-        $.ajax({
-            beforeSend: function() {
-                $('#submitBtn').attr('disabled', true);
-                $('#submitBtn').html('<i class="fa fa-spinner fa-spin"></i> Process');
-            },
-            url: '<?php echo base_url('publics/saveProfile') ?>',
-            type: 'POST',
-            data: values,
-            cache: false,
-            dataType: 'JSON',
-            success: function(response) {
-                $('#submitBtn').html('<i class="fa fa-save"></i> Save');
-                if (response.status == 'sukses') {
-                    window.location = response.link;
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Notification',
-                        text: 'Berhasil mengupdate profile',
-                    });
+        if (form.valid()) {
 
-                } else {
+            $.ajax({
+                beforeSend: function() {
+                    $('#submitBtn').attr('disabled', true);
+                    $('#submitBtn').html('<i class="fa fa-spinner fa-spin"></i> Process');
+                },
+                url: '<?php echo base_url('publics/saveProfile') ?>',
+                type: 'POST',
+                data: values,
+                cache: false,
+                dataType: 'JSON',
+                success: function(response) {
+                    $('#submitBtn').html('<i class="fa fa-save"></i> Save');
                     $('#submitBtn').attr('disabled', false);
-                    alert(response.pesan);
+                    if (response.status == 'sukses') {
+                        setTimeout(() => {
+                            window.location = response.link;
+                        }, 1000);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Notification',
+                            text: 'Berhasil mengupdate profile',
+                        });
+
+                    } else {
+                        $('#submitBtn').attr('disabled', false);
+                        alert(response.pesan);
+                    }
+                },
+                error: function() {
+                    alert("Gagal");
+                    $('#submitBtn').attr('disabled', false);
                 }
-            },
-            error: function() {
-                alert("Gagal");
-                $('#submitBtn').attr('disabled', false);
-            }
-        });
+            });
+
+        } else {
+            validationError();
+
+        }
     });
 </script>

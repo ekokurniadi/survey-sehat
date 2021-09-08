@@ -17,6 +17,7 @@
 
               <div class="col-md-4">
                 <?php echo anchor(site_url('kuisioner/create'), '<i class="fa fa-plus"></i> Add New', 'class="btn btn-icon icon-left btn-primary"'); ?>
+                <a href="#" class="btn btn-flat btn-success" data-toggle="modal" data-target="#UploadKuisioner"><i class="fa fa-file-excel"></i> Upload dari Excel</a>
               </div>
 
               <div class="col-md-4 text-center">
@@ -107,3 +108,4 @@
 
   </div>
 </div>
+<?php echo $this->load->view('modal_upload_kuisioner')?>

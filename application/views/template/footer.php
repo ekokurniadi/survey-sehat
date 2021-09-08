@@ -61,6 +61,11 @@
           Copyright &copy; 2021 <a href="">Survey Sehat</a>. All Right reserved
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-12 mb-5 footer-link text-right" style="font-size: 8pt;">
+          Developed&copy;2021 by <a href="https://gocodings.web.app" target="_blank" style="font-size: 8pt;color:yellow">Gocodings.web.app</a>. All Right reserved
+        </div>
+      </div>
     </div>
   </section>
 </footer>
@@ -161,6 +166,9 @@
     image_advtab: true,
   });
 </script>
+
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
+
 </body>
 
 </html>

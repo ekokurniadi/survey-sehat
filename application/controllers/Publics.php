@@ -712,6 +712,9 @@ class Publics extends CI_Controller
         $mobil_yang_dimiliki = $this->input->post('mobil_yang_dimiliki');
         $motor_yang_dimiliki = $this->input->post('motor_yang_dimiliki');
         $hp_yang_dimiliki = $this->input->post('hp_yang_dimiliki');
+        $bidang_industri_pekerjaan = $this->input->post('bidang_industri_pekerjaan');
+        $asuransi_kesehatan = $this->input->post('asuransi_kesehatan');
+        $riwayat_penyakit = $this->input->post('riwayat_penyakit');
 
         $data = array(
             "tanggal_lahir" => $tanggal_lahir,
@@ -726,6 +729,7 @@ class Publics extends CI_Controller
             "tipe_tempat_tinggal" => $tipe_tempat_tinggal,
             "alamat" => $alamat,
             "kartu_provider" => $kartu_provider,
+            "hp_yang_dimiliki" => $hp_yang_dimiliki,
             "jumlah_anak" => $jumlah_anak,
             "jumlah_keluarga" => $jumlah_keluarga,
             "jumlah_pendapatan_perbulan" => $pendapatan_perbulan,
@@ -733,7 +737,10 @@ class Publics extends CI_Controller
             "telepon_rumah" => $telepon_rumah,
             "mobil_yang_dimiliki" => $mobil_yang_dimiliki,
             "motor_yang_dimiliki" => $motor_yang_dimiliki,
-            "hp_yang_dimiliki" => $hp_yang_dimiliki,
+            "bidang_industri_pekerjaan" => $bidang_industri_pekerjaan,
+            "asuransi_kesehatan" => $asuransi_kesehatan,
+            "riwayat_penyakit" => $riwayat_penyakit,
+            "lengkap" => 1
         );
 
         $this->db->where('id', $id);
@@ -757,10 +764,9 @@ class Publics extends CI_Controller
 
     public function user_profile()
     {
-        $id = $_SESSION['id'];
-        $data['data'] = $this->db->get_where('user', array('id' => $id))->row();
+
         $this->load->view('template/header');
-        $this->load->view('template/user_profile', $data);
+        $this->load->view('template/user_profile');
         $this->load->view('template/footer');
     }
 
@@ -939,11 +945,12 @@ class Publics extends CI_Controller
     }
 
 
-    public function updateNotif(){
+    public function updateNotif()
+    {
         $id = $this->input->post('id');
-        $this->db->where('id',$id);
-        $this->db->update('notifikasi',array("status"=>1));
-        echo json_encode(array("status"=>"sukses"));
+        $this->db->where('id', $id);
+        $this->db->update('notifikasi', array("status" => 1));
+        echo json_encode(array("status" => "sukses"));
     }
 
     public function fetch_data_survey()

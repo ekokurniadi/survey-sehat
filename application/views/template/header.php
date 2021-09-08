@@ -180,6 +180,13 @@
     <?php $this->load->view('template/modal_login') ?>
     <?php $this->load->view('template/register_modal') ?>
     <?php $this->load->view('template/modal_ganti_password') ?>
+    <?php $this->load->view('template/modal_notifikasi') ?>
+    <?php $this->load->view('template/modal_upload_foto') ?>
+    <?php $this->load->view('template/modal_provinsi') ?>
+    <?php $this->load->view('template/modal_kota') ?>
+    <?php $this->load->view('template/modal_preview') ?>
+    <?php $this->load->view('template/modal_pekerjaan') ?>
+    <?php $this->load->view('template/modal_provider') ?>
 
     <div style="margin-top: 8px" id="message">
         <?php
@@ -214,6 +221,13 @@
         </script>";
     } ?>
 
+    <?php if ($_SESSION['id']!= "" && $gambar->lengkap == 0) {
+        echo "<script>
+            $(document).ready(function(){
+                $('#modalNotifikasi').modal({backdrop: 'static', keyboard: false});  
+            });
+        </script>";
+    } ?>
     <script>
         var title = new Vue({
             el: '#title',
@@ -279,7 +293,7 @@
                         $('#circle').removeClass('class', 'red-dot');
                         $(".dropdown-notif").html('');
                         var html = '';
-                        html +="<li>Tidak ada Notifikasi</li>";
+                        html += "<li>Tidak ada Notifikasi</li>";
                         $(".dropdown-notif").append(html);
                     }
                 },

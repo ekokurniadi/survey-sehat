@@ -76,8 +76,14 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" onclick="closemodalProvider();" class="btn btn-secondary" data-dismiss="#modalPekerjaan">Close</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function closemodalProvider(){
+        $('#modalProvider').modal('hide');
+    }
+</script>

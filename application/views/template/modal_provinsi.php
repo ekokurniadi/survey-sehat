@@ -14,7 +14,7 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table id="example" class="table" style="width:100% !important;">
+                    <table id="tableprovinsi" class="table" style="width:100% !important;">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -27,7 +27,7 @@
                     </table>
                     <script>
                         $(document).ready(function() {
-                            dataTable = $('#example').DataTable({
+                            dataTable = $('#tableprovinsi').DataTable({
                                 "processing": true,
                                 "serverSide": true,
                                 "scrollX": false,

@@ -578,7 +578,7 @@ class Survey extends MY_Controller
                     $data = array(
                         "kode_survey" => $kode,
                         "judul" => $rows['B'],
-                        "jenis" => 2,
+                        "jenis" => $rows['H'],
                         "kategori" => 1,
                         "periode_awal" => $rows['C'],
                         "periode_akhir" => $rows['D'],
